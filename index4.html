@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>City Taxis Nyon — Next Gen Chauffeur Experience</title>
+<meta name="description" content="City Taxis Nyon : réservation de taxi, transferts aéroport, chauffeur d'affaires et VIP à Nyon et environs. Disponible 24/7. Une expérience nouvelle génération.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚕</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style4.css">
+</head>
+<body>
+
+<!-- FULL-PAGE 3D BACKGROUND -->
+<div id="site3d" aria-hidden="true"></div>
+<div class="bg-vignette" aria-hidden="true"></div>
+
+<div class="page">
+
+<!-- NAV -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#top" class="brand">
+      <span class="brand-mark">🚕</span>
+      <span class="brand-text">CITY TAXIS<span class="brand-sub">NYON</span></span>
+    </a>
+    <nav class="nav-links" id="nav-links">
+      <a href="#top" class="active">Accueil</a>
+      <a href="#flotte">Flotte</a>
+      <a href="#services">Services</a>
+      <a href="#zone">Zone</a>
+      <a href="#avis">Avis</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="nav-cta">
+      <span class="nav-phone">📞 +41 78 719 44 44</span>
+      <a href="#contact" class="btn btn-gold btn-sm">Réserver</a>
+    </div>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero4" id="top">
+  <div class="hero4-inner">
+    <div class="hero4-content">
+      <span class="eyebrow-gold"><span class="dot"></span>Nouvelle génération · Disponible 24/7</span>
+      <h1>Votre trajet,<br><span class="gradient-gold">réinventé.</span></h1>
+      <p class="hero4-sub">City Taxis Nyon — chauffeurs privés, transferts aéroport (Genève, Bâle, Zurich) et service VIP dans toute la région lémanique. Réservation garantie, ponctualité absolue.</p>
+      <div class="hero4-cta">
+        <a href="#contact" class="btn btn-gold btn-lg">Réserver maintenant →</a>
+        <a href="#flotte" class="btn btn-ghost btn-lg">Découvrir la flotte</a>
+      </div>
+      <div class="hero4-stats">
+        <div class="hero4-stat"><strong>24/7</strong><span>Disponibilité</span></div>
+        <div class="hero4-stat"><strong>25+</strong><span>Communes desservies</span></div>
+        <div class="hero4-stat"><strong>4.9★</strong><span>500+ trajets</span></div>
+        <div class="hero4-stat"><strong>6</strong><span>Classes de véhicules</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING BAR -->
+<div class="booking-bar-wrap">
+  <form class="booking-bar glass" id="booking-bar-form">
+    <div class="booking-bar-head">Réservez votre course</div>
+    <div class="booking-fields">
+      <div class="booking-field">
+        <label for="b-from">Départ</label>
+        <input type="text" id="b-from" placeholder="Adresse de départ" required>
+      </div>
+      <div class="booking-field">
+        <label for="b-to">Destination</label>
+        <input type="text" id="b-to" placeholder="Adresse d'arrivée" required>
+      </div>
+      <div class="booking-field">
+        <label for="b-when">Date &amp; heure</label>
+        <input type="datetime-local" id="b-when">
+      </div>
+      <div class="booking-field">
+        <label for="b-class">Véhicule</label>
+        <select id="b-class">
+          <option>Standard · Eco (Tesla / Toyota)</option>
+          <option>Affaires (E-Class)</option>
+          <option>Première Classe (S-Class)</option>
+          <option>Van Confort (V-Class)</option>
+          <option>Minibus (Sprinter)</option>
+          <option>Autocar</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-gold">Trouver mon chauffeur</button>
+    </div>
+  </form>
+</div>
+
+<!-- SERVICES -->
+<section class="section4" id="services">
+  <div class="section4-head">
+    <span class="eyebrow-gold"><span class="dot"></span>Nos services</span>
+    <h2>Un chauffeur pour chaque occasion</h2>
+    <p class="section4-sub">Des trajets locaux aux événements VIP, une flotte pensée pour chaque besoin.</p>
+  </div>
+  <div class="cat-grid4">
+    <a class="cat-card4 glass" href="#flotte">
+      <span class="cat-icon4">🚗</span>
+      <h3>Trajets locaux</h3>
+      <p>Nyon &amp; environs</p>
+    </a>
+    <a class="cat-card4 glass" href="#flotte">
+      <span class="cat-icon4">✈️</span>
+      <h3>Transfert aéroport</h3>
+      <p>Genève, Bâle, Zurich</p>
+    </a>
+    <a class="cat-card4 glass" href="#flotte">
+      <span class="cat-icon4">💼</span>
+      <h3>Chauffeur d'affaires</h3>
+      <p>Discrétion &amp; ponctualité</p>
+    </a>
+    <a class="cat-card4 glass" href="#flotte">
+      <span class="cat-icon4">🎉</span>
+      <h3>VIP &amp; événements</h3>
+      <p>Mariages, galas</p>
+    </a>
+    <a class="cat-card4 glass" href="#flotte">
+      <span class="cat-icon4">🎿</span>
+      <h3>Stations de ski</h3>
+      <p>Transferts montagne</p>
+    </a>
+  </div>
+</section>
+
+<!-- FEATURED FLEET -->
+<section class="section4" id="flotte">
+  <div class="section4-top">
+    <div>
+      <span class="eyebrow-gold"><span class="dot"></span>Flotte en vedette</span>
+      <h2>Nos véhicules les plus demandés</h2>
+    </div>
+    <a href="#contact" class="link-arrow">Demander un devis →</a>
+  </div>
+  <div class="fleet4-grid">
+
+    <article class="fleet4-card glass">
+      <div class="fleet4-media">
+        <span class="fleet4-badge">Populaire</span>
+        <img src="assets/car-standard.jpg" alt="Tesla &amp; Toyota - Standard Eco" loading="lazy" onerror="this.parentElement.classList.add('img-err')">
+        <div class="fleet4-fallback">🚗<span>Tesla &amp; Toyota</span></div>
+      </div>
+      <div class="fleet4-body">
+        <h3>Tesla &amp; Toyota</h3>
+        <div class="fleet4-specs"><span>👤 4 places</span><span>⚙️ Automatique</span><span>🧳 3 bagages</span><span>⚡ Zéro émission</span></div>
+        <div class="fleet4-foot">
+          <div class="fleet4-price"><small>Dès</small><strong>CHF 45</strong></div>
+          <a href="#contact" class="btn btn-ghost btn-sm">Réserver</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="fleet4-card glass">
+      <div class="fleet4-media">
+        <img src="assets/car-business.jpg" alt="Mercedes E-Class - Affaires" loading="lazy" onerror="this.parentElement.classList.add('img-err')">
+        <div class="fleet4-fallback">🚙<span>Mercedes E-Class</span></div>
+      </div>
+      <div class="fleet4-body">
+        <h3>Mercedes E-Class</h3>
+        <div class="fleet4-specs"><span>👤 4 places</span><span>⚙️ Automatique</span><span>🧳 3 bagages</span></div>
+        <div class="fleet4-foot">
+          <div class="fleet4-price"><small>Dès</small><strong>CHF 65</strong></div>
+          <a href="#contact" class="btn btn-ghost btn-sm">Réserver</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="fleet4-card glass">
+      <div class="fleet4-media">
+        <img src="assets/car-first.jpg" alt="Mercedes S-Class - Première Classe" loading="lazy" onerror="this.parentElement.classList.add('img-err')">
+        <div class="fleet4-fallback">🚘<span>Mercedes S-Class</span></div>
+      </div>
+      <div class="fleet4-body">
+        <h3>Mercedes S-Class</h3>
+        <div class="fleet4-specs"><span>👤 3 places</span><span>⚙️ Automatique</span><span>🧳 3 bagages</span></div>
+        <div class="fleet4-foot">
+          <div class="fleet4-price"><small>Dès</small><strong>CHF 95</strong></div>
+          <a href="#contact" class="btn btn-ghost btn-sm">Réserver</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="fleet4-card glass">
+      <div class="fleet4-media">
+        <img src="assets/car-van.webp" alt="Mercedes V-Class - Van Confort" loading="lazy" onerror="this.parentElement.classList.add('img-err')">
+        <div class="fleet4-fallback">🚐<span>Van Confort</span></div>
+      </div>
+      <div class="fleet4-body">
+        <h3>V-Class 7 places</h3>
+        <div class="fleet4-specs"><span>👤 7 places</span><span>⚙️ Automatique</span><span>🧳 6 bagages</span></div>
+        <div class="fleet4-foot">
+          <div class="fleet4-price"><small>Dès</small><strong>CHF 85</strong></div>
+          <a href="#contact" class="btn btn-ghost btn-sm">Réserver</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="fleet4-card glass">
+      <div class="fleet4-media">
+        <img src="assets/car-minibus.jpg" alt="Sprinter - Minibus" loading="lazy" onerror="this.parentElement.classList.add('img-err')">
+        <div class="fleet4-fallback">🚌<span>Minibus Sprinter</span></div>
+      </div>
+      <div class="fleet4-body">
+        <h3>Sprinter</h3>
+        <div class="fleet4-specs"><span>👤 8–16 places</span><span>⚙️ Automatique</span><span>🧳 Groupe</span></div>
+        <div class="fleet4-foot">
+          <div class="fleet4-price"><small>&nbsp;</small><strong>Sur devis</strong></div>
+          <a href="#contact" class="btn btn-ghost btn-sm">Réserver</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="fleet4-card glass">
+      <div class="fleet4-media">
+        <img src="assets/car-bus.jpg" alt="Autocar - Bus" loading="lazy" onerror="this.parentElement.classList.add('img-err')">
+        <div class="fleet4-fallback">🚍<span>Autocar</span></div>
+      </div>
+      <div class="fleet4-body">
+        <h3>Bus tourisme</h3>
+        <div class="fleet4-specs"><span>👤 16–49 places</span><span>⚙️ Automatique</span><span>🧳 Groupe</span></div>
+        <div class="fleet4-foot">
+          <div class="fleet4-price"><small>&nbsp;</small><strong>Sur devis</strong></div>
+          <a href="#contact" class="btn btn-ghost btn-sm">Réserver</a>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- TRUST BAND -->
+<div class="trust4-band">
+  <div class="trust4-inner glass">
+    <div class="trust4-item"><span class="trust4-icon">🛡️</span><div><strong>Entièrement assuré</strong><span>Notre priorité absolue</span></div></div>
+    <div class="trust4-item"><span class="trust4-icon">🗓️</span><div><strong>Réservation garantie</strong><span>À l'avance, sans stress</span></div></div>
+    <div class="trust4-item"><span class="trust4-icon">✨</span><div><strong>Qualité premium</strong><span>Véhicules impeccables</span></div></div>
+    <div class="trust4-item"><div><strong>4.9/5</strong><span class="trust4-stars">★★★★★</span></div><div><span>Basé sur 500+ trajets</span></div></div>
+  </div>
+</div>
+
+<!-- ZONE -->
+<section class="section4" id="zone">
+  <div class="section4-head">
+    <span class="eyebrow-gold"><span class="dot"></span>Zone desservie</span>
+    <h2>Nyon et 24 communes voisines</h2>
+    <p class="section4-sub">Où que vous soyez dans la région lémanique, nous venons vous chercher.</p>
+  </div>
+  <div class="pill-cloud4">
+    <span class="pill4 pill4-main glass">Nyon</span>
+    <span class="pill4 glass">Rolle</span>
+    <span class="pill4 glass">Versoix</span>
+    <span class="pill4 glass">Saint-Cergue</span>
+    <span class="pill4 glass">Gland</span>
+    <span class="pill4 glass">Coppet</span>
+    <span class="pill4 glass">Founex</span>
+    <span class="pill4 glass">Prangins</span>
+    <span class="pill4 glass">Genolier</span>
+    <span class="pill4 glass">Begnins</span>
+    <span class="pill4 glass">Trélex</span>
+    <span class="pill4 glass">Mies</span>
+    <span class="pill4 glass">Aubonne</span>
+    <span class="pill4 glass">Gimel</span>
+    <span class="pill4 glass">+ 15 autres</span>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section4" id="avis">
+  <div class="section4-top">
+    <div class="section4-head" style="margin-bottom:0">
+      <span class="eyebrow-gold"><span class="dot"></span>Témoignages</span>
+      <h2>La confiance de nos clients, notre plus grande fierté.</h2>
+    </div>
+    <div class="testi4-arrows">
+      <button class="arrow-btn4" id="testi-prev" aria-label="Précédent">←</button>
+      <button class="arrow-btn4" id="testi-next" aria-label="Suivant">→</button>
+    </div>
+  </div>
+  <div class="testi4-track" id="testi-track">
+    <div class="testi4-card glass">
+      <div class="testi4-stars">★★★★★</div>
+      <p>« Chauffeur ponctuel et véhicule impeccable. Le transfert vers l'aéroport de Genève s'est fait sans stress. »</p>
+      <div class="testi4-author">
+        <span class="testi4-avatar">PD</span>
+        <div><strong>Pierre Dubois</strong><span>Client régulier, Nyon</span></div>
+      </div>
+    </div>
+    <div class="testi4-card glass">
+      <div class="testi4-stars">★★★★★</div>
+      <p>« Service très professionnel, réservation simple et rapide. Je recommande vivement pour les trajets d'affaires. »</p>
+      <div class="testi4-author">
+        <span class="testi4-avatar">ML</span>
+        <div><strong>Marie Laurent</strong><span>Voyageuse d'affaires</span></div>
+      </div>
+    </div>
+    <div class="testi4-card glass">
+      <div class="testi4-stars">★★★★☆</div>
+      <p>« Confort et fiabilité à chaque course. City Taxis est devenu notre choix par défaut à Nyon. »</p>
+      <div class="testi4-author">
+        <span class="testi4-avatar">TM</span>
+        <div><strong>Thomas Martin</strong><span>Client fidèle depuis 2022</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta4-wrap" id="contact">
+  <div class="cta4-card glass">
+    <div class="cta4-left">
+      <span class="cta4-icon">📞</span>
+      <div>
+        <h3>Prêt à réserver votre trajet ?</h3>
+        <p>Notre équipe est disponible 24h/24, 7j/7 pour organiser votre transfert.</p>
+      </div>
+    </div>
+    <div class="cta4-actions">
+      <a href="https://wa.me/41787194444" target="_blank" rel="noopener" class="btn btn-ghost">💬 WhatsApp</a>
+      <a href="tel:+41787194444" class="btn btn-gold">📞 +41 78 719 44 44</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer4">
+  <div class="footer4-inner">
+    <div class="footer4-brand">
+      <div class="brand">
+        <span class="brand-mark">🚕</span>
+        <span class="brand-text">CITY TAXIS<span class="brand-sub">NYON</span></span>
+      </div>
+      <p>City Taxis Nyon est un service de chauffeur privé haut de gamme, dédié à l'excellence et à la ponctualité pour une clientèle exigeante.</p>
+      <div class="footer4-social">
+        <a href="#" aria-label="Facebook">f</a>
+        <a href="#" aria-label="Instagram">ig</a>
+        <a href="#" aria-label="LinkedIn">in</a>
+      </div>
+    </div>
+    <div class="footer4-col">
+      <h4>Entreprise</h4>
+      <ul>
+        <li><a href="#top">À propos</a></li>
+        <li><a href="#flotte">Notre flotte</a></li>
+        <li><a href="#services">Services</a></li>
+      </ul>
+    </div>
+    <div class="footer4-col">
+      <h4>Service client</h4>
+      <ul>
+        <li><a href="#contact">FAQ</a></li>
+        <li><a href="#contact">Politique de réservation</a></li>
+        <li><a href="#contact">Annulation</a></li>
+        <li><a href="#contact">CGV</a></li>
+      </ul>
+    </div>
+    <div class="footer4-col">
+      <h4>Contact</h4>
+      <ul class="footer4-contact">
+        <li>📞 <a href="tel:+41787194444">+41 78 719 44 44</a></li>
+        <li>✉️ <a href="mailto:info@citytaxis.ch">info@citytaxis.ch</a></li>
+        <li>🕐 24h/24, 7j/7</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer4-bottom">
+    <span>© <span id="year"></span> City Taxis Nyon. Tous droits réservés.</span>
+    <span>Ponctualité. Réinventée.</span>
+  </div>
+</footer>
+
+</div><!-- /.page -->
+
+<a href="https://wa.me/41787194444" target="_blank" rel="noopener" class="fab4" aria-label="WhatsApp">💬</a>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script src="bg3d-v2.js"></script>
+<script src="script4.js"></script>
+</body>
+</html>

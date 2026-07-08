@@ -1,0 +1,78 @@
+@import url("style.css");
+
+/* ---------- Alternate background: drifting aurora + starfield ---------- */
+
+#bg-canvas {
+  background: transparent;
+}
+
+.aurora-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 50% -10%, #131b33 0%, #070a14 55%, #030409 100%);
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.55;
+  mix-blend-mode: screen;
+  will-change: transform;
+}
+
+.orb-gold {
+  width: 42vw;
+  height: 42vw;
+  top: -12%;
+  left: -10%;
+  background: radial-gradient(circle, #f2b705 0%, transparent 70%);
+  animation: drift1 26s ease-in-out infinite;
+}
+.orb-cyan {
+  width: 38vw;
+  height: 38vw;
+  bottom: -14%;
+  right: -8%;
+  background: radial-gradient(circle, #29e2e8 0%, transparent 70%);
+  animation: drift2 32s ease-in-out infinite;
+}
+.orb-ember {
+  width: 30vw;
+  height: 30vw;
+  top: 28%;
+  right: 16%;
+  background: radial-gradient(circle, #ff8a3d 0%, transparent 70%);
+  animation: drift3 22s ease-in-out infinite;
+}
+.orb-gold2 {
+  width: 24vw;
+  height: 24vw;
+  bottom: 8%;
+  left: 20%;
+  background: radial-gradient(circle, #ffd873 0%, transparent 70%);
+  animation: drift4 28s ease-in-out infinite;
+}
+
+@keyframes drift1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(8vw, 10vh) scale(1.15); }
+}
+@keyframes drift2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-10vw, -8vh) scale(1.1); }
+}
+@keyframes drift3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-6vw, 12vh) scale(0.9); }
+}
+@keyframes drift4 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(10vw, -6vh) scale(1.2); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orb { animation: none; }
+}

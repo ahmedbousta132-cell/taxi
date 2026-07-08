@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Local Taxi Nyon — Chauffeur privé 24/7</title>
+<meta name="description" content="Local Taxi Nyon : réservation de taxi, transferts aéroport, chauffeur d'affaires et VIP à Nyon et environs. Disponible 24/7.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚕</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style3.css">
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#top" class="brand">
+      <span class="brand-mark">🚕</span>
+      <span class="brand-text">LOCAL TAXI<span class="brand-sub">NYON</span></span>
+    </a>
+    <nav class="nav-links" id="nav-links">
+      <a href="#top" class="active">Accueil</a>
+      <a href="#flotte">Flotte</a>
+      <a href="#zone">Zone</a>
+      <a href="#avis">Avis</a>
+      <a href="#privilege">Privilège</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="nav-cta">
+      <span class="nav-phone">📞 +41 78 719 44 44</span>
+      <a href="#contact" class="btn btn-gold btn-sm">Réserver</a>
+    </div>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero3" id="top">
+  <div class="hero3-bg" aria-hidden="true"></div>
+  <div class="hero3-3d" id="hero3d" aria-hidden="true"></div>
+  <div class="hero3-streaks" aria-hidden="true">
+    <span class="speed-streak"></span>
+    <span class="speed-streak gold"></span>
+    <span class="speed-streak"></span>
+    <span class="speed-streak gold"></span>
+    <span class="speed-streak"></span>
+  </div>
+  <div class="hero3-inner">
+    <div class="hero3-content">
+      <span class="eyebrow-gold">Excellence &amp; ponctualité</span>
+      <h1>Votre chauffeur,<br><span class="gradient-gold">sans compromis.</span></h1>
+      <p class="hero3-sub">Taxi local, transferts aéroport et service VIP à Nyon et dans toute la région lémanique. Chaque trajet, sublimé.</p>
+      <a href="#flotte" class="btn btn-outline btn-lg">Découvrir la flotte →</a>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING BAR -->
+<div class="booking-bar-wrap">
+  <form class="booking-bar" id="booking-bar-form">
+    <div class="booking-bar-head">Réservez votre course</div>
+    <div class="booking-fields">
+      <div class="booking-field">
+        <label for="b-from">Départ</label>
+        <input type="text" id="b-from" placeholder="Adresse de départ" required>
+      </div>
+      <div class="booking-field">
+        <label for="b-to">Destination</label>
+        <input type="text" id="b-to" placeholder="Adresse d'arrivée" required>
+      </div>
+      <div class="booking-field">
+        <label for="b-when">Date &amp; heure</label>
+        <input type="datetime-local" id="b-when">
+      </div>
+      <div class="booking-field">
+        <label for="b-class">Véhicule</label>
+        <select id="b-class">
+          <option>Standard · Eco</option>
+          <option>Affaires (E-Class)</option>
+          <option>Première Classe (S-Class)</option>
+          <option>Van Confort (V-Class)</option>
+          <option>Minibus (Sprinter)</option>
+          <option>Autocar</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-dark">Trouver mon chauffeur</button>
+    </div>
+  </form>
+</div>
+
+<!-- CATEGORIES -->
+<section class="section3" id="categories">
+  <div class="section3-head">
+    <span class="eyebrow-gold">Parcourir par catégorie</span>
+    <h2>Le bon véhicule pour chaque trajet</h2>
+  </div>
+  <div class="cat-grid">
+    <a class="cat-card" href="#flotte">
+      <span class="cat-icon">🚗</span>
+      <h3>Berline</h3>
+      <p>Confort au quotidien</p>
+    </a>
+    <a class="cat-card" href="#flotte">
+      <span class="cat-icon">🚐</span>
+      <h3>Van &amp; SUV</h3>
+      <p>Espace pour tous</p>
+    </a>
+    <a class="cat-card" href="#flotte">
+      <span class="cat-icon">💼</span>
+      <h3>Affaires</h3>
+      <p>Discrétion &amp; ponctualité</p>
+    </a>
+    <a class="cat-card" href="#flotte">
+      <span class="cat-icon">🥂</span>
+      <h3>Première classe</h3>
+      <p>Le luxe absolu</p>
+    </a>
+    <a class="cat-card" href="#privilege">
+      <span class="cat-icon">🤵</span>
+      <h3>Chauffeur privé</h3>
+      <p>Conduit par des pros</p>
+    </a>
+  </div>
+</section>
+
+<!-- FEATURED FLEET -->
+<section class="section3-alt" id="flotte">
+  <div class="section3-inner">
+    <div class="section3-top">
+      <div>
+        <span class="eyebrow-gold">Flotte en vedette</span>
+        <h2>Nos véhicules les plus demandés</h2>
+      </div>
+      <a href="#contact" class="link-arrow">Demander un devis →</a>
+    </div>
+    <div class="fleet3-grid">
+
+      <article class="fleet3-card">
+        <div class="fleet3-media">
+          <span class="fleet3-badge">Populaire</span>
+          <img src="assets/car-standard.jpg" alt="Tesla &amp; Toyota - Standard Eco" loading="lazy" onerror="this.parentElement.classList.add('img-err')">
+          <div class="fleet3-fallback">🚗<span>Tesla &amp; Toyota</span></div>
+        </div>
+        <div class="fleet3-body">
+          <h3>Tesla &amp; Toyota</h3>
+          <div class="fleet3-specs"><span>👤 4 places</span><span>⚙️ Automatique</span><span>🧳 3 bagages</span></div>
+          <div class="fleet3-foot">
+            <div class="fleet3-price"><small>Dès</small><strong>CHF 45</strong></div>
+            <a href="#contact" class="btn btn-outline-dark btn-sm">Réserver</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="fleet3-card">
+        <div class="fleet3-media">
+          <img src="assets/car-business.jpg" alt="Mercedes E-Class - Affaires" loading="lazy" onerror="this.parentElement.classList.add('img-err')">
+          <div class="fleet3-fallback">🚙<span>Mercedes E-Class</span></div>
+        </div>
+        <div class="fleet3-body">
+          <h3>Mercedes E-Class</h3>
+          <div class="fleet3-specs"><span>👤 4 places</span><span>⚙️ Automatique</span><span>🧳 3 bagages</span></div>
+          <div class="fleet3-foot">
+            <div class="fleet3-price"><small>Dès</small><strong>CHF 65</strong></div>
+            <a href="#contact" class="btn btn-outline-dark btn-sm">Réserver</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="fleet3-card">
+        <div class="fleet3-media">
+          <img src="assets/car-first.jpg" alt="Mercedes S-Class - Première Classe" loading="lazy" onerror="this.parentElement.classList.add('img-err')">
+          <div class="fleet3-fallback">🚘<span>Mercedes S-Class</span></div>
+        </div>
+        <div class="fleet3-body">
+          <h3>Mercedes S-Class</h3>
+          <div class="fleet3-specs"><span>👤 3 places</span><span>⚙️ Automatique</span><span>🧳 3 bagages</span></div>
+          <div class="fleet3-foot">
+            <div class="fleet3-price"><small>Dès</small><strong>CHF 95</strong></div>
+            <a href="#contact" class="btn btn-outline-dark btn-sm">Réserver</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="fleet3-card">
+        <div class="fleet3-media">
+          <img src="assets/car-van.webp" alt="Mercedes V-Class - Van Confort" loading="lazy" onerror="this.parentElement.classList.add('img-err')">
+          <div class="fleet3-fallback">🚐<span>Van Confort</span></div>
+        </div>
+        <div class="fleet3-body">
+          <h3>V-Class 7 places</h3>
+          <div class="fleet3-specs"><span>👤 7 places</span><span>⚙️ Automatique</span><span>🧳 6 bagages</span></div>
+          <div class="fleet3-foot">
+            <div class="fleet3-price"><small>Dès</small><strong>CHF 85</strong></div>
+            <a href="#contact" class="btn btn-outline-dark btn-sm">Réserver</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="fleet3-card">
+        <div class="fleet3-media">
+          <img src="assets/car-minibus.jpg" alt="Sprinter - Minibus" loading="lazy" onerror="this.parentElement.classList.add('img-err')">
+          <div class="fleet3-fallback">🚌<span>Minibus Sprinter</span></div>
+        </div>
+        <div class="fleet3-body">
+          <h3>Sprinter</h3>
+          <div class="fleet3-specs"><span>👤 8–16 places</span><span>⚙️ Automatique</span><span>🧳 Groupe</span></div>
+          <div class="fleet3-foot">
+            <div class="fleet3-price"><small>&nbsp;</small><strong>Sur devis</strong></div>
+            <a href="#contact" class="btn btn-outline-dark btn-sm">Réserver</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="fleet3-card">
+        <div class="fleet3-media">
+          <img src="assets/car-bus.jpg" alt="Autocar - Bus" loading="lazy" onerror="this.parentElement.classList.add('img-err')">
+          <div class="fleet3-fallback">🚍<span>Autocar</span></div>
+        </div>
+        <div class="fleet3-body">
+          <h3>Bus tourisme</h3>
+          <div class="fleet3-specs"><span>👤 16–49 places</span><span>⚙️ Automatique</span><span>🧳 Groupe</span></div>
+          <div class="fleet3-foot">
+            <div class="fleet3-price"><small>&nbsp;</small><strong>Sur devis</strong></div>
+            <a href="#contact" class="btn btn-outline-dark btn-sm">Réserver</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAND -->
+<div class="trust3-band">
+  <div class="trust3-inner">
+    <div class="trust3-item"><span class="trust3-icon">🛡️</span><div><strong>Entièrement assuré</strong><span>Notre priorité absolue</span></div></div>
+    <div class="trust3-item"><span class="trust3-icon">🗓️</span><div><strong>Réservation flexible</strong><span>Modifiable sans frais</span></div></div>
+    <div class="trust3-item"><span class="trust3-icon">✨</span><div><strong>Qualité premium</strong><span>Véhicules impeccables</span></div></div>
+    <div class="trust3-item trust3-rating"><div><strong>4.9/5</strong><span class="trust3-stars">★★★★★</span></div><div><span>Basé sur 500+ trajets</span></div></div>
+  </div>
+</div>
+
+<!-- ZONE -->
+<section class="section3" id="zone">
+  <div class="section3-head">
+    <span class="eyebrow-gold">Zone desservie</span>
+    <h2>Nyon et 24 communes voisines</h2>
+    <p class="section3-sub">Où que vous soyez dans la région, nous venons vous chercher.</p>
+  </div>
+  <div class="pill-cloud3">
+    <span class="pill3 pill3-main">Nyon</span>
+    <span class="pill3">Rolle</span>
+    <span class="pill3">Versoix</span>
+    <span class="pill3">Saint-Cergue</span>
+    <span class="pill3">Gland</span>
+    <span class="pill3">Coppet</span>
+    <span class="pill3">Founex</span>
+    <span class="pill3">Prangins</span>
+    <span class="pill3">Genolier</span>
+    <span class="pill3">Begnins</span>
+    <span class="pill3">Trélex</span>
+    <span class="pill3">Mies</span>
+    <span class="pill3">Aubonne</span>
+    <span class="pill3">Gimel</span>
+    <span class="pill3">+ 15 autres</span>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section3-alt" id="avis">
+  <div class="section3-inner">
+    <div class="testi3-top">
+      <div class="section3-head" style="margin-bottom:0">
+        <span class="eyebrow-gold">Témoignages</span>
+        <h2>La confiance de nos clients, notre plus grande fierté.</h2>
+      </div>
+    </div>
+    <div class="testi3-top" style="margin-top:-10px;">
+      <div class="testi3-arrows">
+        <button class="arrow-btn" id="testi-prev" aria-label="Précédent">←</button>
+        <button class="arrow-btn" id="testi-next" aria-label="Suivant">→</button>
+      </div>
+    </div>
+    <div class="testi3-track" id="testi-track">
+      <div class="testi3-card">
+        <div class="testi3-stars">★★★★★</div>
+        <p>« Chauffeur ponctuel et véhicule impeccable. Le transfert vers l'aéroport de Genève s'est fait sans stress. »</p>
+        <div class="testi3-author">
+          <span class="testi3-avatar">PD</span>
+          <div><strong>Pierre Dubois</strong><span>Client régulier, Nyon</span></div>
+        </div>
+      </div>
+      <div class="testi3-card">
+        <div class="testi3-stars">★★★★★</div>
+        <p>« Service très professionnel, réservation simple et rapide. Je recommande vivement pour les trajets d'affaires. »</p>
+        <div class="testi3-author">
+          <span class="testi3-avatar">ML</span>
+          <div><strong>Marie Laurent</strong><span>Voyageuse d'affaires</span></div>
+        </div>
+      </div>
+      <div class="testi3-card">
+        <div class="testi3-stars">★★★★☆</div>
+        <p>« Confort et fiabilité à chaque course. Local Taxi est devenu notre choix par défaut à Nyon. »</p>
+        <div class="testi3-author">
+          <span class="testi3-avatar">TM</span>
+          <div><strong>Thomas Martin</strong><span>Client fidèle depuis 2022</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRIVILEGE / MEMBERSHIP -->
+<section class="privilege" id="privilege">
+  <div class="privilege-card">
+    <div class="privilege-left">
+      <div class="privilege-badge">
+        <span class="brand-mark">👑</span>
+        <strong>LOCAL TAXI PRIVILÈGE</strong>
+      </div>
+      <h2>Plus qu'un service. Une habitude de confort.</h2>
+      <ul class="privilege-list">
+        <li>Réservation prioritaire</li>
+        <li>Tarifs préférentiels</li>
+        <li>Surclassement selon disponibilité</li>
+        <li>Chauffeur dédié sur demande</li>
+        <li>Facturation entreprise simplifiée</li>
+      </ul>
+      <a href="#contact" class="btn btn-gold">Devenir membre</a>
+    </div>
+    <div class="privilege-right">
+      <div class="privilege-right-text">
+        <strong>Voyagez autrement.</strong>
+        <span>Un chauffeur à votre écoute, à chaque trajet.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta3-wrap" id="contact">
+  <div class="cta3-card">
+    <div class="cta3-left">
+      <span class="cta3-icon">📞</span>
+      <div>
+        <h3>Prêt à réserver votre trajet ?</h3>
+        <p>Notre équipe est disponible 24h/24, 7j/7 pour organiser votre transfert.</p>
+      </div>
+    </div>
+    <div class="cta3-actions">
+      <a href="https://wa.me/41787194444" target="_blank" rel="noopener" class="btn btn-outline-dark">💬 WhatsApp</a>
+      <a href="tel:+41787194444" class="btn btn-gold">📞 +41 78 719 44 44</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer3">
+  <div class="footer3-inner">
+    <div class="footer3-brand">
+      <div class="brand">
+        <span class="brand-mark">🚕</span>
+        <span class="brand-text">LOCAL TAXI<span class="brand-sub">NYON</span></span>
+      </div>
+      <p>Local Taxi Nyon est un service de chauffeur privé haut de gamme, dédié à l'excellence et à la ponctualité pour une clientèle exigeante.</p>
+      <div class="footer3-social">
+        <a href="#" aria-label="Facebook">f</a>
+        <a href="#" aria-label="Instagram">ig</a>
+        <a href="#" aria-label="LinkedIn">in</a>
+      </div>
+    </div>
+    <div class="footer3-col">
+      <h4>Entreprise</h4>
+      <ul>
+        <li><a href="#top">À propos</a></li>
+        <li><a href="#flotte">Notre flotte</a></li>
+        <li><a href="#categories">Services</a></li>
+        <li><a href="#privilege">Privilège</a></li>
+      </ul>
+    </div>
+    <div class="footer3-col">
+      <h4>Service client</h4>
+      <ul>
+        <li><a href="#contact">FAQ</a></li>
+        <li><a href="#contact">Politique de réservation</a></li>
+        <li><a href="#contact">Annulation</a></li>
+        <li><a href="#contact">CGV</a></li>
+      </ul>
+    </div>
+    <div class="footer3-col">
+      <h4>Zones desservies</h4>
+      <ul>
+        <li><a href="#zone">Nyon</a></li>
+        <li><a href="#zone">Rolle</a></li>
+        <li><a href="#zone">Gland</a></li>
+        <li><a href="#zone">Coppet</a></li>
+        <li><a href="#zone">Toutes les zones →</a></li>
+      </ul>
+    </div>
+    <div class="footer3-col">
+      <h4>Contact</h4>
+      <ul class="footer3-contact">
+        <li>📞 <a href="tel:+41787194444">+41 78 719 44 44</a></li>
+        <li>✉️ <a href="mailto:info@local-taxi.ch">info@local-taxi.ch</a></li>
+        <li>🕐 24h/24, 7j/7</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer3-bottom">
+    <span>© <span id="year"></span> Local Taxi Nyon. Tous droits réservés.</span>
+    <span>Ponctualité. Redéfinie.</span>
+  </div>
+</footer>
+
+<a href="https://wa.me/41787194444" target="_blank" rel="noopener" class="fab" aria-label="WhatsApp">💬</a>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script src="bg3d.js"></script>
+<script src="script3.js"></script>
+</body>
+</html>

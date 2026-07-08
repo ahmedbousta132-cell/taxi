@@ -1,0 +1,15 @@
+@import url("style5.css");
+
+/* ---------- Hero photo override: My Group Driver fleet lineup at airport, dusk ---------- */
+.hero5-photo {
+  background-image:
+    linear-gradient(100deg, rgba(0,0,0,0.94) 6%, rgba(0,0,0,0.7) 32%, rgba(0,0,0,0.3) 62%, rgba(0,0,0,0.18) 100%),
+    linear-gradient(0deg, rgba(0,0,0,0.72) 0%, transparent 36%),
+    url("assets8/hero-chauffeur-nice.jpg");
+  background-position: center 38%;
+}
+
+/* ---------- 6-up fleet grid (full Local Taxi Nyon lineup) ---------- */
+@media (min-width: 981px) {
+  .fleet5-grid.fleet5-grid-6 { grid-template-columns: repeat(3, 1fr); }
+}
