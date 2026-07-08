@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Taxi Local Nyon – Réservation 24/7 | Taxi Nyon Région</title>
+<meta name="description" content="Taxi local à Nyon disponible 24h/24. Courses en ville, gare de Nyon, entreprises et villages de la région (Rolle, Gland, Coppet, Founex...). Réservez en ligne en 1 minute.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%23FFC22E'/%3E%3Cpath d='M5 15l1.5-4.5A2 2 0 0 1 8.4 9h7.2a2 2 0 0 1 1.9 1.5L19 15v4a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-1H8v1a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-4z' fill='%23241A00'/%3E%3Ccircle cx='8' cy='16' r='1.2' fill='%23FFC22E'/%3E%3Ccircle cx='16' cy='16' r='1.2' fill='%23FFC22E'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<!-- Icon sprite -->
+<svg style="display:none">
+  <symbol id="icon-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
+  <symbol id="icon-whatsapp" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.44 1.32 4.94L2.05 22l5.29-1.38a9.87 9.87 0 0 0 4.7 1.2h.01c5.46 0 9.9-4.45 9.9-9.91C21.95 6.45 17.5 2 12.04 2zm5.8 14.07c-.24.68-1.4 1.3-1.93 1.35-.5.06-1.02.28-3.43-.71-2.9-1.2-4.76-4.15-4.9-4.34-.14-.19-1.17-1.56-1.17-2.98 0-1.42.74-2.11 1-2.4.27-.29.58-.36.78-.36.2 0 .39 0 .56.01.18.01.42-.07.65.5.24.58.82 2 .89 2.15.07.15.12.32.02.51-.1.19-.15.31-.3.48-.15.17-.31.38-.44.51-.15.15-.3.31-.13.6.17.29.76 1.25 1.63 2.02 1.12 1 2.06 1.31 2.35 1.46.29.15.46.13.63-.08.17-.2.72-.84.92-1.13.19-.29.39-.24.65-.14.27.1 1.69.8 1.98.94.29.15.48.22.55.34.07.13.07.72-.17 1.4z"/></symbol>
+  <symbol id="icon-map-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="icon-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+  <symbol id="icon-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></symbol>
+  <symbol id="icon-car" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 15l1.5-4.5A2 2 0 0 1 8.4 9h7.2a2 2 0 0 1 1.9 1.5L19 15v4a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-1H8v1a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-4z"/><circle cx="7.5" cy="15.5" r="1.5"/><circle cx="16.5" cy="15.5" r="1.5"/><path d="M5 12h14"/></symbol>
+  <symbol id="icon-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="icon-star" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14l-5-4.87 6.91-1.01z"/></symbol>
+  <symbol id="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></symbol>
+  <symbol id="icon-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></symbol>
+  <symbol id="icon-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18M3 6h18M3 18h18"/></symbol>
+  <symbol id="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></symbol>
+  <symbol id="icon-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M22 6l-10 7L2 6"/></symbol>
+  <symbol id="icon-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol>
+  <symbol id="icon-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="icon-briefcase" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></symbol>
+  <symbol id="icon-train" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="13" rx="3"/><path d="M4 11h16M8 19l-2 3M16 19l2 3"/><circle cx="8" cy="15" r="0.1"/><circle cx="16" cy="15" r="0.1"/></symbol>
+  <symbol id="icon-building" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20"/><path d="M9 22v-4h6v4M9 8h.01M15 8h.01M9 12h.01M15 12h.01M9 16h.01M15 16h.01"/></symbol>
+  <symbol id="icon-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></symbol>
+  <symbol id="icon-village" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V10l7-6 7 6v11M9 21v-6h6v6"/></symbol>
+  <symbol id="icon-award" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M8.5 13.5L7 22l5-3 5 3-1.5-8.5"/></symbol>
+  <symbol id="icon-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></symbol>
+  <symbol id="icon-facebook" viewBox="0 0 24 24" fill="currentColor"><path d="M13 22v-9h3l.5-4H13V6.5c0-1.15.32-1.94 1.98-1.94H16.5V1.06C16.19 1.02 15.15 0.93 13.94 0.93 11.4 0.93 9.66 2.48 9.66 5.27V9H7v4h2.66v9z"/></symbol>
+  <symbol id="icon-instagram" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></symbol>
+  <symbol id="icon-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></symbol>
+  <symbol id="icon-route" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="19" r="2"/><circle cx="18" cy="5" r="2"/><path d="M8.5 19H15a3 3 0 0 0 3-3v-1a3 3 0 0 0-3-3H9a3 3 0 0 1-3-3v-1a3 3 0 0 1 3-3h6.5"/></symbol>
+</svg>
+
+<!-- Topbar -->
+<div class="topbar">
+  <div class="container">
+    <div style="display:flex; gap:22px; flex-wrap:wrap;">
+      <a href="tel:+41787194444" class="topbar-item"><svg><use href="#icon-phone"/></svg> +41 78 719 44 44</a>
+      <span class="topbar-item"><svg><use href="#icon-clock"/></svg> Disponible 24h/24, 7j/7</span>
+    </div>
+    <a href="../taxi-premium/index.html" class="topbar-switch">Besoin d'un chauffeur Premium / Aéroport ? <svg><use href="#icon-arrow-right"/></svg></a>
+  </div>
+</div>
+
+<!-- Header -->
+<header class="site-header">
+  <div class="container">
+    <a href="#home" class="brand">
+      <span class="brand-mark"><svg><use href="#icon-car"/></svg></span>
+      Taxi <span>Local</span> Nyon
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#home">Accueil</a>
+      <a href="#services">Services</a>
+      <a href="#zones">Zones</a>
+      <a href="#estimation">Tarifs</a>
+      <a href="#flotte">Flotte</a>
+      <a href="#reservation">Réservation</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="header-cta">
+      <a href="tel:+41787194444" class="nav-call">
+        <span class="nav-call-icon"><svg><use href="#icon-phone"/></svg></span>
+        <span>+41 78 719 44 44<small>Appel direct 24/7</small></span>
+      </a>
+      <a href="#reservation" class="btn btn-primary">Réserver</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Ouvrir le menu" aria-expanded="false">
+        <svg class="icon-menu"><use href="#icon-menu"/></svg>
+        <svg class="icon-close"><use href="#icon-close"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- Hero -->
+  <section id="home" class="hero">
+    <div class="hero-blob b1"></div>
+    <div class="hero-blob b2"></div>
+    <div class="container hero-grid">
+      <div>
+        <div class="hero-badge"><span class="dot"><svg><use href="#icon-check"/></svg></span> Chauffeurs certifiés &amp; véhicules récents</div>
+        <h1>Votre taxi à Nyon,<br><em>disponible 24h/24</em></h1>
+        <p class="hero-lead">Courses locales, gare de Nyon, trajets professionnels ou déplacements vers les villages de la région : réservez en 1 minute, sans surprise sur le prix.</p>
+        <div class="hero-actions">
+          <a href="#reservation" class="btn btn-primary btn-lg"><svg><use href="#icon-calendar"/></svg> Réserver une course</a>
+          <a href="#estimation" class="btn btn-outline btn-lg"><svg><use href="#icon-route"/></svg> Estimer le prix</a>
+        </div>
+        <div class="hero-trust">
+          <div class="hero-trust-item"><svg><use href="#icon-shield"/></svg> Prix transparents</div>
+          <div class="hero-trust-item"><svg><use href="#icon-clock"/></svg> Réponse en 3 min</div>
+          <div class="hero-trust-item"><svg><use href="#icon-star"/></svg> 4.9/5 clients</div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-float-card fc1"><svg><use href="#icon-shield"/></svg><div><strong>Trajet sécurisé</strong><span>Suivi en temps réel</span></div></div>
+        <div class="hero-card">
+          <div class="hero-card-header">
+            <h3>Course en cours</h3>
+            <span class="live">En route</span>
+          </div>
+          <div class="route-line">
+            <div class="route-point"><label>Départ</label><strong>Gare de Nyon</strong></div>
+            <div class="route-point end"><label>Arrivée</label><strong>Rolle, Centre-ville</strong></div>
+          </div>
+          <div class="hero-card-stats">
+            <div><strong>12 min</strong><span>Trajet</span></div>
+            <div><strong>14.2 km</strong><span>Distance</span></div>
+            <div><strong>32 CHF</strong><span>Estimation</span></div>
+          </div>
+        </div>
+        <div class="hero-float-card fc2"><svg><use href="#icon-star"/></svg><div><strong>4.9 / 5</strong><span>+2 400 courses</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust bar -->
+  <section class="trustbar" style="padding-top:0; padding-bottom:0;">
+    <div class="container trustbar-grid">
+      <div class="trustbar-item"><strong><span data-count="12500">0</span>+</strong><span>Courses effectuées</span></div>
+      <div class="trustbar-item"><strong><span data-count="4.9">0</span>/5</strong><span>Note moyenne clients</span></div>
+      <div class="trustbar-item"><strong><span data-count="3">0</span> min</strong><span>Temps de réponse moyen</span></div>
+      <div class="trustbar-item"><strong><span data-count="20">0</span>+</strong><span>Villes desservies</span></div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section id="services">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <span class="eyebrow"><svg><use href="#icon-check"/></svg> Nos services</span>
+        <h2>Un taxi adapté à chaque besoin du quotidien</h2>
+        <p>De la course rapide en ville aux trajets professionnels réguliers, notre équipe couvre l'ensemble de la région nyonnaise.</p>
+      </div>
+      <div class="grid-3" data-reveal-group>
+        <div class="service-card">
+          <div class="service-icon"><svg><use href="#icon-home"/></svg></div>
+          <h3>Courses locales</h3>
+          <p>Déplacements rapides dans Nyon et ses environs immédiats, de jour comme de nuit.</p>
+          <a href="#reservation" class="service-link">Réserver <svg><use href="#icon-arrow-right"/></svg></a>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><svg><use href="#icon-train"/></svg></div>
+          <h3>Gare de Nyon</h3>
+          <p>Prise en charge et dépose rapide à la gare CFF pour ne jamais rater un train.</p>
+          <a href="#reservation" class="service-link">Réserver <svg><use href="#icon-arrow-right"/></svg></a>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><svg><use href="#icon-briefcase"/></svg></div>
+          <h3>Trajets entreprises</h3>
+          <p>Facturation simplifiée et ponctualité garantie pour vos déplacements professionnels.</p>
+          <a href="#reservation" class="service-link">Réserver <svg><use href="#icon-arrow-right"/></svg></a>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><svg><use href="#icon-clock"/></svg></div>
+          <h3>Déplacements quotidiens</h3>
+          <p>Trajets réguliers (école, rendez-vous médicaux, travail) avec chauffeurs attitrés.</p>
+          <a href="#reservation" class="service-link">Réserver <svg><use href="#icon-arrow-right"/></svg></a>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><svg><use href="#icon-village"/></svg></div>
+          <h3>Villages de la région</h3>
+          <p>Rolle, Gland, Coppet, Founex et plus de 20 communes du district de Nyon.</p>
+          <a href="#reservation" class="service-link">Réserver <svg><use href="#icon-arrow-right"/></svg></a>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><svg><use href="#icon-users"/></svg></div>
+          <h3>Groupes &amp; familles</h3>
+          <p>Véhicules Van jusqu'à 7 places pour vos déplacements en groupe ou en famille.</p>
+          <a href="#reservation" class="service-link">Réserver <svg><use href="#icon-arrow-right"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Zones -->
+  <section id="zones">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <span class="eyebrow"><svg><use href="#icon-map-pin"/></svg> Zone de service</span>
+        <h2>Plus de 20 villes couvertes autour de Nyon</h2>
+      </div>
+      <div class="zones-wrap" data-reveal>
+        <div class="zones-map" aria-hidden="true">
+          <svg viewBox="0 0 200 200">
+            <circle cx="100" cy="100" r="4" fill="#FFC22E"/>
+            <circle cx="100" cy="100" r="30" fill="none" stroke="rgba(255,194,46,0.35)" stroke-width="1.5"/>
+            <circle cx="100" cy="100" r="60" fill="none" stroke="rgba(255,194,46,0.22)" stroke-width="1.5"/>
+            <circle cx="100" cy="100" r="90" fill="none" stroke="rgba(255,194,46,0.12)" stroke-width="1.5"/>
+            <g fill="#2A5BF0">
+              <circle cx="70" cy="60" r="3"/><circle cx="140" cy="55" r="3"/><circle cx="160" cy="110" r="3"/>
+              <circle cx="120" cy="150" r="3"/><circle cx="55" cy="130" r="3"/><circle cx="45" cy="80" r="3"/>
+              <circle cx="100" cy="30" r="3"/><circle cx="150" cy="160" r="3"/>
+            </g>
+          </svg>
+        </div>
+        <div class="zones-tags">
+          <span class="zone-tag"><svg><use href="#icon-map-pin"/></svg>Nyon</span>
+          <span class="zone-tag"><svg><use href="#icon-map-pin"/></svg>Rolle</span>
+          <span class="zone-tag"><svg><use href="#icon-map-pin"/></svg>Gland</span>
+          <span class="zone-tag"><svg><use href="#icon-map-pin"/></svg>Coppet</span>
+          <span class="zone-tag"><svg><use href="#icon-map-pin"/></svg>Founex</span>
+          <span class="zone-tag"><svg><use href="#icon-map-pin"/></svg>Prangins</span>
+          <span class="zone-tag"><svg><use href="#icon-map-pin"/></svg>Gingins</span>
+          <span class="zone-tag"><svg><use href="#icon-map-pin"/></svg>Trélex</span>
+          <span class="zone-tag"><svg><use href="#icon-map-pin"/></svg>Genolier</span>
+          <span class="zone-tag"><svg><use href="#icon-map-pin"/></svg>Signy-Avenex</span>
+          <span class="zone-tag"><svg><use href="#icon-map-pin"/></svg>Duillier</span>
+          <span class="zone-tag"><svg><use href="#icon-map-pin"/></svg>Céligny</span>
+          <span class="zone-tag"><svg><use href="#icon-map-pin"/></svg>Crans-près-Céligny</span>
+          <span class="zone-tag"><svg><use href="#icon-map-pin"/></svg>Bogis-Bossey</span>
+          <span class="zone-tag"><svg><use href="#icon-map-pin"/></svg>Commugny</span>
+          <span class="zone-tag"><svg><use href="#icon-map-pin"/></svg>Mies</span>
+          <span class="zone-tag"><svg><use href="#icon-map-pin"/></svg>Tannay</span>
+          <span class="zone-tag"><svg><use href="#icon-map-pin"/></svg>Eysins</span>
+          <span class="zone-tag"><svg><use href="#icon-map-pin"/></svg>Grens</span>
+          <span class="zone-tag"><svg><use href="#icon-map-pin"/></svg>Begnins</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Estimator -->
+  <section id="estimation">
+    <div class="container">
+      <div class="estimator" data-reveal>
+        <div class="estimator-grid">
+          <div>
+            <span class="eyebrow" style="background:rgba(255,255,255,0.1); color:var(--primary);"><svg><use href="#icon-route"/></svg> Estimation instantanée</span>
+            <h2>Connaître le prix avant de réserver</h2>
+            <p class="section-tag">Choisissez votre zone et votre type de véhicule pour obtenir une fourchette de prix indicative.</p>
+            <div class="estimator-row">
+              <div class="field-group">
+                <label for="est-zone">Destination</label>
+                <select id="est-zone" class="field-control">
+                  <option value="12-18">Gare de Nyon</option>
+                  <option value="15-25" selected>Nyon (intra-muros)</option>
+                  <option value="20-30">Prangins / Eysins</option>
+                  <option value="25-35">Gland / Genolier</option>
+                  <option value="30-45">Rolle / Founex / Coppet</option>
+                  <option value="90-120">Aéroport Genève</option>
+                </select>
+              </div>
+              <div class="field-group">
+                <label for="est-vehicle">Véhicule</label>
+                <select id="est-vehicle" class="field-control">
+                  <option value="1">Standard / Éco</option>
+                  <option value="1.3">Confort (Berline)</option>
+                  <option value="1.6">Van Groupe (7 places)</option>
+                </select>
+              </div>
+            </div>
+            <a href="#reservation" class="btn btn-primary" style="margin-top:8px;">Réserver ce trajet <svg><use href="#icon-arrow-right"/></svg></a>
+          </div>
+          <div class="result-card">
+            <div class="label">Estimation du tarif</div>
+            <div class="result-price" id="est-result">15 – 25 CHF</div>
+            <div class="result-note">Estimation indicative. Le tarif final est confirmé par notre équipe avant votre course, sans surprise.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fleet -->
+  <section id="flotte">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <span class="eyebrow"><svg><use href="#icon-car"/></svg> Notre flotte</span>
+        <h2>Des véhicules récents pour chaque type de trajet</h2>
+      </div>
+      <div class="grid-3" data-reveal-group>
+        <div class="fleet-card">
+          <div class="fleet-visual"><span class="fleet-badge">Éco</span><img src="https://cdn-1.aki.kg/cdn-st-0/qhp/U/en-876247.1769746004.b.jpg" alt="Taxi Standard / Éco – Tesla et Toyota" loading="lazy"></div>
+          <div class="fleet-body">
+            <h3>Standard / Éco</h3>
+            <p>Tesla &amp; Toyota hybrides — confort silencieux pour vos trajets du quotidien.</p>
+            <div class="fleet-meta"><span><svg><use href="#icon-users"/></svg>4 places</span><span><svg><use href="#icon-shield"/></svg>Zéro émission</span></div>
+          </div>
+        </div>
+        <div class="fleet-card">
+          <div class="fleet-visual"><span class="fleet-badge">Confort</span><img src="https://media.autoweek.nl/m/ewlytrubfnr5.jpg" alt="Mercedes Classe E – Confort" loading="lazy"></div>
+          <div class="fleet-body">
+            <h3>Confort</h3>
+            <p>Mercedes Classe E — l'option idéale pour vos rendez-vous professionnels.</p>
+            <div class="fleet-meta"><span><svg><use href="#icon-users"/></svg>4 places</span><span><svg><use href="#icon-briefcase"/></svg>2 bagages</span></div>
+          </div>
+        </div>
+        <div class="fleet-card">
+          <div class="fleet-visual"><span class="fleet-badge">Groupe</span><img src="https://alptransfer.com/images/cars/vclass-gr/image_4.webp" alt="Mercedes Classe V – Van Groupe 7 places" loading="lazy"></div>
+          <div class="fleet-body">
+            <h3>Van Groupe</h3>
+            <p>Mercedes Classe V — jusqu'à 7 passagers, parfait pour les familles et groupes.</p>
+            <div class="fleet-meta"><span><svg><use href="#icon-users"/></svg>7 places</span><span><svg><use href="#icon-briefcase"/></svg>5 bagages</span></div>
+          </div>
+        </div>
+        <div class="fleet-card">
+          <div class="fleet-visual"><span class="fleet-badge">Première classe</span><img src="https://di-uploads-pod40.dealerinspire.com/mercedesbenzscarborough/uploads/2022/05/2021-Mercedes-Benz-S-Class-thin-small-1024x646.jpg" alt="Mercedes Classe S – Première classe" loading="lazy"></div>
+          <div class="fleet-body">
+            <h3>Première classe</h3>
+            <p>Mercedes Classe S — pour vos occasions spéciales ou un transfert aéroport haut de gamme.</p>
+            <div class="fleet-meta"><span><svg><use href="#icon-users"/></svg>3 places</span><span><svg><use href="#icon-briefcase"/></svg>3 bagages</span></div>
+          </div>
+        </div>
+        <div class="fleet-card">
+          <div class="fleet-visual"><span class="fleet-badge">Minibus</span><img src="https://bringatrailer.com/wp-content/uploads/2023/05/2023_mercedes-benz_sprinter-3500xd_2023_mercedes-benz_sprinter-3500xd_76fc6c7c-91ca-40e2-9798-63093cc454bf-1eb2b3-55869-88488.jpg?fit=940%2C626" alt="Sprinter – Minibus" loading="lazy"></div>
+          <div class="fleet-body">
+            <h3>Minibus</h3>
+            <p>Mercedes Sprinter — pour vos sorties scolaires, mariages ou groupes jusqu'à 16 personnes.</p>
+            <div class="fleet-meta"><span><svg><use href="#icon-users"/></svg>8-16 places</span><span><svg><use href="#icon-briefcase"/></svg>Grand volume</span></div>
+          </div>
+        </div>
+        <div class="fleet-card">
+          <div class="fleet-visual"><span class="fleet-badge">Autocar</span><img src="https://img.freepik.com/photos-premium/voyage-tourisme-voyage-routier-transport-passagers-bus-tourisme-conduite-plein-air_1199132-142355.jpg" alt="Autocar – Groupes et événements" loading="lazy"></div>
+          <div class="fleet-body">
+            <h3>Autocar</h3>
+            <p>Pour les grands groupes, sorties d'entreprise ou événements dans toute la région, sur devis.</p>
+            <div class="fleet-meta"><span><svg><use href="#icon-users"/></svg>16-49 places</span><span><svg><use href="#icon-award"/></svg>Sur devis</span></div>
+          </div>
+        </div>
+      </div>
+      <p style="text-align:center; margin-top:28px; font-size:0.92rem;">Besoin d'un chauffeur privé pour un transfert aéroport ou un événement haut de gamme ? Découvrez <a href="../taxi-premium/index.html" style="color:var(--accent); font-weight:700;">Taxi Premium</a>.</p>
+    </div>
+  </section>
+
+  <!-- Process -->
+  <section style="background:var(--bg-soft);">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <span class="eyebrow"><svg><use href="#icon-check"/></svg> Comment ça marche</span>
+        <h2>Réservez en 4 étapes simples</h2>
+      </div>
+      <div class="process" data-reveal-group>
+        <div class="process-step"><div class="process-num">1</div><h3>Réservez</h3><p>Complétez le formulaire en ligne ou appelez-nous directement.</p></div>
+        <div class="process-step"><div class="process-num">2</div><h3>Confirmation</h3><p>Nous confirmons votre course par téléphone ou e-mail sous quelques minutes.</p></div>
+        <div class="process-step"><div class="process-num">3</div><h3>Prise en charge</h3><p>Votre chauffeur arrive à l'adresse et à l'heure convenues.</p></div>
+        <div class="process-step"><div class="process-num">4</div><h3>Arrivée</h3><p>Vous êtes déposé à destination, en toute sécurité et ponctualité.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section id="avis">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <span class="eyebrow"><svg><use href="#icon-star"/></svg> Avis clients</span>
+        <h2>Ce que disent nos passagers</h2>
+      </div>
+      <div class="testi-wrap" data-reveal>
+        <div class="testi-track">
+          <div class="testi-slides">
+            <div class="testi-slide">
+              <div class="testi-card">
+                <div class="testi-stars"><svg><use href="#icon-star"/></svg><svg><use href="#icon-star"/></svg><svg><use href="#icon-star"/></svg><svg><use href="#icon-star"/></svg><svg><use href="#icon-star"/></svg></div>
+                <p class="testi-quote">"Chauffeur ponctuel et très sympathique, réservation faite en 2 minutes depuis mon téléphone. Je recommande pour la gare de Nyon !"</p>
+                <div class="testi-author"><span class="testi-avatar">M</span><div><strong>Marie D.</strong><span>Nyon</span></div></div>
+              </div>
+            </div>
+            <div class="testi-slide">
+              <div class="testi-card">
+                <div class="testi-stars"><svg><use href="#icon-star"/></svg><svg><use href="#icon-star"/></svg><svg><use href="#icon-star"/></svg><svg><use href="#icon-star"/></svg><svg><use href="#icon-star"/></svg></div>
+                <p class="testi-quote">"J'utilise ce taxi chaque semaine pour mes rendez-vous professionnels entre Rolle et Nyon. Toujours fiable et prix annoncé à l'avance."</p>
+                <div class="testi-author"><span class="testi-avatar">J</span><div><strong>Jérôme B.</strong><span>Rolle</span></div></div>
+              </div>
+            </div>
+            <div class="testi-slide">
+              <div class="testi-card">
+                <div class="testi-stars"><svg><use href="#icon-star"/></svg><svg><use href="#icon-star"/></svg><svg><use href="#icon-star"/></svg><svg><use href="#icon-star"/></svg><svg><use href="#icon-star"/></svg></div>
+                <p class="testi-quote">"Service impeccable pour transporter toute la famille avec le van 7 places. Chauffeur très prévenant avec les enfants."</p>
+                <div class="testi-author"><span class="testi-avatar">S</span><div><strong>Sophie R.</strong><span>Gland</span></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="testi-controls"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reservation -->
+  <section id="reservation" class="reservation">
+    <div class="container res-wrap">
+      <div class="res-info" data-reveal>
+        <span class="eyebrow"><svg><use href="#icon-calendar"/></svg> Réservation</span>
+        <h2>Réservez votre course en quelques clics</h2>
+        <p>Remplissez le formulaire ci-contre : nous vous recontactons rapidement pour confirmer votre course. Aucun paiement en ligne requis.</p>
+        <div class="res-perks">
+          <div class="res-perk"><span class="ic"><svg><use href="#icon-clock"/></svg></span><div><strong>Réponse rapide</strong><p>Confirmation sous 3 minutes en moyenne aux heures ouvrées.</p></div></div>
+          <div class="res-perk"><span class="ic"><svg><use href="#icon-shield"/></svg></span><div><strong>Formulaire sécurisé</strong><p>Vos données sont protégées et jamais partagées à des tiers.</p></div></div>
+          <div class="res-perk"><span class="ic"><svg><use href="#icon-check"/></svg></span><div><strong>Sans engagement</strong><p>Vous ne payez rien en ligne : le règlement se fait avec le chauffeur.</p></div></div>
+        </div>
+      </div>
+      <form class="res-form" id="reservation-form" data-reveal action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <input type="hidden" name="_subject" value="Nouvelle réservation — Taxi Local Nyon">
+        <input type="text" name="_gotcha" style="display:none">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Nom complet *</label>
+            <input class="form-control" type="text" id="name" name="name" placeholder="Jean Dupont" required>
+            <div class="form-error"></div>
+          </div>
+          <div class="form-group">
+            <label for="phone">Téléphone *</label>
+            <input class="form-control" type="tel" id="phone" name="phone" placeholder="+41 79 000 00 00" required>
+            <div class="form-error"></div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="email">E-mail (optionnel)</label>
+          <input class="form-control" type="email" id="email" name="email" placeholder="vous@exemple.ch">
+          <div class="form-error"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="pickup">Adresse de départ *</label>
+            <input class="form-control" type="text" id="pickup" name="pickup" placeholder="Gare de Nyon" required>
+            <div class="form-error"></div>
+          </div>
+          <div class="form-group">
+            <label for="dropoff">Adresse d'arrivée *</label>
+            <input class="form-control" type="text" id="dropoff" name="dropoff" placeholder="Rolle, Centre-ville" required>
+            <div class="form-error"></div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="date">Date *</label>
+            <input class="form-control" type="date" id="date" name="date" required>
+            <div class="form-error"></div>
+          </div>
+          <div class="form-group">
+            <label for="time">Heure *</label>
+            <input class="form-control" type="time" id="time" name="time" required>
+            <div class="form-error"></div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="passengers">Passagers</label>
+            <select class="form-control" id="passengers" name="passengers">
+              <option>1</option><option>2</option><option>3</option><option>4</option><option>5 - 7 (Van)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="vehicle">Type de véhicule</label>
+            <select class="form-control" id="vehicle" name="vehicle">
+              <option>Standard / Éco</option><option>Confort</option><option>Van Groupe</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="message">Message (optionnel)</label>
+          <textarea class="form-control" id="message" name="message" placeholder="Bagages, siège enfant, arrêt supplémentaire..."></textarea>
+        </div>
+        <div class="form-security"><svg><use href="#icon-shield"/></svg> Formulaire protégé — vos données restent confidentielles et ne sont jamais revendues.</div>
+        <button type="submit" class="btn btn-primary btn-block btn-lg"><svg><use href="#icon-send"/></svg> Envoyer ma demande de réservation</button>
+        <div class="form-feedback" id="form-feedback"></div>
+      </form>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section>
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <span class="eyebrow"><svg><use href="#icon-check"/></svg> Questions fréquentes</span>
+        <h2>Tout ce qu'il faut savoir</h2>
+      </div>
+      <div class="faq-list" data-reveal>
+        <div class="faq-item">
+          <button class="faq-q">Comment réserver un taxi à Nyon ? <svg><use href="#icon-chevron-down"/></svg></button>
+          <div class="faq-a"><p>Utilisez le formulaire de réservation ci-dessus ou appelez-nous directement au +41 78 719 44 44, disponible 24h/24.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Le prix annoncé est-il garanti ? <svg><use href="#icon-chevron-down"/></svg></button>
+          <div class="faq-a"><p>L'estimateur donne une fourchette indicative basée sur la zone. Le tarif exact vous est confirmé avant le départ, sans frais cachés.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Puis-je réserver pour un tiers ou en avance ? <svg><use href="#icon-chevron-down"/></svg></button>
+          <div class="faq-a"><p>Oui, indiquez simplement les coordonnées du passager et la date/heure souhaitée dans le formulaire ou par téléphone.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Comment se passe le paiement ? <svg><use href="#icon-chevron-down"/></svg></button>
+          <div class="faq-a"><p>Le paiement s'effectue directement auprès du chauffeur (carte ou espèces). Aucun paiement en ligne n'est requis pour réserver.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Proposez-vous des transferts vers l'aéroport de Genève ? <svg><use href="#icon-chevron-down"/></svg></button>
+          <div class="faq-a"><p>Oui, pour les transferts aéroport, chauffeur privé et trajets longue distance, découvrez notre service <a href="../taxi-premium/index.html" style="color:var(--accent); font-weight:700;">Taxi Premium</a>.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA banner -->
+  <section>
+    <div class="container">
+      <div class="cta-banner" data-reveal>
+        <div class="cta-text">
+          <h2>Un transfert aéroport ou un événement à organiser ?</h2>
+          <p>Découvrez Taxi Premium : chauffeur privé, transferts aéroport et transport VIP pour vos occasions spéciales.</p>
+        </div>
+        <a href="../taxi-premium/index.html" class="btn btn-ghost-light btn-lg">Découvrir Taxi Premium <svg><use href="#icon-arrow-right"/></svg></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Footer -->
+<footer class="site-footer" id="contact">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#home" class="brand"><span class="brand-mark"><svg><use href="#icon-car"/></svg></span>Taxi <span style="color:var(--primary);">Local</span> Nyon</a>
+        <p>Votre service de taxi local à Nyon, disponible 24h/24 pour tous vos déplacements dans la région.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Facebook"><svg><use href="#icon-facebook"/></svg></a>
+          <a href="#" aria-label="Instagram"><svg><use href="#icon-instagram"/></svg></a>
+          <a href="https://wa.me/41787194444" aria-label="WhatsApp"><svg><use href="#icon-whatsapp"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#zones">Zones desservies</a></li>
+          <li><a href="#flotte">Notre flotte</a></li>
+          <li><a href="#reservation">Réservation</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Nos marques</h4>
+        <ul>
+          <li><a href="#home">Taxi Local Nyon</a></li>
+          <li><a href="../taxi-premium/index.html">Taxi Premium Genève</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul class="footer-contact">
+          <li><svg><use href="#icon-phone"/></svg> +41 78 719 44 44</li>
+          <li><svg><use href="#icon-mail"/></svg> info@local-taxi.ch</li>
+          <li><svg><use href="#icon-map-pin"/></svg> Nyon &amp; district (VD), Suisse</li>
+          <li><svg><use href="#icon-clock"/></svg> Disponible 24h/24, 7j/7</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span data-year></span> Taxi Local Nyon — Tous droits réservés.</span>
+      <div class="footer-bottom-links">
+        <a href="#">Mentions légales</a>
+        <a href="#">Confidentialité</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Floating actions -->
+<div class="floating-actions">
+  <a href="https://wa.me/41787194444" class="fab fab-whatsapp" aria-label="WhatsApp"><svg><use href="#icon-whatsapp"/></svg></a>
+  <a href="tel:+41787194444" class="fab fab-call" aria-label="Appeler"><svg><use href="#icon-phone"/></svg></a>
+  <button class="fab fab-top" aria-label="Retour en haut"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15l-6-6-6 6"/></svg></button>
+</div>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>
