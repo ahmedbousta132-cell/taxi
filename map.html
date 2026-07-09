@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carte des forfaits — Local Taxi</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--gold:#e8c88a;--gold2:#c99b52;--champ:#f4e6c8;--deep:#060607;--panel:#0c0d10;--ink:#ece7dc}
+  body{background:var(--deep);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px}
+  .map-wrap{width:100%;max-width:920px;position:relative}
+  svg{width:100%;height:auto;display:block}
+
+  /* ---- zone borders ---- */
+  .border{fill:rgba(255,255,255,.001);stroke:var(--gold);stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round;
+          stroke-dasharray:100;stroke-dashoffset:100;
+          animation:draw 1.7s cubic-bezier(.7,0,.3,1) forwards;
+          transition:stroke .35s,stroke-width .35s,fill .35s}
+  @keyframes draw{to{stroke-dashoffset:0}}
+
+  /* ---- labels ---- */
+  .price{fill:var(--gold);font-weight:800;letter-spacing:-.5px;text-anchor:middle;pointer-events:none;
+         opacity:0;animation:pop .8s cubic-bezier(.16,1,.3,1) forwards;
+         filter:drop-shadow(0 0 12px rgba(232,200,138,.30))}
+  @keyframes pop{from{opacity:0;transform:translateY(6px) scale(.9)}to{opacity:1;transform:none}}
+  .town{fill:rgba(236,231,220,.42);font-size:12px;letter-spacing:.02em;text-anchor:middle;pointer-events:none;
+         transition:fill .3s,font-weight .3s;opacity:0;animation:fadein .6s ease forwards}
+  @keyframes fadein{to{opacity:1}}
+
+  /* ---- hover on a zone ---- */
+  .zone{cursor:pointer}
+  .zone:hover .border{stroke:var(--champ);stroke-width:2.6;fill:rgba(232,200,138,.10);
+                      filter:drop-shadow(0 0 16px rgba(232,200,138,.45))}
+  .zone:hover .town{fill:var(--champ);font-weight:600}
+  .zone:hover .price{fill:var(--champ);filter:drop-shadow(0 0 20px rgba(244,230,200,.6))}
+
+  /* ---- floating tooltip ---- */
+  .tip{position:absolute;pointer-events:none;z-index:20;display:none;
+       background:rgba(12,13,16,.97);
+       border:1px solid rgba(232,200,138,.35);border-radius:8px;padding:12px 16px;
+       box-shadow:0 20px 50px -14px rgba(0,0,0,.8);max-width:250px}
+  .tip.on{display:block}
+  .tip .tp{display:flex;align-items:baseline;gap:10px;margin-bottom:6px}
+  .tip .tp b{font-size:22px;font-weight:800;color:var(--gold);letter-spacing:-.5px}
+  .tip .tp span{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:rgba(236,231,220,.5)}
+  .tip .tw{font-size:12.5px;line-height:1.5;color:var(--champ)}
+  .tip .th{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-top:8px;opacity:.7}
+
+  /* ---- heading ---- */
+  .head-k{fill:var(--gold);font-size:12px;letter-spacing:.34em;text-transform:uppercase;text-anchor:middle}
+  .head-t{fill:var(--champ);font-size:40px;font-weight:700;letter-spacing:.02em;text-anchor:middle}
+  .head-s{fill:var(--ink);font-size:19px;letter-spacing:.26em;text-transform:uppercase;text-anchor:middle;font-weight:300}
+  .head-n{fill:rgba(236,231,220,.6);font-size:13px;letter-spacing:.14em;text-anchor:middle}
+  .divider{stroke:var(--gold);stroke-width:1;opacity:.4}
+  .fadeg{opacity:0;animation:fadein 1s ease 1.4s forwards}
+</style>
+</head>
+<body>
+<div class="map-wrap">
+<div class="tip" id="tip"></div>
+<svg id="map" viewBox="0 0 1130 1235" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- ============ ZONES ============ -->
+
+  <!-- A · 120 · Arzier / Bassins / Le Vaud -->
+  <g class="zone" data-price="120.-" data-region="Arzier / Le Vaud" data-towns="Arzier · Bassins · Le Vaud · Longirod (nord)">
+    <polygon class="border" pathLength="100" style="animation-delay:.00s" points="250,60 300,28 362,50 432,30 472,64 476,120 460,160 506,186 500,242 550,296 580,340 546,380 500,390 460,382 448,416 428,434 398,430 378,400 300,404 244,400 194,394 150,366 120,346 122,328 168,318 172,298 126,256 130,220 176,188 206,176 212,120"/>
+    <text class="price" style="font-size:32px;animation-delay:1.5s" x="345" y="212">120.-</text>
+    <text class="town" style="animation-delay:1.5s" x="470" y="322">Bassins</text>
+    <text class="town" style="animation-delay:1.55s" x="368" y="384">Arzier</text>
+    <text class="town" style="animation-delay:1.6s" x="580" y="360" transform="rotate(-58 580 360)">Le Vaud</text>
+  </g>
+
+  <!-- B · 140 · St-Georges / Longirod / Marchissy -->
+  <g class="zone" data-price="140.-" data-region="St-Georges" data-towns="St-Georges · Longirod · Marchissy">
+    <polygon class="border" pathLength="100" style="animation-delay:.12s" points="472,64 492,40 532,24 592,18 642,30 702,56 742,96 746,142 728,182 746,232 720,266 690,286 700,322 664,354 620,370 584,352 560,318 548,292 500,242 506,186 460,160 476,120"/>
+    <text class="price" style="font-size:32px;animation-delay:1.62s" x="558" y="212">140.-</text>
+    <text class="town" style="animation-delay:1.62s" x="652" y="164">St-Georges</text>
+    <text class="town" style="animation-delay:1.66s" x="686" y="254">Longirod</text>
+    <text class="town" style="animation-delay:1.7s" x="586" y="294">Marchissy</text>
+  </g>
+
+  <!-- Aubonne · 140 · detached -->
+  <g class="zone" data-price="140.-" data-region="Aubonne" data-towns="Aubonne">
+    <text class="town" style="font-size:16px;fill:rgba(236,231,220,.75);animation-delay:1.72s" x="878" y="118">Aubonne</text>
+    <text class="price" style="font-size:32px;animation-delay:1.72s" x="878" y="168">140.-</text>
+  </g>
+
+  <!-- C · 120 · Rolle / Perroy / Mont-sur-Rolle / Essertines -->
+  <g class="zone" data-price="120.-" data-region="Rolle" data-towns="Rolle · Perroy · Mont-sur-Rolle · Essertines · Tartegnin · Gilly">
+    <polygon class="border" pathLength="100" style="animation-delay:.24s" points="765,262 800,228 830,238 846,206 862,236 905,242 955,272 1005,302 1015,342 1048,378 1064,392 1030,414 986,418 984,448 940,464 898,458 888,482 854,494 820,474 800,482 782,452 790,402 770,360 756,322 762,292"/>
+    <text class="price" style="font-size:30px;animation-delay:1.74s" x="912" y="300">120.-</text>
+    <text class="town" style="animation-delay:1.74s" x="812" y="314">Essertines</text>
+    <text class="town" style="font-size:11px;animation-delay:1.78s" x="898" y="376">Mont-sur-Rolle</text>
+    <text class="town" style="animation-delay:1.8s" x="980" y="388">Perroy</text>
+    <text class="town" style="animation-delay:1.82s" x="888" y="434">Rolle</text>
+    <text class="town" style="font-size:11px;animation-delay:1.84s" x="812" y="372" transform="rotate(-58 812 372)">Tartegnin</text>
+  </g>
+
+  <!-- 115 · Torgnin wedge -->
+  <g class="zone" data-price="115.-" data-region="Torgnin / Gilly" data-towns="Torgnin · Gilly (haut)">
+    <polygon class="border" pathLength="100" style="animation-delay:.36s" points="730,352 762,322 782,352 790,402 762,412 738,398"/>
+    <text class="price" style="font-size:24px;animation-delay:1.86s" x="762" y="382">115.-</text>
+  </g>
+
+  <!-- D · 110 · Burtigny -->
+  <g class="zone" data-price="110.-" data-region="Burtigny" data-towns="Burtigny">
+    <polygon class="border" pathLength="100" style="animation-delay:.44s" points="620,370 664,354 700,322 730,352 738,398 720,420 680,436 640,430 610,400"/>
+    <text class="price" style="font-size:26px;animation-delay:1.88s" x="676" y="410">110.-</text>
+    <text class="town" style="animation-delay:1.88s" x="652" y="386">Burtigny</text>
+  </g>
+
+  <!-- E · 110 · Gilly / Vinzel / Bursins / Begnins / Luins / Dully / Bursinel -->
+  <g class="zone" data-price="110.-" data-region="Begnins" data-towns="Begnins · Vinzel · Bursins · Luins · Dully · Bursinel · Gilly">
+    <polygon class="border" pathLength="100" style="animation-delay:.52s" points="590,432 610,400 640,430 680,436 720,420 738,398 762,412 782,452 800,482 854,494 840,540 800,564 758,566 720,548 700,514 660,522 620,512 588,472"/>
+    <text class="price" style="font-size:26px;animation-delay:1.9s" x="700" y="440">110.-</text>
+    <text class="town" style="animation-delay:1.9s" x="630" y="496">Begnins</text>
+    <text class="town" style="font-size:11px;animation-delay:1.92s" x="712" y="480" transform="rotate(-62 712 480)">Vinzel</text>
+    <text class="town" style="font-size:11px;animation-delay:1.94s" x="748" y="492" transform="rotate(-62 748 492)">Bursins</text>
+    <text class="town" style="animation-delay:1.96s" x="706" y="522">Luins</text>
+    <text class="town" style="animation-delay:1.98s" x="770" y="556">Dully</text>
+    <text class="town" style="font-size:11px;animation-delay:2s" x="824" y="524">Bursinel</text>
+  </g>
+
+  <!-- F · 130 · St-Cergue -->
+  <g class="zone" data-price="130.-" data-region="St-Cergue" data-towns="St-Cergue · Arzier (sud)">
+    <polygon class="border" pathLength="100" style="animation-delay:.6s" points="52,352 120,346 194,394 300,404 358,432 380,458 356,486 300,505 240,516 180,530 120,510 78,470 60,420"/>
+    <text class="price" style="font-size:30px;animation-delay:2s" x="298" y="512">130.-</text>
+    <text class="town" style="animation-delay:2s" x="218" y="446">St-Cergue</text>
+  </g>
+
+  <!-- G · 110 · Genolier / Givrins -->
+  <g class="zone" data-price="110.-" data-region="Genolier" data-towns="Genolier · Givrins">
+    <polygon class="border" pathLength="100" style="animation-delay:.68s" points="380,458 398,430 428,434 448,416 460,382 500,390 546,380 588,472 620,512 585,532 520,548 460,540 420,548 400,502 380,458"/>
+    <text class="price" style="font-size:26px;animation-delay:2.05s" x="500" y="516">110.-</text>
+    <text class="town" style="animation-delay:2.05s" x="518" y="534">Genolier</text>
+    <text class="town" style="font-size:11px;animation-delay:2.08s" x="432" y="540" transform="rotate(-58 432 540)">Givrins</text>
+  </g>
+
+  <!-- H · 100 · Gland / Prangins / Vich / Coinsins / Duillier -->
+  <g class="zone" data-price="100.-" data-region="Gland" data-towns="Gland · Prangins · Coinsins · Vich · Duillier">
+    <polygon class="border" pathLength="100" style="animation-delay:.76s" points="585,532 620,512 660,522 700,514 720,548 758,566 750,610 720,660 680,712 628,750 585,740 548,700 528,650 535,600 558,556"/>
+    <text class="price" style="font-size:30px;animation-delay:2.1s" x="646" y="640">100.-</text>
+    <text class="town" style="animation-delay:2.1s" x="576" y="602">Coinsins</text>
+    <text class="town" style="font-size:11px;animation-delay:2.12s" x="618" y="566" transform="rotate(-55 618 566)">Vich</text>
+    <text class="town" style="animation-delay:2.14s" x="692" y="612">Gland</text>
+    <text class="town" style="animation-delay:2.16s" x="546" y="666">Duillier</text>
+    <text class="town" style="animation-delay:2.18s" x="642" y="702">Prangins</text>
+  </g>
+
+  <!-- I · 100 · Gingins / Trelex -->
+  <g class="zone" data-price="100.-" data-region="Gingins" data-towns="Gingins · Trelex">
+    <polygon class="border" pathLength="100" style="animation-delay:.84s" points="380,502 400,502 420,548 460,540 520,548 530,650 500,720 450,730 415,720 385,675 365,615 372,540"/>
+    <text class="price" style="font-size:28px;animation-delay:2.2s" x="410" y="616">100.-</text>
+    <text class="town" style="animation-delay:2.2s" x="362" y="632">Gingins</text>
+    <text class="town" style="animation-delay:2.22s" x="446" y="618">Trelex</text>
+  </g>
+
+  <!-- J · 90 · Chéserex / La Rippe -->
+  <g class="zone" data-price="90.-" data-region="Chéserex" data-towns="Chéserex · La Rippe">
+    <polygon class="border" pathLength="100" style="animation-delay:.92s" points="140,520 180,530 240,516 300,505 356,486 380,502 372,540 365,615 385,675 415,720 360,760 300,782 250,748 200,720 150,690 60,640 40,600 70,560 110,535"/>
+    <text class="price" style="font-size:30px;animation-delay:2.25s" x="190" y="616">90.-</text>
+    <text class="town" style="animation-delay:2.25s" x="286" y="648">Chéserex</text>
+    <text class="town" style="animation-delay:2.28s" x="278" y="736">La Rippe</text>
+  </g>
+
+  <!-- K · 80 · Grens / Signy / Eysins / Borex / Arnex / Crans / Grassier -->
+  <g class="zone" data-price="80.-" data-region="Eysins / Signy" data-towns="Grens · Signy · Eysins · Borex · Arnex · Crans · Grassier">
+    <polygon class="border" pathLength="100" style="animation-delay:1s" points="385,675 415,720 450,730 500,720 530,720 548,760 545,802 520,852 470,902 420,908 380,882 350,842 326,802 340,772 360,745"/>
+    <text class="price" style="font-size:28px;animation-delay:2.3s" x="420" y="836">80.-</text>
+    <text class="town" style="font-size:11px;animation-delay:2.3s" x="440" y="718">Grens</text>
+    <text class="town" style="font-size:11px;animation-delay:2.32s" x="464" y="754">Signy</text>
+    <text class="town" style="font-size:11px;animation-delay:2.34s" x="456" y="814">Eysins</text>
+    <text class="town" style="font-size:11px;animation-delay:2.36s" x="378" y="782">Borex</text>
+    <text class="town" style="font-size:11px;animation-delay:2.38s" x="432" y="860">Arnex</text>
+    <text class="town" style="font-size:11px;animation-delay:2.4s" x="470" y="884">Crans</text>
+    <text class="town" style="font-size:11px;animation-delay:2.42s" x="346" y="806" transform="rotate(-68 346 806)">Grassier</text>
+  </g>
+
+  <!-- L · 85 · Nyon -->
+  <g class="zone" data-price="85.-" data-region="Nyon" data-towns="Nyon">
+    <polygon class="border" pathLength="100" style="animation-delay:1.08s" points="545,802 548,760 585,740 628,750 640,752 632,792 600,832 560,846 540,832"/>
+    <text class="price" style="font-size:28px;animation-delay:2.45s" x="572" y="830">85.-</text>
+    <text class="town" style="font-size:16px;fill:rgba(236,231,220,.8);animation-delay:2.45s" x="550" y="800">Nyon</text>
+  </g>
+
+  <!-- M · 75 · Coppet / Mies / Founex / Commugny / Bogis / Chavannes -->
+  <g class="zone" data-price="75.-" data-region="Terre Sainte" data-towns="Coppet · Mies · Founex · Commugny · Bogis-Bossey · Chavannes-de-Bogis · Chavannes-des-Bois · Tannay">
+    <polygon class="border" pathLength="100" style="animation-delay:1.16s" points="420,908 470,902 520,852 540,880 520,922 500,970 480,1030 450,1112 410,1172 360,1202 310,1202 265,1172 240,1112 235,1040 260,976 300,930 360,910"/>
+    <text class="price" style="font-size:32px;animation-delay:2.5s" x="326" y="1068">75.-</text>
+    <text class="town" style="font-size:11px;animation-delay:2.5s" x="322" y="924">Bogis-Bossey</text>
+    <text class="town" style="font-size:10px;animation-delay:2.52s" x="300" y="978">Chavannes-de-Bogis</text>
+    <text class="town" style="font-size:11px;animation-delay:2.54s" x="392" y="1004">Founex</text>
+    <text class="town" style="font-size:11px;animation-delay:2.56s" x="322" y="1072">Commugny</text>
+    <text class="town" style="font-size:10px;animation-delay:2.58s" x="212" y="1096">Chavannes-des-Bois</text>
+    <text class="town" style="font-size:11px;animation-delay:2.6s" x="406" y="1088" transform="rotate(-62 406 1088)">Coppet</text>
+    <text class="town" style="font-size:11px;animation-delay:2.62s" x="352" y="1124">Tannay</text>
+    <text class="town" style="font-size:11px;animation-delay:2.64s" x="322" y="1156">Mies</text>
+  </g>
+
+  <!-- ============ HEADING ============ -->
+  <g class="fadeg" transform="translate(50,0)">
+    <text class="head-k" x="820" y="720">Local Taxi</text>
+    <text class="head-t" x="820" y="778">NOS FORFAITS</text>
+    <text class="head-s" x="820" y="816">Genève Aéroport</text>
+    <line class="divider" x1="700" y1="846" x2="940" y2="846"/>
+    <text class="head-n" x="820" y="876">+ 10.-  Genève Ville</text>
+    <text class="head-n" x="820" y="920" style="fill:var(--gold);letter-spacing:.12em;font-size:16px">+41 78 719 44 44</text>
+  </g>
+
+</svg>
+</div>
+
+<script>
+  const tip = document.getElementById('tip');
+  const wrap = document.querySelector('.map-wrap');
+  document.querySelectorAll('.zone').forEach(z=>{
+    const price = z.dataset.price, region = z.dataset.region, towns = z.dataset.towns;
+    if(!price) return;
+    z.addEventListener('mousemove', e=>{
+      const r = wrap.getBoundingClientRect();
+      tip.innerHTML =
+        '<div class="tp"><b>'+price+'</b><span>Genève Aéroport</span></div>'+
+        '<div class="tw">'+region+'</div>'+
+        '<div class="th">Communes</div>'+
+        '<div class="tw" style="opacity:.8;font-size:11.5px">'+towns+'</div>';
+      let x = e.clientX - r.left + 18, y = e.clientY - r.top + 18;
+      if(x > r.width - 260) x = e.clientX - r.left - 260;
+      tip.style.left = x+'px'; tip.style.top = y+'px';
+      tip.classList.add('on');
+    });
+    z.addEventListener('mouseleave', ()=> tip.classList.remove('on'));
+  });
+</script>
+</body>
+</html>
