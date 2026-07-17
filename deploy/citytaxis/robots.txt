@@ -1,0 +1,9 @@
+# robots.txt — City Taxis (https://citytaxis.ch/)
+User-agent: *
+Allow: /
+
+# Bloquer les robots IA agressifs (optionnel — décommentez si souhaité)
+# User-agent: GPTBot
+# Disallow: /
+
+Sitemap: https://citytaxis.ch/sitemap.xml

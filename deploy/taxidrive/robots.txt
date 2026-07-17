@@ -1,0 +1,9 @@
+# robots.txt — Taxi Drive (https://taxidrive.ch/)
+User-agent: *
+Allow: /
+
+# Bloquer les robots IA agressifs (optionnel — décommentez si souhaité)
+# User-agent: GPTBot
+# Disallow: /
+
+Sitemap: https://taxidrive.ch/sitemap.xml
