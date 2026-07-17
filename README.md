@@ -1,77 +1,62 @@
 # Taxi Nyon Région — Sites web
 
-Deux sites statiques (HTML / CSS / JS, sans build ni dépendances) :
+Deux sites vitrines **statiques** (HTML / CSS / JS en un seul fichier, sans build ni dépendance à installer). Ce sont deux variantes de marque du même site « chauffeur privé premium », prêtes à mettre en ligne :
 
-- `taxi-local/index.html` — **Taxi Local Nyon** : courses locales, gare, entreprises, villages de la région.
-- `taxi-premium/index.html` — **Taxi Premium** : transferts aéroport, chauffeur privé, VIP, mariages/événements.
+| Fichier | Marque | Description |
+|---------|--------|-------------|
+| [`citytaxis.html`](citytaxis.html) | **City Taxis** | Chauffeur privé premium, toute la Suisse — transferts aéroport, business, groupes, longue distance, stations de ski, 24h/24. |
+| [`taxidrive-full.html`](taxidrive-full.html) | **Taxi Drive** | Même offre, habillage de marque « Taxi Drive ». |
 
-Les deux sites se renvoient l'un vers l'autre (bandeau du haut, bannière CTA, FAQ, footer) pour maximiser la couverture Google.
+Choisissez la variante que vous voulez déployer (ou publiez-les sur deux domaines distincts).
 
 ## Aperçu en local
 
-Aucune installation n'est nécessaire : double-cliquez sur `index.html` dans chaque dossier pour l'ouvrir dans votre navigateur, ou faites un clic droit → "Ouvrir avec" → votre navigateur.
+Aucune installation n'est nécessaire : double-cliquez sur `citytaxis.html` ou `taxidrive-full.html` pour l'ouvrir dans votre navigateur.
 
-Pour un aperçu plus proche d'un vrai serveur (recommandé avant mise en ligne), servez le dossier avec un petit serveur local, par exemple avec Node déjà installé sur cette machine :
+Pour un aperçu plus proche d'un vrai serveur (recommandé avant mise en ligne), servez le dossier avec un petit serveur local :
 
 ```bash
-npx serve "web taxi"
+npx serve .
 ```
 
-puis ouvrez `http://localhost:3000/taxi-local/` et `http://localhost:3000/taxi-premium/`.
+puis ouvrez `http://localhost:3000/citytaxis.html` ou `http://localhost:3000/taxidrive-full.html`.
 
-## Activer l'envoi des réservations par e-mail (Formspree)
-
-Le formulaire de réservation est déjà branché pour un envoi réel via [Formspree](https://formspree.io), un service qui reçoit les soumissions de formulaire HTML et vous les envoie par e-mail — sans avoir besoin d'un serveur.
-
-1. Créez un compte gratuit sur https://formspree.io (50 soumissions/mois offertes, largement suffisant pour démarrer — un plan payant existe si le volume augmente).
-2. Créez un nouveau formulaire, associez-le à l'adresse e-mail qui doit recevoir les réservations (ex. `info@local-taxi.ch`).
-3. Copiez l'identifiant de formulaire fourni (ex. `mzbqwxyz`).
-4. Dans **chacun** des deux fichiers suivants, remplacez `YOUR_FORM_ID` par cet identifiant :
-   - `taxi-local/index.html` → attribut `action="https://formspree.io/f/YOUR_FORM_ID"` du `<form id="reservation-form">`
-   - `taxi-premium/index.html` → même attribut
-
-Vous pouvez utiliser le **même** identifiant pour les deux sites si vous voulez que toutes les réservations arrivent dans la même boîte mail (conforme à l'idée d'une administration commune), ou créer deux formulaires Formspree distincts pour les trier séparément.
-
-Tant que `YOUR_FORM_ID` n'est pas remplacé, le formulaire fonctionne en **mode démo** : il valide les champs et affiche un message de confirmation, mais n'envoie rien.
-
-## Structure des fichiers
+## Structure du dépôt
 
 ```
-taxi-local/
-  index.html
-  assets/css/style.css
-  assets/js/main.js
-taxi-premium/
-  index.html
-  assets/css/style.css
-  assets/js/main.js
+citytaxis.html          ← site final « City Taxis » (autonome, un seul fichier)
+taxidrive-full.html     ← site final « Taxi Drive » (autonome, un seul fichier)
+dev-env/                ← archives : anciennes itérations, brouillons, assets, taxi-local/…
 ```
 
-Chaque site est 100% autonome (pas de dépendance entre les deux dossiers à part les liens de navigation croisée), ce qui permet de les héberger comme deux sites/sous-domaines séparés sur OVH tout en partageant le même formulaire de réservation si vous le souhaitez.
+Chaque site final est **100 % autonome** : tout le CSS et le JS est inline, il n'y a aucune dépendance vers un fichier local du dépôt. Les seules ressources externes sont des services en ligne (Google Maps, Photon/Komoot pour l'autocomplétion d'adresses, WhatsApp).
 
-## Déploiement sur OVH
+Le dossier [`dev-env/`](dev-env/) regroupe toutes les versions de travail précédentes (`index.html` → `index9.html`, `concept-*.html`, `taxi-city.html`, `taxidrive.html`, l'ancien projet `taxi-local/`, les dossiers `assets*`, etc.). Il n'est **pas** nécessaire pour faire tourner les sites finaux — c'est un historique de conception. Son propre `dev-env/README.md` documente l'ancienne structure `taxi-local` / `taxi-premium`.
 
-1. Connectez-vous à votre hébergement OVH (FTP/SFTP ou gestionnaire de fichiers de l'espace web).
-2. Déposez le contenu de `taxi-local/` à la racine du domaine principal (ex. `taxi-nyon.ch`).
-3. Déposez le contenu de `taxi-premium/` à la racine du sous-domaine ou second nom de domaine prévu pour la marque Premium (ex. `premium.taxi-nyon.ch` ou un domaine dédié).
-4. Ajustez les liens croisés (`../taxi-local/index.html`, `../taxi-premium/index.html`) si l'organisation des dossiers change une fois en ligne — remplacez-les par les URLs absolues des deux domaines.
-5. Activez le HTTPS (Let's Encrypt, généralement automatique sur OVH).
+## Réservation / contact
+
+Les formulaires de réservation et de devis ne passent **pas** par un serveur : ils ouvrent le client mail de l'utilisateur via un lien `mailto:` pré-rempli, et un bouton WhatsApp est également proposé.
+
+- **E-mail de destination** : `info@local-taxi.ch`
+- **Téléphone / WhatsApp** : `+41 78 719 44 44` (`wa.me/41787194444`)
+
+Pour changer ces coordonnées, recherchez `info@local-taxi.ch`, `+41 78 719 44 44` et `41787194444` dans le fichier du site concerné et remplacez-les.
+
+> Astuce : si vous souhaitez recevoir les réservations sans dépendre du client mail du visiteur, vous pouvez brancher un service comme [Formspree](https://formspree.io) en remplaçant le `onsubmit="return false"` du `<form>` par un `action="https://formspree.io/f/VOTRE_ID"` et une `method="POST"`.
+
+## Déploiement sur OVH (ou tout hébergement statique)
+
+1. Connectez-vous à votre hébergement (FTP/SFTP ou gestionnaire de fichiers).
+2. Déposez le fichier du site choisi à la racine du domaine, en le renommant `index.html` (ex. `citytaxis.html` → `index.html`).
+3. Pour publier les deux marques, utilisez deux domaines / sous-domaines distincts.
+4. Activez le HTTPS (Let's Encrypt, généralement automatique sur OVH).
+
+Inutile d'uploader le dossier `dev-env/` : seul le fichier HTML final est nécessaire en production.
+
+## Cartes & autocomplétion d'adresses
+
+Les sites utilisent Google Maps et l'API Photon (Komoot) pour l'autocomplétion des adresses. Si vous activez une clé Google Maps à vous, pensez à la restreindre à vos domaines dans la console Google Cloud avant la mise en production.
 
 ## Images des véhicules
 
-Les photos utilisées dans la section "Flotte" sont reprises telles quelles du site actuel local-taxi.ch (mêmes URLs externes : concessionnaire Mercedes, Bring a Trailer, Freepik, etc.). Ces images appartiennent à des tiers et non à Taxi Nyon Région — pensez à les remplacer par de vraies photos de la flotte (ou des photos de stock correctement licenciées) dès que possible pour supprimer ce risque et renforcer l'authenticité du site.
-
-## Personnalisation rapide
-
-- **Couleurs** : modifiables via les variables CSS en haut de chaque `assets/css/style.css` (bloc `:root`).
-- **Tarifs de l'estimateur** : dans chaque `index.html`, section `#estimation`, les `<option value="min-max">` du menu déroulant "Destination" contrôlent les fourchettes de prix affichées (voir `assets/js/main.js`, fonction de calcul, pour la logique).
-- **Zones desservies / destinations** : listes de `<span class="zone-tag">` dans la section `#zones` (Local) ou `#destinations` (Premium).
-- **Numéro de téléphone / e-mail** : recherchez `+41 78 719 44 44` et `info@local-taxi.ch` dans les deux fichiers `index.html` pour les remplacer si besoin.
-
-## Prochaines étapes (hors périmètre de cette version)
-
-D'après le cahier des charges initial, les éléments suivants restent à construire dans une phase ultérieure :
-- Base de données commune et tableau de bord d'administration (gestion des réservations, statuts, export).
-- Protection anti-spam avancée (hCaptcha, limitation de tentatives, blocage IP).
-- Intégration Google Analytics / Tag Manager / suivi de conversions pour Google Ads.
-- Sitemap, données structurées Schema.org et pages dédiées par ville/service pour le SEO local avancé.
+Certaines photos de la section « Flotte » proviennent de sources externes (concessionnaire Mercedes, banques d'images, etc.) et appartiennent à des tiers. Remplacez-les par de vraies photos de la flotte (ou des visuels correctement licenciés) avant la mise en ligne définitive.
