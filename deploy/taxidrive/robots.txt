@@ -1,4 +1,4 @@
-# robots.txt — Taxi Drive (https://taxidrive.ch/)
+# robots.txt — Taxi Drive (https://taxi-drive.ch/)
 
 # Robots classiques
 User-agent: *
@@ -26,4 +26,4 @@ Allow: /
 # User-agent: CCBot
 # Disallow: /
 
-Sitemap: https://taxidrive.ch/sitemap.xml
+Sitemap: https://taxi-drive.ch/sitemap.xml

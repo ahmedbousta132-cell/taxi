@@ -7,7 +7,13 @@ ni dépendance à installer). Ce sont deux variantes de marque du même site
 | Marque | Domaine | Dossier à uploader |
 |--------|---------|--------------------|
 | **City Taxis** | `citytaxis.ch` | [`deploy/citytaxis/`](deploy/citytaxis/) |
-| **Taxi Drive** | `taxidrive.ch` | [`deploy/taxidrive/`](deploy/taxidrive/) |
+| **Taxi Drive** | `taxi-drive.ch` | [`deploy/taxidrive/`](deploy/taxidrive/) |
+
+> **Taxi Drive remplace l'ancien site Webador** hébergé sur `taxi-drive.ch`. La
+> structure d'URL reproduit celle de l'ancien site (`/taxi-nyon/taxi-<ville>`) pour
+> **préserver le référencement existant**, et le `.htaccess` redirige (301) les
+> anciennes URLs qui changent (`/reservation`, `/obtenir-un-devis`, `/contact`, la
+> page produit) vers les bonnes cibles.
 
 Offre : transferts aéroport (Genève, Zurich, Bâle), courses locales, longue
 distance, stations de ski, groupes, VIP/événements — disponible 24h/24.
@@ -25,10 +31,12 @@ deploy/
     og-image.jpg      · image 1200×630 pour l'aperçu des liens partagés
     llms.txt          · fiche de contexte pour les IA (ChatGPT, Perplexity, Claude…)
     tarifs.md         · tarifs structurés, lisibles par les agents IA
-    taxi-<ville>.html · 25 pages SEO locales (Nyon, Gland, Coppet, Rolle…)
-    taxi-suisse.html · pages mots-clés (prix-taxi-suisse, taxi-aeroport-geneve,
-    …                   chauffeur-prive-suisse)
-  taxidrive/          ← même contenu pour taxidrive.ch
+    taxi-nyon/        · hub local + 27 pages villes
+      index.html      ·   /taxi-nyon/  (hub « Taxi Nyon & région »)
+      taxi-<ville>.html ·  /taxi-nyon/taxi-rolle, /taxi-nyon/taxi-coppet, …
+    forfaits-transfert-aeroport.html · page mots-clés (forfaits GVA)
+    prix-taxi-suisse.html · chauffeur-prive-suisse.html · taxi-suisse.html
+  taxidrive/          ← même contenu pour taxi-drive.ch
 README.md
 dev-env/              ← archives : anciennes itérations, brouillons, assets (non déployé)
 ```
@@ -80,16 +88,18 @@ Sur **chaque** site (dans le `<head>`, sans rien changer au design) :
 
 ## Pages SEO locales (par ville) et mots-clés
 
-Pour viser un bon positionnement **ville par ville**, chaque marque dispose de
-**25 pages locales** (`taxi-nyon.html`, `taxi-gland.html`, `taxi-coppet.html`…) et
-de **4 pages thématiques** (`taxi-suisse.html`, `prix-taxi-suisse.html`,
-`taxi-aeroport-geneve.html`, `chauffeur-prive-suisse.html`).
+Pour viser un bon positionnement **ville par ville**, chaque marque dispose d'un
+**hub local `/taxi-nyon/`** et de **27 pages villes** en URLs imbriquées
+(`/taxi-nyon/taxi-rolle`, `/taxi-nyon/taxi-coppet`…), plus **4 pages thématiques**
+(`/forfaits-transfert-aeroport`, `/prix-taxi-suisse`, `/chauffeur-prive-suisse`,
+`/taxi-suisse`).
 
 Chaque page est **unique et utile** (pas une page vide dupliquée, que Google
 pénalise) : titre/description/H1 propres, **prix forfait aéroport réel de la
-commune**, tarif au compteur, mini-FAQ locale, données structurées
-`TaxiService` + `BreadcrumbList` + `FAQPage`, et **maillage interne** vers les
-villes voisines. Elles sont listées dans le `sitemap.xml` de chaque domaine.
+commune**, tarif au compteur, cartes services, mini-FAQ locale, données
+structurées `TaxiService` + `BreadcrumbList` + `FAQPage`, et **maillage interne**
+vers les villes voisines. Design enrichi (icônes SVG, barre d'appel fixe mobile),
+mobile-first et accessible. Toutes les pages sont listées dans le `sitemap.xml`.
 
 > ⚠️ Aucune balise ne « garantit » la 1ʳᵉ position. Ces pages mettent le site
 > dans les meilleures conditions ; le classement final dépend aussi de la fiche
