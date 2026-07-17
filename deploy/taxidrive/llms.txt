@@ -30,15 +30,15 @@ Contact : téléphone et WhatsApp +41 78 719 44 44 · e-mail info@local-taxi.ch.
 - [FAQ](https://taxidrive.ch/#faq)
 
 ## Pages par ville (taxi local)
-- [Taxi Nyon](https://taxidrive.ch/taxi-nyon.html) — forfait aéroport 85 CHF
-- [Taxi Gland](https://taxidrive.ch/taxi-gland.html) — 100 CHF
-- [Taxi Coppet / Terre Sainte](https://taxidrive.ch/taxi-coppet.html) — dès 75 CHF
-- [Taxi Rolle](https://taxidrive.ch/taxi-rolle.html) — 120 CHF
-- [Taxi Saint-Cergue](https://taxidrive.ch/taxi-saint-cergue.html) — 130 CHF
+- [Taxi Nyon](https://taxidrive.ch/taxi-nyon) — forfait aéroport 85 CHF
+- [Taxi Gland](https://taxidrive.ch/taxi-gland) — 100 CHF
+- [Taxi Coppet / Terre Sainte](https://taxidrive.ch/taxi-coppet) — dès 75 CHF
+- [Taxi Rolle](https://taxidrive.ch/taxi-rolle) — 120 CHF
+- [Taxi Saint-Cergue](https://taxidrive.ch/taxi-saint-cergue) — 130 CHF
 - Autres communes : Prangins, Founex, Mies, Begnins, Genolier, Givrins, Gingins, Trélex, Chéserex, La Rippe, Eysins, Signy, Borex, Crassier, Bassins, Arzier, Aubonne (voir sitemap.xml)
 
 ## Pages thématiques
-- [Taxi en Suisse](https://taxidrive.ch/taxi-suisse.html)
-- [Prix d'un taxi en Suisse](https://taxidrive.ch/prix-taxi-suisse.html)
-- [Taxi aéroport de Genève (GVA)](https://taxidrive.ch/taxi-aeroport-geneve.html)
-- [Chauffeur privé en Suisse](https://taxidrive.ch/chauffeur-prive-suisse.html)
+- [Taxi en Suisse](https://taxidrive.ch/taxi-suisse)
+- [Prix d'un taxi en Suisse](https://taxidrive.ch/prix-taxi-suisse)
+- [Taxi aéroport de Genève (GVA)](https://taxidrive.ch/taxi-aeroport-geneve)
+- [Chauffeur privé en Suisse](https://taxidrive.ch/chauffeur-prive-suisse)

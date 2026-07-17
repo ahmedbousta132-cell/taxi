@@ -12,6 +12,19 @@
   RewriteCond %{HTTPS} off
   RewriteCond %{HTTP:X-Forwarded-Proto} !https
   RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # --- URLs propres (sans .html) ---
+  # index.html -> /
+  RewriteCond %{THE_REQUEST} \s/index\.html[\s?] [NC]
+  RewriteRule ^ / [R=301,L]
+  # /page.html -> /page (301, une seule fois, sur la requête initiale)
+  RewriteCond %{THE_REQUEST} \s/([^?\s]+)\.html[\s?] [NC]
+  RewriteRule ^ /%1 [R=301,L]
+  # Servir le fichier .html correspondant à l'URL propre
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+  RewriteRule ^(.+?)/?$ $1.html [L]
 </IfModule>
 
 # --- Page d'accueil par défaut ---
