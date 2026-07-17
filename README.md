@@ -18,11 +18,13 @@ distance, stations de ski, groupes, VIP/événements — disponible 24h/24.
 deploy/
   citytaxis/          ← bundle prêt à uploader sur citytaxis.ch
     index.html        · le site (autonome, tout le CSS/JS est inline)
-    robots.txt        · directives pour les robots + lien vers le sitemap
+    robots.txt        · directives robots (crawlers IA inclus) + lien vers le sitemap
     sitemap.xml       · plan du site pour Google
     .htaccess         · HTTPS, redirections, compression, cache, sécurité (OVH/Apache)
     favicon.svg       · icône d'onglet / favicon Google
     og-image.jpg      · image 1200×630 pour l'aperçu des liens partagés
+    llms.txt          · fiche de contexte pour les IA (ChatGPT, Perplexity, Claude…)
+    tarifs.md         · tarifs structurés, lisibles par les agents IA
   taxidrive/          ← même contenu pour taxidrive.ch
 README.md
 dev-env/              ← archives : anciennes itérations, brouillons, assets (non déployé)
@@ -72,6 +74,27 @@ Sur **chaque** site (dans le `<head>`, sans rien changer au design) :
 > Les images `og-image.jpg` ont été générées automatiquement à partir des visuels
 > du site. Vous pouvez les remplacer par un visuel dédié 1200×630 (logo + accroche)
 > pour un rendu de partage encore plus soigné.
+
+## Visibilité dans les moteurs IA (ChatGPT, Perplexity, AI Overviews)
+
+En plus du SEO Google classique, chaque site est préparé pour être **cité par les
+assistants IA** :
+
+- **`robots.txt`** autorise explicitement les crawlers IA (GPTBot, ChatGPT-User,
+  OAI-SearchBot, PerplexityBot, ClaudeBot, anthropic-ai, Google-Extended, Bingbot).
+  Sans cette autorisation, ces plateformes ne peuvent pas citer le site.
+- **`llms.txt`** (convention [llmstxt.org](https://llmstxt.org)) : une fiche de
+  contexte concise (activité, services, tarifs, zone, contact, liens) que les IA
+  peuvent lire sans parcourir toute la page.
+- **`tarifs.md`** : les tarifs en markdown structuré, directement exploitables par
+  un agent IA qui compare des prestataires pour un utilisateur.
+- **Données structurées** déjà en place (`LocalBusiness`/`TaxiService`, `FAQPage`)
+  et **contenu extractible** (FAQ en questions/réponses, tarifs chiffrés) — ce que
+  les moteurs IA privilégient pour citer une source.
+
+> Pour aller plus loin (présence sur les sources tierces que les IA citent le plus —
+> fiche Google Business, avis, annuaires local.ch/search.ch, mentions), voir la
+> checklist SEO ci-dessous ; la skill `ai-seo` du dépôt détaille la méthode complète.
 
 ## Mise en ligne (déploiement sur OVH)
 

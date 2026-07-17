@@ -1,9 +1,29 @@
 # robots.txt — Taxi Drive (https://taxidrive.ch/)
+
+# Robots classiques
 User-agent: *
 Allow: /
 
-# Bloquer les robots IA agressifs (optionnel — décommentez si souhaité)
-# User-agent: GPTBot
+# Crawlers IA (search & citation) — explicitement autorisés
+User-agent: GPTBot
+Allow: /
+User-agent: ChatGPT-User
+Allow: /
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: anthropic-ai
+Allow: /
+User-agent: Google-Extended
+Allow: /
+User-agent: Bingbot
+Allow: /
+
+# Crawler d'entraînement seul (décommentez pour bloquer l'entraînement sans bloquer la citation)
+# User-agent: CCBot
 # Disallow: /
 
 Sitemap: https://taxidrive.ch/sitemap.xml
