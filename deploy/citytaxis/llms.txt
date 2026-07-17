@@ -28,3 +28,17 @@ Contact : téléphone et WhatsApp +41 78 719 44 44 · e-mail info@local-taxi.ch.
 - [Tarifs](https://citytaxis.ch/#tarif)
 - [Flotte de véhicules](https://citytaxis.ch/#fleet)
 - [FAQ](https://citytaxis.ch/#faq)
+
+## Pages par ville (taxi local)
+- [Taxi Nyon](https://citytaxis.ch/taxi-nyon.html) — forfait aéroport 85 CHF
+- [Taxi Gland](https://citytaxis.ch/taxi-gland.html) — 100 CHF
+- [Taxi Coppet / Terre Sainte](https://citytaxis.ch/taxi-coppet.html) — dès 75 CHF
+- [Taxi Rolle](https://citytaxis.ch/taxi-rolle.html) — 120 CHF
+- [Taxi Saint-Cergue](https://citytaxis.ch/taxi-saint-cergue.html) — 130 CHF
+- Autres communes : Prangins, Founex, Mies, Begnins, Genolier, Givrins, Gingins, Trélex, Chéserex, La Rippe, Eysins, Signy, Borex, Crassier, Bassins, Arzier, Aubonne (voir sitemap.xml)
+
+## Pages thématiques
+- [Taxi en Suisse](https://citytaxis.ch/taxi-suisse.html)
+- [Prix d'un taxi en Suisse](https://citytaxis.ch/prix-taxi-suisse.html)
+- [Taxi aéroport de Genève (GVA)](https://citytaxis.ch/taxi-aeroport-geneve.html)
+- [Chauffeur privé en Suisse](https://citytaxis.ch/chauffeur-prive-suisse.html)

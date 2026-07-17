@@ -25,6 +25,9 @@ deploy/
     og-image.jpg      · image 1200×630 pour l'aperçu des liens partagés
     llms.txt          · fiche de contexte pour les IA (ChatGPT, Perplexity, Claude…)
     tarifs.md         · tarifs structurés, lisibles par les agents IA
+    taxi-<ville>.html · 25 pages SEO locales (Nyon, Gland, Coppet, Rolle…)
+    taxi-suisse.html · pages mots-clés (prix-taxi-suisse, taxi-aeroport-geneve,
+    …                   chauffeur-prive-suisse)
   taxidrive/          ← même contenu pour taxidrive.ch
 README.md
 dev-env/              ← archives : anciennes itérations, brouillons, assets (non déployé)
@@ -74,6 +77,23 @@ Sur **chaque** site (dans le `<head>`, sans rien changer au design) :
 > Les images `og-image.jpg` ont été générées automatiquement à partir des visuels
 > du site. Vous pouvez les remplacer par un visuel dédié 1200×630 (logo + accroche)
 > pour un rendu de partage encore plus soigné.
+
+## Pages SEO locales (par ville) et mots-clés
+
+Pour viser un bon positionnement **ville par ville**, chaque marque dispose de
+**25 pages locales** (`taxi-nyon.html`, `taxi-gland.html`, `taxi-coppet.html`…) et
+de **4 pages thématiques** (`taxi-suisse.html`, `prix-taxi-suisse.html`,
+`taxi-aeroport-geneve.html`, `chauffeur-prive-suisse.html`).
+
+Chaque page est **unique et utile** (pas une page vide dupliquée, que Google
+pénalise) : titre/description/H1 propres, **prix forfait aéroport réel de la
+commune**, tarif au compteur, mini-FAQ locale, données structurées
+`TaxiService` + `BreadcrumbList` + `FAQPage`, et **maillage interne** vers les
+villes voisines. Elles sont listées dans le `sitemap.xml` de chaque domaine.
+
+> ⚠️ Aucune balise ne « garantit » la 1ʳᵉ position. Ces pages mettent le site
+> dans les meilleures conditions ; le classement final dépend aussi de la fiche
+> Google Business, des avis et des liens entrants (voir la checklist ci-dessous).
 
 ## Visibilité dans les moteurs IA (ChatGPT, Perplexity, AI Overviews)
 
