@@ -31,7 +31,7 @@ deploy/
     og-image.jpg      · image 1200×630 pour l'aperçu des liens partagés
     llms.txt          · fiche de contexte pour les IA (ChatGPT, Perplexity, Claude…)
     tarifs.md         · tarifs structurés, lisibles par les agents IA
-    taxi-nyon/        · hub local + 27 pages villes
+    taxi-nyon/        · hub local + 48 pages villes
       index.html      ·   /taxi-nyon/  (hub « Taxi Nyon & région »)
       taxi-<ville>.html ·  /taxi-nyon/taxi-rolle, /taxi-nyon/taxi-coppet, …
     forfaits-transfert-aeroport.html · page mots-clés (forfaits GVA)
@@ -89,7 +89,7 @@ Sur **chaque** site (dans le `<head>`, sans rien changer au design) :
 ## Pages SEO locales (par ville) et mots-clés
 
 Pour viser un bon positionnement **ville par ville**, chaque marque dispose d'un
-**hub local `/taxi-nyon/`** et de **27 pages villes** en URLs imbriquées
+**hub local `/taxi-nyon/`** et de **48 pages villes** en URLs imbriquées
 (`/taxi-nyon/taxi-rolle`, `/taxi-nyon/taxi-coppet`…), plus **4 pages thématiques**
 (`/forfaits-transfert-aeroport`, `/prix-taxi-suisse`, `/chauffeur-prive-suisse`,
 `/taxi-suisse`).
@@ -132,7 +132,7 @@ Pour **chaque** marque :
 
 1. **Uploader** tout le contenu de `deploy/citytaxis/` (y compris les fichiers
    cachés `.htaccess`) à la **racine** du domaine `citytaxis.ch` via FTP/SFTP ou
-   le gestionnaire de fichiers OVH. Idem `deploy/taxidrive/` → `taxidrive.ch`.
+   le gestionnaire de fichiers OVH. Idem `deploy/taxidrive/` → `taxi-drive.ch`.
    > Le fichier s'appelle déjà `index.html` : rien à renommer.
 2. **Activer le HTTPS** (Let's Encrypt, automatique sur OVH). Une fois le HTTPS
    confirmé, vous pouvez décommenter la ligne `Strict-Transport-Security` (HSTS)
