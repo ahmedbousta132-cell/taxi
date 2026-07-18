@@ -7,7 +7,13 @@ ni dépendance à installer). Ce sont deux variantes de marque du même site
 | Marque | Domaine | Dossier à uploader |
 |--------|---------|--------------------|
 | **City Taxis** | `citytaxis.ch` | [`deploy/citytaxis/`](deploy/citytaxis/) |
-| **Taxi Drive** | `taxidrive.ch` | [`deploy/taxidrive/`](deploy/taxidrive/) |
+| **Taxi Drive** | `taxi-drive.ch` | [`deploy/taxidrive/`](deploy/taxidrive/) |
+
+> **Taxi Drive remplace l'ancien site Webador** hébergé sur `taxi-drive.ch`. La
+> structure d'URL reproduit celle de l'ancien site (`/taxi-nyon/taxi-<ville>`) pour
+> **préserver le référencement existant**, et le `.htaccess` redirige (301) les
+> anciennes URLs qui changent (`/reservation`, `/obtenir-un-devis`, `/contact`, la
+> page produit) vers les bonnes cibles.
 
 Offre : transferts aéroport (Genève, Zurich, Bâle), courses locales, longue
 distance, stations de ski, groupes, VIP/événements — disponible 24h/24.
@@ -18,12 +24,19 @@ distance, stations de ski, groupes, VIP/événements — disponible 24h/24.
 deploy/
   citytaxis/          ← bundle prêt à uploader sur citytaxis.ch
     index.html        · le site (autonome, tout le CSS/JS est inline)
-    robots.txt        · directives pour les robots + lien vers le sitemap
+    robots.txt        · directives robots (crawlers IA inclus) + lien vers le sitemap
     sitemap.xml       · plan du site pour Google
     .htaccess         · HTTPS, redirections, compression, cache, sécurité (OVH/Apache)
     favicon.svg       · icône d'onglet / favicon Google
     og-image.jpg      · image 1200×630 pour l'aperçu des liens partagés
-  taxidrive/          ← même contenu pour taxidrive.ch
+    llms.txt          · fiche de contexte pour les IA (ChatGPT, Perplexity, Claude…)
+    tarifs.md         · tarifs structurés, lisibles par les agents IA
+    taxi-nyon/        · hub local + 48 pages villes
+      index.html      ·   /taxi-nyon/  (hub « Taxi Nyon & région »)
+      taxi-<ville>.html ·  /taxi-nyon/taxi-rolle, /taxi-nyon/taxi-coppet, …
+    forfaits-transfert-aeroport.html · page mots-clés (forfaits GVA)
+    prix-taxi-suisse.html · chauffeur-prive-suisse.html · taxi-suisse.html
+  taxidrive/          ← même contenu pour taxi-drive.ch
 README.md
 dev-env/              ← archives : anciennes itérations, brouillons, assets (non déployé)
 ```
@@ -73,13 +86,53 @@ Sur **chaque** site (dans le `<head>`, sans rien changer au design) :
 > du site. Vous pouvez les remplacer par un visuel dédié 1200×630 (logo + accroche)
 > pour un rendu de partage encore plus soigné.
 
+## Pages SEO locales (par ville) et mots-clés
+
+Pour viser un bon positionnement **ville par ville**, chaque marque dispose d'un
+**hub local `/taxi-nyon/`** et de **48 pages villes** en URLs imbriquées
+(`/taxi-nyon/taxi-rolle`, `/taxi-nyon/taxi-coppet`…), plus **4 pages thématiques**
+(`/forfaits-transfert-aeroport`, `/prix-taxi-suisse`, `/chauffeur-prive-suisse`,
+`/taxi-suisse`).
+
+Chaque page est **unique et utile** (pas une page vide dupliquée, que Google
+pénalise) : titre/description/H1 propres, **prix forfait aéroport réel de la
+commune**, tarif au compteur, cartes services, mini-FAQ locale, données
+structurées `TaxiService` + `BreadcrumbList` + `FAQPage`, et **maillage interne**
+vers les villes voisines. Design enrichi (icônes SVG, barre d'appel fixe mobile),
+mobile-first et accessible. Toutes les pages sont listées dans le `sitemap.xml`.
+
+> ⚠️ Aucune balise ne « garantit » la 1ʳᵉ position. Ces pages mettent le site
+> dans les meilleures conditions ; le classement final dépend aussi de la fiche
+> Google Business, des avis et des liens entrants (voir la checklist ci-dessous).
+
+## Visibilité dans les moteurs IA (ChatGPT, Perplexity, AI Overviews)
+
+En plus du SEO Google classique, chaque site est préparé pour être **cité par les
+assistants IA** :
+
+- **`robots.txt`** autorise explicitement les crawlers IA (GPTBot, ChatGPT-User,
+  OAI-SearchBot, PerplexityBot, ClaudeBot, anthropic-ai, Google-Extended, Bingbot).
+  Sans cette autorisation, ces plateformes ne peuvent pas citer le site.
+- **`llms.txt`** (convention [llmstxt.org](https://llmstxt.org)) : une fiche de
+  contexte concise (activité, services, tarifs, zone, contact, liens) que les IA
+  peuvent lire sans parcourir toute la page.
+- **`tarifs.md`** : les tarifs en markdown structuré, directement exploitables par
+  un agent IA qui compare des prestataires pour un utilisateur.
+- **Données structurées** déjà en place (`LocalBusiness`/`TaxiService`, `FAQPage`)
+  et **contenu extractible** (FAQ en questions/réponses, tarifs chiffrés) — ce que
+  les moteurs IA privilégient pour citer une source.
+
+> Pour aller plus loin (présence sur les sources tierces que les IA citent le plus —
+> fiche Google Business, avis, annuaires local.ch/search.ch, mentions), voir la
+> checklist SEO ci-dessous ; la skill `ai-seo` du dépôt détaille la méthode complète.
+
 ## Mise en ligne (déploiement sur OVH)
 
 Pour **chaque** marque :
 
 1. **Uploader** tout le contenu de `deploy/citytaxis/` (y compris les fichiers
    cachés `.htaccess`) à la **racine** du domaine `citytaxis.ch` via FTP/SFTP ou
-   le gestionnaire de fichiers OVH. Idem `deploy/taxidrive/` → `taxidrive.ch`.
+   le gestionnaire de fichiers OVH. Idem `deploy/taxidrive/` → `taxi-drive.ch`.
    > Le fichier s'appelle déjà `index.html` : rien à renommer.
 2. **Activer le HTTPS** (Let's Encrypt, automatique sur OVH). Une fois le HTTPS
    confirmé, vous pouvez décommenter la ligne `Strict-Transport-Security` (HSTS)
