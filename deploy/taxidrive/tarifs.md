@@ -1,7 +1,7 @@
 # Tarifs — Taxi Drive
 
 > Tarifs indicatifs TTC (TVA incluse), confirmés avec le dispatch au moment de la réservation. Dernière mise à jour : 2026-07.
-> Contact : +41 78 719 44 44 (téléphone / WhatsApp) · info@local-taxi.ch · disponible 24h/24, 7j/7.
+> Contact : +41 78 719 44 44 (téléphone / WhatsApp) · info@taxidrive.ch · disponible 24h/24, 7j/7.
 
 ## Course locale (au compteur)
 
@@ -34,4 +34,4 @@ Espèces, carte bancaire (Visa, Mastercard), TWINT, Apple Pay. Facturation mensu
 
 ## Réservation
 
-Sans compte, confirmation immédiate : formulaire en ligne sur https://taxi-drive.ch/#book, WhatsApp ou e-mail (info@local-taxi.ch).
+Sans compte, confirmation immédiate : formulaire en ligne sur https://taxi-drive.ch/#book, WhatsApp ou e-mail (info@taxidrive.ch).

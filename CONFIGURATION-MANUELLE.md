@@ -50,6 +50,22 @@ pouvez décommenter la ligne `Strict-Transport-Security` (HSTS) dans `.htaccess`
 
 ---
 
+### 🔴 A7. Activer FormSubmit (réception des réservations par e-mail)
+Les formulaires (réservation **et** devis) envoient désormais un e-mail automatique
+via **FormSubmit.co** (gratuit, illimité), en plus du bouton WhatsApp :
+- **City Taxis** → `info@local-taxi.ch`
+- **Taxi Drive** → `info@taxidrive.ch`
+
+**Une seule action, une fois le site en ligne :**
+1. Remplissez et envoyez un **formulaire de test** sur chaque site.
+2. FormSubmit envoie un **e-mail d'activation** à l'adresse correspondante → ouvrez-le
+   et cliquez sur **« Activate Form »**.
+3. C'est activé pour toujours : chaque réservation/devis arrive ensuite automatiquement
+   dans la boîte mail, avec toutes les données saisies.
+> Tant que ce n'est pas activé, les envois ne sont pas délivrés (sécurité anti-spam de FormSubmit).
+> Astuce anti-spam : après activation, FormSubmit fournit un identifiant aléatoire
+> qui peut remplacer l'e-mail dans le code pour ne pas l'exposer — dites-le-moi si vous le souhaitez.
+
 ## B. Référencement Google — à faire dès la mise en ligne
 
 ### 🟠 B1. Google Search Console (le plus important après la mise en ligne)

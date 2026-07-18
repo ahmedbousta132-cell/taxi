@@ -977,7 +977,7 @@ init();
     'Email : '+(val('d_email')||'—')+'\n'+'Détails : '+(val('d_msg')||'—');}
   const showOk=()=>{form.style.display='none';ok.classList.add('show');};
   document.getElementById('d_wa').addEventListener('click',function(){this.href='https://wa.me/41787194444?text='+encodeURIComponent(build());setTimeout(showOk,120);});
-  document.getElementById('d_mail').addEventListener('click',function(){this.href='mailto:info@local-taxi.ch?subject='+encodeURIComponent('Demande de devis — City Taxis')+'&body='+encodeURIComponent(build());setTimeout(showOk,120);});
+  document.getElementById('d_mail').addEventListener('click',function(e){e.preventDefault();var b=this,t=b.textContent;b.textContent='Envoi…';fetch('https://formsubmit.co/ajax/info@local-taxi.ch',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({Demande:build(),_subject:'Demande de devis — City Taxis',_template:'box',_captcha:'false'})}).then(function(r){return r.json();}).then(function(){showOk();}).catch(function(){window.location.href='mailto:info@local-taxi.ch?subject='+encodeURIComponent('Demande de devis — City Taxis')+'&body='+encodeURIComponent(build());}).finally(function(){b.textContent=t;});});
   document.getElementById('devisReset').addEventListener('click',()=>{ok.classList.remove('show');form.style.display='';});
 })();
 
@@ -1029,7 +1029,7 @@ init();
   function valid(){ if(!val('b_from')||!val('b_city')){ alert('Merci d’indiquer au moins le départ et la ville de départ.'); return false; } return true; }
   function showOk(){ var ok=document.getElementById('b_ok'); if(ok) ok.style.display='block'; }
   if(wa) wa.addEventListener('click',function(e){ if(!valid()){ e.preventDefault(); return; } this.href='https://wa.me/41787194444?text='+encodeURIComponent(build()); setTimeout(showOk,120); });
-  if(mail) mail.addEventListener('click',function(e){ if(!valid()){ e.preventDefault(); return; } this.href='mailto:info@local-taxi.ch?subject='+encodeURIComponent('Réservation — City Taxis')+'&body='+encodeURIComponent(build()); setTimeout(showOk,120); });
+  if(mail) mail.addEventListener('click',function(e){ e.preventDefault(); if(!valid()){ return; } var b=this,t=b.textContent; b.textContent='Envoi…'; fetch('https://formsubmit.co/ajax/info@local-taxi.ch',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({Reservation:build(),_subject:'Réservation — City Taxis',_template:'box',_captcha:'false'})}).then(function(r){return r.json();}).then(function(){showOk();}).catch(function(){window.location.href='mailto:info@local-taxi.ch?subject='+encodeURIComponent('Réservation — City Taxis')+'&body='+encodeURIComponent(build());}).finally(function(){b.textContent=t;}); });
 })();
 
 // ===== tarif modal + carte interactive =====
