@@ -82,7 +82,7 @@
   @keyframes kb{from{transform:scale(1.15) translate(0,0)}to{transform:scale(1.25) translate(-2%,-2%)}}
   .hero .bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(6,6,7,.94),rgba(6,6,7,.6) 50%,rgba(6,6,7,.35)),linear-gradient(0deg,rgba(6,6,7,.9),transparent 45%)}
   #streaks{position:absolute;inset:0;z-index:1;width:100%;height:100%}
-  .hero-in{position:relative;z-index:5;height:100%;display:flex;flex-direction:column;justify-content:center}
+  .hero-in{position:relative;z-index:5;height:100%;display:flex;flex-direction:column;justify-content:flex-start;padding-top:clamp(112px,24vh,260px);padding-bottom:40px;box-sizing:border-box}
   .kick{display:inline-flex;align-items:center;gap:12px;font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);margin-bottom:30px;opacity:0;animation:f 1.2s .2s forwards}
   .kick .ln{width:40px;height:1px;background:var(--gold)}
   .hero h1{font-size:clamp(42px,7.5vw,92px);letter-spacing:-.02em;margin-bottom:28px;max-width:14ch}
@@ -978,7 +978,7 @@ init();
     'Email : '+(val('d_email')||'—')+'\n'+'Détails : '+(val('d_msg')||'—');}
   const showOk=()=>{form.style.display='none';ok.classList.add('show');};
   document.getElementById('d_wa').addEventListener('click',function(){this.href='https://wa.me/41787194444?text='+encodeURIComponent(build());setTimeout(showOk,120);});
-  document.getElementById('d_mail').addEventListener('click',function(e){e.preventDefault();var b=this,t=b.textContent;b.textContent='Envoi…';fetch('https://formsubmit.co/ajax/info@local-taxi.ch',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({Demande:build(),_subject:'Demande de devis — City Taxis',_template:'box',_captcha:'false'})}).then(function(r){return r.json();}).then(function(){showOk();}).catch(function(){window.location.href='mailto:info@local-taxi.ch?subject='+encodeURIComponent('Demande de devis — City Taxis')+'&body='+encodeURIComponent(build());}).finally(function(){b.textContent=t;});});
+  document.getElementById('d_mail').addEventListener('click',function(e){e.preventDefault();var b=this,t=b.textContent;b.textContent='Envoi…';fetch('https://formsubmit.co/ajax/newaymen1196@gmail.com',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({Demande:build(),_subject:'Demande de devis — City Taxis',_template:'box',_captcha:'false'})}).then(function(r){return r.json();}).then(function(){showOk();}).catch(function(){window.location.href='mailto:newaymen1196@gmail.com?subject='+encodeURIComponent('Demande de devis — City Taxis')+'&body='+encodeURIComponent(build());}).finally(function(){b.textContent=t;});});
   document.getElementById('devisReset').addEventListener('click',()=>{ok.classList.remove('show');form.style.display='';});
 })();
 
@@ -1030,7 +1030,7 @@ init();
   function valid(){ if(!val('b_from')||!val('b_city')){ alert('Merci d’indiquer au moins le départ et la ville de départ.'); return false; } return true; }
   function showOk(){ var ok=document.getElementById('b_ok'); if(ok) ok.style.display='block'; }
   if(wa) wa.addEventListener('click',function(e){ if(!valid()){ e.preventDefault(); return; } this.href='https://wa.me/41787194444?text='+encodeURIComponent(build()); setTimeout(showOk,120); });
-  if(mail) mail.addEventListener('click',function(e){ e.preventDefault(); if(!valid()){ return; } var b=this,t=b.textContent; b.textContent='Envoi…'; fetch('https://formsubmit.co/ajax/info@local-taxi.ch',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({Reservation:build(),_subject:'Réservation — City Taxis',_template:'box',_captcha:'false'})}).then(function(r){return r.json();}).then(function(){showOk();}).catch(function(){window.location.href='mailto:info@local-taxi.ch?subject='+encodeURIComponent('Réservation — City Taxis')+'&body='+encodeURIComponent(build());}).finally(function(){b.textContent=t;}); });
+  if(mail) mail.addEventListener('click',function(e){ e.preventDefault(); if(!valid()){ return; } var b=this,t=b.textContent; b.textContent='Envoi…'; fetch('https://formsubmit.co/ajax/newaymen1196@gmail.com',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({Reservation:build(),_subject:'Réservation — City Taxis',_template:'box',_captcha:'false'})}).then(function(r){return r.json();}).then(function(){showOk();}).catch(function(){window.location.href='mailto:newaymen1196@gmail.com?subject='+encodeURIComponent('Réservation — City Taxis')+'&body='+encodeURIComponent(build());}).finally(function(){b.textContent=t;}); });
 })();
 
 // ===== tarif modal + carte interactive =====
@@ -1214,4 +1214,52 @@ init();
   addEventListener('keydown',function(e){if(e.key==='Escape'&&panel.classList.contains('open'))close();});
 })();
 </script>
+<script>
+/* ===== Anti-spam : validation stricte des formulaires (réservation + devis) ===== */
+(function(){
+  function tv(id){var e=document.getElementById(id);return e?(e.value||'').trim():'';}
+  function real(v){v=(v||'').trim();
+    if(v.length<2) return false;
+    if(/^(.)\1+$/.test(v)) return false;                       // aaaa, ....
+    if(!/[A-Za-zÀ-ÿ0-9]/.test(v)) return false;                // que des symboles
+    if(/^(test|tests?|essai|asdf|asdfgh|qwerty|azerty|abc|abcd|abcde|aaa|bbb|ccc|ddd|xxx|zzz|na|rien|aucun|no|non|xx|xxxx|1234?5?|0000?)$/i.test(v)) return false;
+    return true;
+  }
+  function realName(v){ return real(v) && /[A-Za-zÀ-ÿ]{2,}/.test(v); }
+  function realPhone(v){ return ((v||'').replace(/[^0-9]/g,'').length>=7); }
+  /* honeypot invisible ajouté à chaque formulaire */
+  document.querySelectorAll('form').forEach(function(f){
+    if(!f.querySelector('input[name=_honey]')){
+      var h=document.createElement('input');
+      h.type='text'; h.name='_honey'; h.tabIndex=-1; h.autocomplete='off'; h.setAttribute('aria-hidden','true');
+      h.style.cssText='position:absolute!important;left:-9999px!important;top:auto;width:1px;height:1px;opacity:0;pointer-events:none';
+      f.appendChild(h);
+    }
+  });
+  function honey(btn){ var f=btn.closest?btn.closest('form'):null; var h=f&&f.querySelector('input[name=_honey]'); return !!(h&&h.value.trim()!==''); }
+  var M='Merci d’indiquer ';
+  function bookMsg(){
+    if(!realName(tv('b_from'))) return M+'un lieu de départ valide.';
+    if(!realName(tv('b_city'))) return M+'une ville / un code postal valide.';
+    if(!tv('b_date')) return M+'la date de la course.';
+    return '';
+  }
+  function devisMsg(){
+    if(!realName(tv('d_from'))) return M+'un lieu de départ valide.';
+    if(!realName(tv('d_name'))) return M+'votre nom.';
+    if(!realPhone(tv('d_phone'))) return M+'un numéro de téléphone valide.';
+    return '';
+  }
+  /* garde en phase capture : bloque le handler du bouton si invalide */
+  document.addEventListener('click', function(e){
+    var t=e.target; if(!t||!t.closest) return;
+    var btn=t.closest('#b_wa,#b_mail,#d_wa,#d_mail'); if(!btn) return;
+    if(honey(btn)){ e.preventDefault(); e.stopImmediatePropagation(); return; }   // bot : blocage silencieux
+    var devis=(btn.id==='d_wa'||btn.id==='d_mail');
+    var msg=devis?devisMsg():bookMsg();
+    if(msg){ e.preventDefault(); e.stopImmediatePropagation(); alert(msg); }
+  }, true);
+})();
+</script>
+
 </body></html>
