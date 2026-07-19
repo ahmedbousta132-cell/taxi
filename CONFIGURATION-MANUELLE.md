@@ -53,8 +53,8 @@ pouvez décommenter la ligne `Strict-Transport-Security` (HSTS) dans `.htaccess`
 ### 🔴 A7. Activer FormSubmit (réception des réservations par e-mail)
 Les formulaires (réservation **et** devis) envoient désormais un e-mail automatique
 via **FormSubmit.co** (gratuit, illimité), en plus du bouton WhatsApp :
-- **City Taxis** → `info@local-taxi.ch`
-- **Taxi Drive** → `info@taxidrive.ch`
+- **City Taxis** → `newaymen1196@gmail.com`
+- **Taxi Drive** → `taxiskyaymen@gmail.com`
 
 **Une seule action, une fois le site en ligne :**
 1. Remplissez et envoyez un **formulaire de test** sur chaque site.
