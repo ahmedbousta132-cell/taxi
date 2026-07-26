@@ -1,0 +1,23 @@
+[Unit]
+Description=Taxi Drive Website Service
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+WorkingDirectory=/var/www/taxidrive
+ExecStart=/usr/bin/npx serve /var/www/taxidrive -l 3002 --spa
+Restart=on-failure
+RestartSec=10
+StandardOutput=append:/var/log/taxidrive.log
+StandardError=append:/var/log/taxidrive-error.log
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/www/taxidrive /var/log
+
+[Install]
+WantedBy=multi-user.target

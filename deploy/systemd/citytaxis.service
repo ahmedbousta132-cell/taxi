@@ -1,0 +1,23 @@
+[Unit]
+Description=City Taxis Website Service
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+WorkingDirectory=/var/www/citytaxis
+ExecStart=/usr/bin/npx serve /var/www/citytaxis -l 3001 --spa
+Restart=on-failure
+RestartSec=10
+StandardOutput=append:/var/log/citytaxis.log
+StandardError=append:/var/log/citytaxis-error.log
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/www/citytaxis /var/log
+
+[Install]
+WantedBy=multi-user.target
