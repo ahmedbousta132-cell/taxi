@@ -34,4 +34,4 @@ Espèces, carte bancaire (Visa, Mastercard), TWINT, Apple Pay. Facturation mensu
 
 ## Réservation
 
-Sans compte, confirmation immédiate : formulaire en ligne sur https://citytaxis.ch/#book, WhatsApp ou e-mail (info@local-taxi.ch).
+Sans compte, confirmation immédiate : formulaire en ligne sur https://taxiscity.ch/#book, WhatsApp ou e-mail (info@local-taxi.ch).

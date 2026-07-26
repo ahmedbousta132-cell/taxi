@@ -6,10 +6,10 @@ ni dépendance à installer). Ce sont deux variantes de marque du même site
 
 | Marque | Domaine | Dossier à uploader |
 |--------|---------|--------------------|
-| **City Taxis** | `citytaxis.ch` | [`deploy/citytaxis/`](deploy/citytaxis/) |
-| **Taxi Drive** | `taxi-drive.ch` | [`deploy/taxidrive/`](deploy/taxidrive/) |
+| **City Taxis** | `taxiscity.ch` | [`deploy/citytaxis/`](deploy/citytaxis/) |
+| **Taxi Drive** | `taxidrive.ch` | [`deploy/taxidrive/`](deploy/taxidrive/) |
 
-> **Taxi Drive remplace l'ancien site Webador** hébergé sur `taxi-drive.ch`. La
+> **Taxi Drive remplace l'ancien site Webador** hébergé sur `taxidrive.ch`. La
 > structure d'URL reproduit celle de l'ancien site (`/taxi-nyon/taxi-<ville>`) pour
 > **préserver le référencement existant**, et le `.htaccess` redirige (301) les
 > anciennes URLs qui changent (`/reservation`, `/obtenir-un-devis`, `/contact`, la
@@ -22,7 +22,7 @@ distance, stations de ski, groupes, VIP/événements — disponible 24h/24.
 
 ```
 deploy/
-  citytaxis/          ← bundle prêt à uploader sur citytaxis.ch
+  citytaxis/          ← bundle prêt à uploader sur taxiscity.ch
     index.html        · le site (autonome, tout le CSS/JS est inline)
     robots.txt        · directives robots (crawlers IA inclus) + lien vers le sitemap
     sitemap.xml       · plan du site pour Google
@@ -36,7 +36,7 @@ deploy/
       taxi-<ville>.html ·  /taxi-nyon/taxi-rolle, /taxi-nyon/taxi-coppet, …
     forfaits-transfert-aeroport.html · page mots-clés (forfaits GVA)
     prix-taxi-suisse.html · chauffeur-prive-suisse.html · taxi-suisse.html
-  taxidrive/          ← même contenu pour taxi-drive.ch
+  taxidrive/          ← même contenu pour taxidrive.ch
 README.md
 dev-env/              ← archives : anciennes itérations, brouillons, assets (non déployé)
 ```
@@ -131,13 +131,13 @@ assistants IA** :
 Pour **chaque** marque :
 
 1. **Uploader** tout le contenu de `deploy/citytaxis/` (y compris les fichiers
-   cachés `.htaccess`) à la **racine** du domaine `citytaxis.ch` via FTP/SFTP ou
-   le gestionnaire de fichiers OVH. Idem `deploy/taxidrive/` → `taxi-drive.ch`.
+   cachés `.htaccess`) à la **racine** du domaine `taxiscity.ch` via FTP/SFTP ou
+   le gestionnaire de fichiers OVH. Idem `deploy/taxidrive/` → `taxidrive.ch`.
    > Le fichier s'appelle déjà `index.html` : rien à renommer.
 2. **Activer le HTTPS** (Let's Encrypt, automatique sur OVH). Une fois le HTTPS
    confirmé, vous pouvez décommenter la ligne `Strict-Transport-Security` (HSTS)
    dans `.htaccess`.
-3. Vérifier que `https://citytaxis.ch/` s'ouvre bien et redirige depuis
+3. Vérifier que `https://taxiscity.ch/` s'ouvre bien et redirige depuis
    `http://` et `www.`
 
 ## Après la mise en ligne — pour bien se positionner sur Google

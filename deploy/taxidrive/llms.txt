@@ -2,7 +2,7 @@
 
 > Taxi Drive — chauffeur privé et service de taxi premium basé à Nyon (canton de Vaud), au service de toute la Suisse. Transferts aéroport (Genève GVA, Zurich, Bâle), courses locales, longue distance, navettes stations de ski, groupes et événements. Disponible 24h/24, 7j/7, sur réservation sans compte.
 
-Contact : téléphone et WhatsApp +41 78 719 44 44 · e-mail info@taxi-drive.ch. Réservation par formulaire en ligne, WhatsApp ou e-mail — confirmation immédiate, suivi de vol inclus pour les transferts aéroport. Paiement à bord en espèces, carte (Visa, Mastercard), TWINT et Apple Pay ; facturation mensuelle pour les entreprises.
+Contact : téléphone et WhatsApp +41 78 719 44 44 · e-mail info@taxidrive.ch. Réservation par formulaire en ligne, WhatsApp ou e-mail — confirmation immédiate, suivi de vol inclus pour les transferts aéroport. Paiement à bord en espèces, carte (Visa, Mastercard), TWINT et Apple Pay ; facturation mensuelle pour les entreprises.
 
 ## Services
 - Transfert aéroport porte-à-porte (Genève GVA, Zurich, Bâle), avec suivi de vol
@@ -17,16 +17,16 @@ Contact : téléphone et WhatsApp +41 78 719 44 44 · e-mail info@taxi-drive.ch.
 - Course locale : 6.40 CHF de prise en charge + 2.80 CHF/km (intérieur ville), 3.80 CHF/km (extérieur) ; nuit/dimanche/fériés 3.20 / 4.00 CHF/km
 - Forfaits aéroport de Genève (GVA) : dès 75 CHF (Terre Sainte), 85 CHF (Nyon), 100 CHF (Gland) … jusqu'à 140 CHF ; Genève Ville +10 CHF ; véhicule électrique −10 %
 - Chauffeur privé : dès 100 CHF/heure ; longue distance sur devis
-- [Tarifs détaillés](https://taxi-drive.ch/tarifs.md)
+- [Tarifs détaillés](https://taxidrive.ch/tarifs.md)
 
 ## Pages principales
-- [Accueil](https://taxi-drive.ch/)
-- [Taxi Nyon & région (hub)](https://taxi-drive.ch/taxi-nyon/)
-- [Forfaits transfert aéroport](https://taxi-drive.ch/forfaits-transfert-aeroport)
-- [Prix d'un taxi en Suisse](https://taxi-drive.ch/prix-taxi-suisse)
-- [Chauffeur privé en Suisse](https://taxi-drive.ch/chauffeur-prive-suisse)
-- [Taxi en Suisse](https://taxi-drive.ch/taxi-suisse)
+- [Accueil](https://taxidrive.ch/)
+- [Taxi Nyon & région (hub)](https://taxidrive.ch/taxi-nyon/)
+- [Forfaits transfert aéroport](https://taxidrive.ch/forfaits-transfert-aeroport)
+- [Prix d'un taxi en Suisse](https://taxidrive.ch/prix-taxi-suisse)
+- [Chauffeur privé en Suisse](https://taxidrive.ch/chauffeur-prive-suisse)
+- [Taxi en Suisse](https://taxidrive.ch/taxi-suisse)
 
 ## Pages par ville (taxi local)
-- [Taxi Nyon](https://taxi-drive.ch/taxi-nyon/) · [Gland](https://taxi-drive.ch/taxi-nyon/taxi-gland) · [Coppet](https://taxi-drive.ch/taxi-nyon/taxi-coppet) · [Rolle](https://taxi-drive.ch/taxi-nyon/taxi-rolle) · [Begnins](https://taxi-drive.ch/taxi-nyon/taxi-begnins) · [Saint-Cergue](https://taxi-drive.ch/taxi-nyon/taxi-saint-cergue) · [Aubonne](https://taxi-drive.ch/taxi-nyon/taxi-aubonne)
+- [Taxi Nyon](https://taxidrive.ch/taxi-nyon/) · [Gland](https://taxidrive.ch/taxi-nyon/taxi-gland) · [Coppet](https://taxidrive.ch/taxi-nyon/taxi-coppet) · [Rolle](https://taxidrive.ch/taxi-nyon/taxi-rolle) · [Begnins](https://taxidrive.ch/taxi-nyon/taxi-begnins) · [Saint-Cergue](https://taxidrive.ch/taxi-nyon/taxi-saint-cergue) · [Aubonne](https://taxidrive.ch/taxi-nyon/taxi-aubonne)
 - Autres communes desservies (pages dédiées sous /taxi-nyon/taxi-<commune>) : Prangins, Founex, Mies, Commugny, Tannay, Chavannes-de-Bogis, Dully, Duillier, Genolier, Givrins, Gingins, Trélex, Chéserex, La Rippe, Eysins, Signy, Borex, Crassier, Bassins, Arzier-Le Muids, Gimel — voir sitemap.xml

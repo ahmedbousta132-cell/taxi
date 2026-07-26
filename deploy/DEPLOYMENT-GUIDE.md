@@ -4,8 +4,11 @@ Mettre les deux sites en ligne, en HTTPS, sans coupure. À suivre **dans l'ordre
 
 | Marque | Domaine | Dossier sur la VM |
 |---|---|---|
-| City Taxis | `citytaxis.ch` | `/var/www/citytaxis` |
-| Taxi Drive | `taxi-drive.ch` *(avec tiret)* | `/var/www/taxidrive` |
+| City Taxis | `taxiscity.ch` | `/var/www/citytaxis` |
+| Taxi Drive | `taxidrive.ch` | `/var/www/taxidrive` |
+
+Les deux domaines ont été achetés chez **Namecheap** : c'est donc là que se règle
+le DNS (étape 2). L'ancien domaine Webador `taxi-drive.ch` est traité à l'étape 5.
 
 ---
 
@@ -80,7 +83,7 @@ sudo cp -a ~/taxi/deploy/citytaxis/. /var/www/citytaxis/
 sudo cp -a ~/taxi/deploy/taxidrive/. /var/www/taxidrive/
 sudo chown -R www-data:www-data /var/www/citytaxis /var/www/taxidrive
 sudo cp ~/taxi/deploy/apache/*.conf /etc/apache2/sites-available/
-sudo a2ensite citytaxis.ch.conf taxi-drive.ch.conf
+sudo a2ensite taxiscity.ch.conf taxidrive.ch.conf
 sudo a2dissite 000-default.conf
 sudo apache2ctl configtest && sudo systemctl reload apache2
 ```
@@ -94,34 +97,37 @@ sudo ufw allow 80,443/tcp
 
 ---
 
-## Étape 2 — Basculer le DNS (chez Webador)
+## Étape 2 — Pointer le DNS (chez Namecheap)
 
-Les deux domaines sont enregistrés via **Openprovider** et pilotés depuis
-**Webador**. Tout se fait donc dans le tableau de bord Webador.
+`taxiscity.ch` et `taxidrive.ch` ont été achetés chez **Namecheap** : tout se
+règle donc dans le tableau de bord Namecheap.
 
-Pour **chaque** domaine : *Domaine → Paramètres DNS*
+Pour **chaque** domaine : *Domain List → Manage → Advanced DNS*
 
-| Type | Nom | Valeur |
-|---|---|---|
-| A | `@` | **IP de la VM OVH** |
-| A | `www` | **IP de la VM OVH** |
+| Type | Host | Value | TTL |
+|---|---|---|---|
+| A Record | `@` | **IP de la VM OVH** | Automatic |
+| A Record | `www` | **IP de la VM OVH** | Automatic |
 
-> 🔒 **Ne pas modifier les serveurs de noms** (`ns1.openprovider.nl`, …).
-> **DNSSEC est activé** sur les deux domaines : changer les serveurs de noms sans
-> désactiver DNSSEC au préalable rendrait les sites totalement injoignables.
-> Modifier uniquement les enregistrements **A** est sans risque.
+Points d'attention côté Namecheap :
+
+- Sous *Nameservers*, laisser **Namecheap BasicDNS** — c'est ce qui rend l'onglet
+  *Advanced DNS* actif.
+- **Supprimer l'enregistrement « URL Redirect » / « Parking Page »** créé par
+  défaut sur `@` : s'il reste, il prend le pas sur l'enregistrement A et affiche
+  la page de parking Namecheap à la place du site.
+- Un domaine tout juste acheté peut être en pause le temps de la vérification
+  ICANN par e-mail : **valider l'e-mail de confirmation**, sinon le domaine ne
+  résout pas.
 
 Suivre la propagation (de 15 min à 48 h) :
 
 ```bash
-dig +short citytaxis.ch
-dig +short taxi-drive.ch
+dig +short taxiscity.ch
+dig +short taxidrive.ch
 ```
 
 Passer à l'étape 3 **seulement** quand ces commandes renvoient l'IP de la VM.
-
-> ⚠️ **Ne pas résilier Webador maintenant.** Tant que le DNS n'est pas propagé
-> partout, une partie des visiteurs voit encore l'ancien site.
 
 ---
 
@@ -130,8 +136,8 @@ Passer à l'étape 3 **seulement** quand ces commandes renvoient l'IP de la VM.
 Une fois le DNS propagé :
 
 ```bash
-sudo certbot --apache -d citytaxis.ch -d www.citytaxis.ch
-sudo certbot --apache -d taxi-drive.ch -d www.taxi-drive.ch
+sudo certbot --apache -d taxiscity.ch -d www.taxiscity.ch
+sudo certbot --apache -d taxidrive.ch -d www.taxidrive.ch
 ```
 
 - Saisir une adresse e-mail valide (alertes d'expiration).
@@ -155,19 +161,19 @@ Optionnel, une fois le HTTPS confirmé sur tout le site : décommenter la ligne
 
 | À tester | Résultat attendu |
 |---|---|
-| `https://citytaxis.ch` | page d'accueil + cadenas 🔒 |
-| `https://taxi-drive.ch` | page d'accueil + cadenas 🔒 |
-| `https://citytaxis.ch/taxi-nyon/` | hub des villes |
-| `https://taxi-drive.ch/taxi-nyon/taxi-givrins` | page ville (URL propre) |
-| `http://www.citytaxis.ch` | redirige vers `https://citytaxis.ch` |
-| `https://taxi-drive.ch/reservation` | redirige vers l'accueil `#book` |
-| `https://citytaxis.ch/sitemap.xml` | XML valide |
+| `https://taxiscity.ch` | page d'accueil + cadenas 🔒 |
+| `https://taxidrive.ch` | page d'accueil + cadenas 🔒 |
+| `https://taxiscity.ch/taxi-nyon/` | hub des villes |
+| `https://taxidrive.ch/taxi-nyon/taxi-givrins` | page ville (URL propre) |
+| `http://www.taxiscity.ch` | redirige vers `https://taxiscity.ch` |
+| `https://taxidrive.ch/reservation` | redirige vers l'accueil `#book` |
+| `https://taxiscity.ch/sitemap.xml` | XML valide |
 
 En ligne de commande :
 
 ```bash
-curl -I https://taxi-drive.ch/taxi-nyon/taxi-givrins   # attendu : 200
-curl -I http://www.citytaxis.ch                        # attendu : 301
+curl -I https://taxidrive.ch/taxi-nyon/taxi-givrins   # attendu : 200
+curl -I http://www.taxiscity.ch                        # attendu : 301
 ```
 
 **Formulaires** : envoyer un formulaire de test sur chaque site, puis cliquer sur
@@ -176,14 +182,53 @@ Réception : City Taxis → `newaymen1196@gmail.com` · Taxi Drive → `taxiskya
 
 ---
 
-## Étape 5 — Google, puis fermeture de Webador
+## Étape 5 — L'ancien domaine `taxi-drive.ch` (à ne pas négliger)
 
-1. **Search Console** — ajouter les deux domaines (validation **par DNS** : un
-   enregistrement TXT à créer dans Webador, au même endroit qu'à l'étape 2), puis
-   soumettre `https://citytaxis.ch/sitemap.xml` et `https://taxi-drive.ch/sitemap.xml`.
+L'ancien site Webador vit sur **`taxi-drive.ch`**, qui n'est **pas** le nouveau
+domaine `taxidrive.ch`. Tout l'historique de référencement (ancienneté depuis
+2005, pages indexées, liens entrants) est attaché à l'ancien nom.
+
+**Le laisser expirer, c'est repartir de zéro sur le nouveau domaine.**
+
+La bonne pratique — celle qui transfère le SEO :
+
+1. **Conserver `taxi-drive.ch`** (le renouveler ; c'est quelques francs par an).
+2. Le faire pointer vers la **même VM OVH** (enregistrements A `@` et `www`).
+3. Y ajouter un vhost qui **redirige tout en 301** vers `taxidrive.ch` :
+
+```apache
+<VirtualHost *:80>
+    ServerName taxi-drive.ch
+    ServerAlias www.taxi-drive.ch
+    # 301 : transmet le "jus" SEO page par page vers le nouveau domaine
+    RedirectMatch 301 ^/(.*)$ https://taxidrive.ch/$1
+</VirtualHost>
+```
+
+Puis `sudo certbot --apache -d taxi-drive.ch -d www.taxi-drive.ch` (une
+redirection en HTTPS a besoin de son propre certificat).
+
+Grâce aux URLs identiques des deux sites (`/taxi-nyon/taxi-<ville>`), chaque
+ancienne page atterrit sur son équivalent exact — c'est le cas idéal pour Google.
+
+> Une redirection 301 doit rester en place **au moins 12 mois** pour que Google
+> transfère durablement le référencement.
+
+Ne résilier Webador (l'hébergement) qu'une fois les étapes 1 à 4 validées — mais
+**garder le domaine**.
+
+---
+
+## Étape 6 — Google
+
+1. **Search Console** — ajouter les deux nouveaux domaines (validation **par
+   DNS** : un enregistrement TXT à créer dans Namecheap, au même endroit qu'à
+   l'étape 2), puis soumettre `https://taxiscity.ch/sitemap.xml` et
+   `https://taxidrive.ch/sitemap.xml`.
+   Ajouter aussi `taxi-drive.ch` et y utiliser l'outil **« Changement d'adresse »**
+   : c'est le signal officiel de migration de domaine.
 2. **Fiches Google Business** (déjà existantes) — y remplacer l'URL Webador par
    la nouvelle adresse du site. Vérifier téléphone, zone, horaires 24 h/24, photos.
-3. **Résilier Webador** — uniquement après 2 à 3 jours de fonctionnement validé.
 
 Le détail du référencement se trouve dans `CONFIGURATION-MANUELLE.md` (section B).
 
