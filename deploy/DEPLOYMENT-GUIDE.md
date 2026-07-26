@@ -68,7 +68,10 @@ Le script installe Apache + certbot, active les modules nécessaires, copie les
 deux sites (**y compris les `.htaccess`**), installe les vhosts, teste la config
 et affiche **l'IP de la VM**.
 
-À la fin, il doit afficher `HTTP 200` pour les deux domaines. Notez l'IP.
+À la fin, il doit afficher `HTTP 301` pour les deux domaines — c'est le résultat
+attendu (le `.htaccess` force la redirection HTTPS dès une requête HTTP simple),
+pas une erreur. C'est même la confirmation que `.htaccess` et `mod_rewrite`
+fonctionnent. Notez l'IP.
 
 <details>
 <summary>Faire la même chose à la main (si vous préférez)</summary>
