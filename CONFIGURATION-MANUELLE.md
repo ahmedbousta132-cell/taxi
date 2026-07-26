@@ -17,11 +17,35 @@ Aujourd'hui, les deux sites utilisent :
 les remplace). Sinon, confirmez que c'est correct pour City Taxis **et** Taxi Drive.
 
 ### 🔴 A2. Clé Google Maps (10 min)
-Dans chaque `index.html`, la variable `window.GMAPS_KEY="VOTRE_CLE_GOOGLE_MAPS"`
-active l'autocomplétion d'adresses et le calcul de distance.
-1. Créez une clé sur https://console.cloud.google.com/ (activez *Maps JavaScript API* + *Directions API*).
-2. **Restreignez-la** à votre domaine (HTTP referrers : `taxiscity.ch/*`, `taxidrive.ch/*`).
-3. Remplacez `VOTRE_CLE_GOOGLE_MAPS` par la clé dans les deux `index.html`.
+La variable `window.GMAPS_KEY` de chaque `index.html` active l'autocomplétion
+d'adresses et le calcul de distance. **Une seule clé suffit pour les deux sites.**
+
+Injection en une commande :
+
+```bash
+bash deploy/set-gmaps-key.sh AIzaSy...votre_cle...
+```
+
+Le script écrit la clé dans les deux `index.html`, refuse une valeur au mauvais
+format, et `--reset` revient au placeholder.
+
+**Restrictions à déclarer sur la clé** (console Google Cloud → *API et services*
+→ *Identifiants*) :
+
+- *Référents HTTP* — **les quatre entrées**, sinon
+  `RefererNotAllowedMapError` :
+  `https://taxiscity.ch/*`, `https://www.taxiscity.ch/*`,
+  `https://taxidrive.ch/*`, `https://www.taxidrive.ch/*`
+- *Restrictions d'API* : **Maps JavaScript API** + **Directions API**
+
+> Si vous réutilisez la clé de l'ancien site, ses référents pointent encore vers
+> les anciens domaines : ajoutez les quatre entrées ci-dessus.
+
+> Une clé Maps « navigateur » est **visible dans le code source** de la page —
+> c'est le fonctionnement normal prévu par Google. Ce qui la protège d'un usage
+> abusif est la **restriction par référent**, pas sa confidentialité. Elle peut
+> donc figurer dans le dépôt, contrairement à un mot de passe.
+
 > Sans clé, le site fonctionne quand même (saisie manuelle de la distance).
 
 ### 🟢 A3. Prix « sur devis » de Gimel
