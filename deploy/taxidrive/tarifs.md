@@ -34,4 +34,4 @@ Espèces, carte bancaire (Visa, Mastercard), TWINT, Apple Pay. Facturation mensu
 
 ## Réservation
 
-Sans compte, confirmation immédiate : formulaire en ligne sur https://taxi-drive.ch/#book, WhatsApp ou e-mail (info@taxidrive.ch).
+Sans compte, confirmation immédiate : formulaire en ligne sur https://taxidrive.ch/#book, WhatsApp ou e-mail (info@taxidrive.ch).

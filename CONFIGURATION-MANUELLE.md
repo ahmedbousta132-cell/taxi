@@ -17,11 +17,35 @@ Aujourd'hui, les deux sites utilisent :
 les remplace). Sinon, confirmez que c'est correct pour City Taxis **et** Taxi Drive.
 
 ### 🔴 A2. Clé Google Maps (10 min)
-Dans chaque `index.html`, la variable `window.GMAPS_KEY="VOTRE_CLE_GOOGLE_MAPS"`
-active l'autocomplétion d'adresses et le calcul de distance.
-1. Créez une clé sur https://console.cloud.google.com/ (activez *Maps JavaScript API* + *Directions API*).
-2. **Restreignez-la** à votre domaine (HTTP referrers : `citytaxis.ch/*`, `taxi-drive.ch/*`).
-3. Remplacez `VOTRE_CLE_GOOGLE_MAPS` par la clé dans les deux `index.html`.
+La variable `window.GMAPS_KEY` de chaque `index.html` active l'autocomplétion
+d'adresses et le calcul de distance. **Une seule clé suffit pour les deux sites.**
+
+Injection en une commande :
+
+```bash
+bash deploy/set-gmaps-key.sh AIzaSy...votre_cle...
+```
+
+Le script écrit la clé dans les deux `index.html`, refuse une valeur au mauvais
+format, et `--reset` revient au placeholder.
+
+**Restrictions à déclarer sur la clé** (console Google Cloud → *API et services*
+→ *Identifiants*) :
+
+- *Référents HTTP* — **les quatre entrées**, sinon
+  `RefererNotAllowedMapError` :
+  `https://taxiscity.ch/*`, `https://www.taxiscity.ch/*`,
+  `https://taxidrive.ch/*`, `https://www.taxidrive.ch/*`
+- *Restrictions d'API* : **Maps JavaScript API** + **Directions API**
+
+> Si vous réutilisez la clé de l'ancien site, ses référents pointent encore vers
+> les anciens domaines : ajoutez les quatre entrées ci-dessus.
+
+> Une clé Maps « navigateur » est **visible dans le code source** de la page —
+> c'est le fonctionnement normal prévu par Google. Ce qui la protège d'un usage
+> abusif est la **restriction par référent**, pas sa confidentialité. Elle peut
+> donc figurer dans le dépôt, contrairement à un mot de passe.
+
 > Sans clé, le site fonctionne quand même (saisie manuelle de la distance).
 
 ### 🟢 A3. Prix « sur devis » de Gimel
@@ -31,20 +55,27 @@ La commune **Gimel** n'a pas de forfait aéroport officiel → la page l'affiche
 ### 🔴 A4. Héberger sur OVH
 Pour **chaque** marque, uploader **tout le contenu** du dossier (fichiers cachés
 `.htaccess` compris) à la racine du domaine :
-- `deploy/citytaxis/` → racine de **citytaxis.ch**
-- `deploy/taxidrive/` → racine de **taxi-drive.ch** (remplace le site Webador actuel)
+- `deploy/citytaxis/` → racine de **taxiscity.ch**
+- `deploy/taxidrive/` → racine de **taxidrive.ch**
 
-> ⚠️ **Taxi Drive** est aujourd'hui sur Webador. Il faudra faire pointer le domaine
-> `taxi-drive.ch` vers l'hébergement OVH (DNS) au moment de la bascule. Prévoyez la
-> migration DNS ; gardez une sauvegarde de l'ancien site avant de couper Webador.
+> Les deux domaines ont été achetés chez **Namecheap** : le DNS (enregistrements A
+> vers l'IP de la VM OVH) se règle dans *Domain List → Manage → Advanced DNS*.
+>
+> ⚠️ **L'ancien domaine `taxi-drive.ch`** (site Webador) est **différent** du
+> nouveau `taxidrive.ch`. Il porte tout l'historique SEO : **gardez-le** et
+> redirigez-le en **301** vers `taxidrive.ch`, sinon le référencement acquis est
+> perdu. Procédure détaillée dans `deploy/DEPLOYMENT-GUIDE.md` (étape 5).
+
+> 📌 Procédure de déploiement complète (SSH, Apache, DNS, HTTPS) :
+> **`deploy/DEPLOYMENT-GUIDE.md`**.
 
 ### 🔴 A5. Activer le HTTPS
 Let's Encrypt (automatique sur OVH). Une fois le HTTPS confirmé partout, vous
 pouvez décommenter la ligne `Strict-Transport-Security` (HSTS) dans `.htaccess`.
 
 ### 🔴 A6. Vérifier après upload
-- `https://citytaxis.ch/` et `https://taxi-drive.ch/` s'ouvrent bien.
-- `https://taxi-drive.ch/taxi-nyon/taxi-rolle` s'affiche (URL propre).
+- `https://taxiscity.ch/` et `https://taxidrive.ch/` s'ouvrent bien.
+- `https://taxidrive.ch/taxi-nyon/taxi-rolle` s'affiche (URL propre).
 - Les anciennes URLs redirigent : `/reservation` → accueil #book, `/contact` → #contact.
 - `http://` et `www.` redirigent vers la version `https://` sans www.
 
@@ -71,8 +102,8 @@ via **FormSubmit.co** (gratuit, illimité), en plus du bouton WhatsApp :
 ### 🟠 B1. Google Search Console (le plus important après la mise en ligne)
 https://search.google.com/search-console
 1. Ajouter **les deux domaines** (propriété « Domaine », validation par DNS).
-2. Soumettre le sitemap de chacun : `https://citytaxis.ch/sitemap.xml` et
-   `https://taxi-drive.ch/sitemap.xml`.
+2. Soumettre le sitemap de chacun : `https://taxiscity.ch/sitemap.xml` et
+   `https://taxidrive.ch/sitemap.xml`.
 3. Demander l'indexation de l'accueil et du hub `/taxi-nyon/` (outil d'inspection d'URL).
 4. Pour Taxi Drive : surveiller que les anciennes URLs Webador passent bien en 301
    (rapport « Pages ») — normal qu'elles migrent sur quelques semaines.

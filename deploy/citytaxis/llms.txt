@@ -17,16 +17,16 @@ Contact : téléphone et WhatsApp +41 78 719 44 44 · e-mail info@local-taxi.ch.
 - Course locale : 6.40 CHF de prise en charge + 2.80 CHF/km (intérieur ville), 3.80 CHF/km (extérieur) ; nuit/dimanche/fériés 3.20 / 4.00 CHF/km
 - Forfaits aéroport de Genève (GVA) : dès 75 CHF (Terre Sainte), 85 CHF (Nyon), 100 CHF (Gland) … jusqu'à 140 CHF ; Genève Ville +10 CHF ; véhicule électrique −10 %
 - Chauffeur privé : dès 100 CHF/heure ; longue distance sur devis
-- [Tarifs détaillés](https://citytaxis.ch/tarifs.md)
+- [Tarifs détaillés](https://taxiscity.ch/tarifs.md)
 
 ## Pages principales
-- [Accueil](https://citytaxis.ch/)
-- [Taxi Nyon & région (hub)](https://citytaxis.ch/taxi-nyon/)
-- [Forfaits transfert aéroport](https://citytaxis.ch/forfaits-transfert-aeroport)
-- [Prix d'un taxi en Suisse](https://citytaxis.ch/prix-taxi-suisse)
-- [Chauffeur privé en Suisse](https://citytaxis.ch/chauffeur-prive-suisse)
-- [Taxi en Suisse](https://citytaxis.ch/taxi-suisse)
+- [Accueil](https://taxiscity.ch/)
+- [Taxi Nyon & région (hub)](https://taxiscity.ch/taxi-nyon/)
+- [Forfaits transfert aéroport](https://taxiscity.ch/forfaits-transfert-aeroport)
+- [Prix d'un taxi en Suisse](https://taxiscity.ch/prix-taxi-suisse)
+- [Chauffeur privé en Suisse](https://taxiscity.ch/chauffeur-prive-suisse)
+- [Taxi en Suisse](https://taxiscity.ch/taxi-suisse)
 
 ## Pages par ville (taxi local)
-- [Taxi Nyon](https://citytaxis.ch/taxi-nyon/) · [Gland](https://citytaxis.ch/taxi-nyon/taxi-gland) · [Coppet](https://citytaxis.ch/taxi-nyon/taxi-coppet) · [Rolle](https://citytaxis.ch/taxi-nyon/taxi-rolle) · [Begnins](https://citytaxis.ch/taxi-nyon/taxi-begnins) · [Saint-Cergue](https://citytaxis.ch/taxi-nyon/taxi-saint-cergue) · [Aubonne](https://citytaxis.ch/taxi-nyon/taxi-aubonne)
+- [Taxi Nyon](https://taxiscity.ch/taxi-nyon/) · [Gland](https://taxiscity.ch/taxi-nyon/taxi-gland) · [Coppet](https://taxiscity.ch/taxi-nyon/taxi-coppet) · [Rolle](https://taxiscity.ch/taxi-nyon/taxi-rolle) · [Begnins](https://taxiscity.ch/taxi-nyon/taxi-begnins) · [Saint-Cergue](https://taxiscity.ch/taxi-nyon/taxi-saint-cergue) · [Aubonne](https://taxiscity.ch/taxi-nyon/taxi-aubonne)
 - Autres communes desservies (pages dédiées sous /taxi-nyon/taxi-<commune>) : Prangins, Founex, Mies, Commugny, Tannay, Chavannes-de-Bogis, Dully, Duillier, Genolier, Givrins, Gingins, Trélex, Chéserex, La Rippe, Eysins, Signy, Borex, Crassier, Bassins, Arzier-Le Muids, Gimel — voir sitemap.xml

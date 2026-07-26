@@ -4,10 +4,12 @@ Two fully static, single-file websites (HTML/CSS/JS) ready to deploy. Both are p
 
 | Brand | Domain | Deploy Folder |
 |-------|--------|---------------|
-| **City Taxis** | `citytaxis.ch` | [`deploy/citytaxis/`](deploy/citytaxis/) |
-| **Taxi Drive** | `taxi-drive.ch` | [`deploy/taxidrive/`](deploy/taxidrive/) |
+| **City Taxis** | `taxiscity.ch` | [`deploy/citytaxis/`](deploy/citytaxis/) |
+| **Taxi Drive** | `taxidrive.ch` | [`deploy/taxidrive/`](deploy/taxidrive/) |
 
-**Taxi Drive** replaces the legacy Webador site. The URL structure preserves the old site's paths (`/taxi-nyon/taxi-<city>`) for SEO continuity. A `.htaccess` file handles 301 redirects for changed URLs.
+**Taxi Drive** replaces the legacy Webador site, which lived on **`taxi-drive.ch`** (with a hyphen — a different domain from the new `taxidrive.ch`). The URL structure reproduces the old site's paths (`/taxi-nyon/taxi-<city>`) for SEO continuity, and `.htaccess` 301-redirects the old URLs that changed (`/reservation`, `/obtenir-un-devis`, `/contact`, the old product page).
+
+> ⚠️ `taxi-drive.ch` carries ~20 years of SEO history and must **not** be dropped: keep the registration and 301-redirect it to `taxidrive.ch` (Webador hosting can be cancelled once the new site is confirmed working — see [`deploy/DEPLOYMENT-GUIDE.md`](deploy/DEPLOYMENT-GUIDE.md), step 5).
 
 **Services:** Airport transfers (Geneva, Zurich, Basel), local rides, long-distance, ski resorts, group bookings, VIP/events — available 24/7.
 
@@ -17,11 +19,11 @@ Two fully static, single-file websites (HTML/CSS/JS) ready to deploy. Both are p
 
 ```
 deploy/
-  citytaxis/                    ← Ready to deploy to citytaxis.ch
+  citytaxis/                    ← Ready to deploy to taxiscity.ch
     index.html                  ← Self-contained website (all CSS/JS inline)
     robots.txt                  ← Crawler directives + sitemap link
     sitemap.xml                 ← Site map for Google
-    .htaccess                   ← HTTPS, redirects, compression, security (Apache/OVH)
+    .htaccess                   ← HTTPS, clean URLs, redirects, compression, security (Apache)
     favicon.svg                 ← Browser tab icon
     og-image.jpg                ← 1200×630 social media preview image
     llms.txt                    ← AI context file (ChatGPT, Perplexity, Claude)
@@ -34,16 +36,22 @@ deploy/
     chauffeur-prive-suisse.html
     taxi-suisse.html
 
-  taxidrive/                    ← Identical structure for taxi-drive.ch
+  taxidrive/                    ← Same structure for taxidrive.ch (2 city pages: Nyon hub + Givrins)
+
+  apache/                       ← Apache vhosts (HTTP only — certbot adds HTTPS)
+    taxiscity.ch.conf
+    taxidrive.ch.conf
+
+  setup-deployment.sh           ← One-shot install script (Apache + certbot, both sites)
+  set-gmaps-key.sh              ← Injects one Google Maps API key into both sites
+  DEPLOYMENT-GUIDE.md           ← Full deployment walkthrough (SSH → DNS → HTTPS → verify)
 
 README.md                       ← This file
+CONFIGURATION-MANUELLE.md       ← Manual setup checklist (contact info, Maps key, SEO follow-up)
 dev-env/                        ← Archive: previous iterations, drafts, assets (not deployed)
-deploy/systemd/                 ← Systemd service files for Linux deployment
-  citytaxis.service
-  taxidrive.service
 ```
 
-Each `deploy/<brand>/` folder is **self-contained** — upload its contents to the domain root. External resources are limited to online services: Google Maps, Photon/Komoot (address autocomplete), WhatsApp.
+Each `deploy/<brand>/` folder is **self-contained** — upload its contents to the domain root. External resources are limited to online services: Google Maps, Photon/Komoot (address autocomplete), WhatsApp, FormSubmit.co.
 
 The [`dev-env/`](dev-env/) folder contains design history and previous iterations — it is **not** deployed.
 
@@ -91,13 +99,14 @@ Every site includes comprehensive SEO setup in the `<head>`:
 - `robots.txt` — explicitly allows AI crawlers (GPTBot, ChatGPT-User, PerplexityBot, ClaudeBot, anthropic-ai, Google-Extended, Bingbot)
 - `sitemap.xml` — all pages listed
 
-### Apache / OVH Security
+### Apache Security & Performance (`.htaccess`)
 
-`.htaccess` provides:
-- HTTPS enforcement + `www` redirect
-- gzip compression
-- Browser caching headers
-- Security headers (X-Frame-Options, X-Content-Type-Options, etc.)
+- HTTPS enforcement + `www` → apex redirect
+- Clean nested URLs (`/taxi-nyon/taxi-<city>`) and 301s for retired Webador URLs
+- gzip compression, browser cache headers
+- Security headers (X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy)
+
+> **Why Apache, not nginx:** both sites depend on `.htaccess`, which nginx does not read. Serving them under nginx without translating every rule would break the clean city URLs and drop the 301s that carry over the old site's SEO.
 
 ---
 
@@ -106,7 +115,7 @@ Every site includes comprehensive SEO setup in the `<head>`:
 Each brand has:
 
 - **Hub page** — `/taxi-nyon/`
-- **48 city pages** — `/taxi-nyon/taxi-rolle`, `/taxi-nyon/taxi-coppet`, etc.
+- **City pages** — City Taxis: 48 towns · Taxi Drive: Nyon + Givrins
 - **4 thematic pages** — Airport packages, pricing, private driver services, taxi overview
 
 Every page is **unique and valuable**:
@@ -138,32 +147,23 @@ Beyond traditional Google SEO, both sites are optimized for AI assistants:
 
 ---
 
-## Deployment to OVH
+## Deployment (OVH VM, Apache)
 
-### For each brand:
+Full step-by-step guide, including SSH commands, the Namecheap DNS setup, and Let's Encrypt: **[`deploy/DEPLOYMENT-GUIDE.md`](deploy/DEPLOYMENT-GUIDE.md)**.
 
-1. **Upload** all files from `deploy/citytaxis/` (including `.htaccess`) to the domain root via FTP/SFTP or OVH file manager.
-   - Same for `deploy/taxidrive/` → `taxi-drive.ch`
-   - Files are already named `index.html` — no renaming needed
-
-2. **Enable HTTPS** (Let's Encrypt, automatic on OVH). Once active, uncomment the `Strict-Transport-Security` (HSTS) line in `.htaccess`.
-
-3. **Verify:**
-   ```
-   https://citytaxis.ch/  ← should load correctly
-   http://citytaxis.ch/   ← should redirect to https://
-   www.citytaxis.ch/      ← should redirect to https://citytaxis.ch/
-   ```
-
-### Optional: Linux Systemd Service
-
-Use the provided `.service` files in `deploy/systemd/` to run sites as systemd services:
+Short version:
 
 ```bash
-sudo cp deploy/systemd/citytaxis.service /etc/systemd/system/
-sudo systemctl enable citytaxis
-sudo systemctl start citytaxis
-# Logs: journalctl -u citytaxis -f
+ssh ubuntu@YOUR_OVH_IP
+git clone https://github.com/ahmedbousta132-cell/taxi.git
+cd taxi
+sudo bash deploy/setup-deployment.sh
+```
+
+The script installs Apache + certbot, deploys both sites (`.htaccess` included), and prints the VM's IP for the DNS step. HTTPS is enabled **after** DNS propagates, via `certbot --apache` — never by hand-writing the SSL vhost, which would reference a certificate that doesn't exist yet and prevent Apache from starting.
+
+```
+1. Install (HTTP)  →  2. Point DNS at Namecheap  →  3. certbot --apache  →  4. Verify
 ```
 
 ---
@@ -174,16 +174,15 @@ SEO setup makes sites fully **indexable** and eligible for rich results. To actu
 
 ### 1. Google Search Console
 - Go to https://search.google.com/search-console
-- Add each domain
-- Verify ownership
+- Add each domain (`taxiscity.ch`, `taxidrive.ch`, and `taxi-drive.ch` using the "Change of Address" tool)
+- Verify ownership (DNS TXT record, via Namecheap)
 - **Submit `sitemap.xml`**
 - Request indexing of homepage
 
 ### 2. Google Business Profile (✨ #1 impact for local)
 - https://business.google.com
-- Add business name, phone, service areas, 24/7 hours
-- Upload fleet photos
-- This is what triggers the "local pack" on Google Maps
+- Both brands already have a profile from the Webador era — **claim, don't recreate**
+- Update the website URL to the new domain; confirm phone, service areas, 24/7 hours, photos
 
 ### 3. Google Reviews
 - Systematically ask satisfied customers for reviews
@@ -210,42 +209,45 @@ SEO setup makes sites fully **indexable** and eligible for rich results. To actu
 
 ## Contact & Reservations
 
-Booking forms use **client-side links** only (no server dependency):
-- `mailto:` pre-filled email
-- WhatsApp button
+Booking forms submit via **FormSubmit.co** (AJAX, free, no backend) with a `mailto:` fallback and a WhatsApp button. Client-side anti-spam validation blocks empty/junk submissions and a honeypot field.
 
-**Default Contact:**
+**Reservation email per brand:**
+- City Taxis → `newaymen1196@gmail.com`
+- Taxi Drive → `taxiskyaymen@gmail.com`
+
+**Displayed contact info (current placeholder, update per brand):**
 - Email: `info@local-taxi.ch`
 - Phone/WhatsApp: `+41 78 719 44 44`
 
 ### To change contact info:
 
-Search and replace in `index.html`:
+Search and replace in the relevant `index.html`:
 - `info@local-taxi.ch` → your email
 - `+41 78 719 44 44` → your phone
 - `41787194444` → your phone (WhatsApp format)
+- `formsubmit.co/ajax/<email>` → the FormSubmit target address
 
 Also update the JSON-LD `<script>` in the `<head>`.
 
-### To enable form backend:
+### Activating FormSubmit
 
-Replace `onsubmit="return false"` with:
-```html
-action="https://formspree.io/f/YOUR_ID"
-method="POST"
-```
-
-(Sign up at [Formspree](https://formspree.io) to get a form ID.)
+FormSubmit requires a one-time activation per receiving address: submit a test booking on the live site, then click **"Activate Form"** in the confirmation email. See `CONFIGURATION-MANUELLE.md` (A7).
 
 ---
 
 ## Maps & Address Autocomplete
 
-Sites use **Google Maps** and **Photon/Komoot API** for address autocomplete.
+Sites use **Google Maps** and **Photon/Komoot API** for address autocomplete. One key covers both brands.
 
-1. Create a **Google Maps API key** in [Google Cloud Console](https://console.cloud.google.com/)
-2. **Restrict it to your domain** for security
-3. Paste the key in the `index.html` placeholder (marked as `VOTRE_CLE_GOOGLE_MAPS`)
+```bash
+bash deploy/set-gmaps-key.sh AIzaSy...your_key...
+```
+
+1. Create a **Google Maps API key** in [Google Cloud Console](https://console.cloud.google.com/) (enable *Maps JavaScript API* + *Directions API*)
+2. **Restrict it** to HTTP referrers: `https://taxiscity.ch/*`, `https://www.taxiscity.ch/*`, `https://taxidrive.ch/*`, `https://www.taxidrive.ch/*`
+3. Run the script above, or paste the key manually over the `VOTRE_CLE_GOOGLE_MAPS` placeholder in both `index.html`
+
+Without a key the site still works — visitors enter the distance manually.
 
 ---
 
@@ -283,7 +285,7 @@ Some photos in the "Fleet" section are third-party assets. **Before final launch
 ## Support & Troubleshooting
 
 ### Site not loading?
-- Check `.htaccess` syntax (OVH validation tools available)
+- Check `.htaccess` syntax (`apache2ctl configtest` on the VM)
 - Verify `index.html` is in the domain root
 - Check browser console for errors
 
@@ -294,12 +296,14 @@ Some photos in the "Fleet" section are third-party assets. **Before final launch
 - Wait 2–4 weeks for initial indexing
 
 ### Maps not showing?
-- Verify Google Maps API key is correct and domain-restricted
-- Check browser console for API errors
+- Verify the Google Maps API key is set (`deploy/set-gmaps-key.sh`) and its HTTP referrer restrictions include both domains
+- Check browser console for `RefererNotAllowedMapError` or other API errors
 
 ### Forms not working?
-- Test `mailto:` link manually
-- If using Formspree, verify endpoint is correct
+- Confirm the FormSubmit address was activated (see "Contact & Reservations" above)
+- Test the `mailto:` fallback link manually
+
+More detail: [`deploy/DEPLOYMENT-GUIDE.md`](deploy/DEPLOYMENT-GUIDE.md) has a dedicated troubleshooting table for Apache/DNS/certbot issues.
 
 ---
 
@@ -309,11 +313,12 @@ All branding, design, and content belong to their respective owners. External re
 - **Google Maps API**
 - **Photon/Komoot** (address autocomplete)
 - **WhatsApp**
+- **FormSubmit.co**
 
 ---
 
 ## Version History
 
-- **Current:** Multi-brand static sites with full SEO + AI optimization
-- **Previous:** Webador hosting (Taxi Drive), replaced for independence and control
+- **Current:** Multi-brand static sites on `taxiscity.ch` / `taxidrive.ch`, full SEO + AI optimization, Apache deployment
+- **Previous:** Webador hosting (Taxi Drive on `taxi-drive.ch`), replaced for independence and control — old domain kept and 301-redirected for SEO continuity
 - **Archive:** See `dev-env/` for design iterations
