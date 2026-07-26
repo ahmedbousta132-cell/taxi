@@ -1,199 +1,319 @@
-# Taxi Nyon Région — Sites web
+# Taxi Nyon Région — Sites Web Statiques
 
-Deux sites vitrines **statiques** (HTML / CSS / JS en un seul fichier, sans build
-ni dépendance à installer). Ce sont deux variantes de marque du même site
-« chauffeur privé premium », chacune **prête à uploader** sur son propre domaine :
+Two fully static, single-file websites (HTML/CSS/JS) ready to deploy. Both are premium private chauffeur service brands with their own domain and branding.
 
-| Marque | Domaine | Dossier à uploader |
-|--------|---------|--------------------|
+| Brand | Domain | Deploy Folder |
+|-------|--------|---------------|
 | **City Taxis** | `citytaxis.ch` | [`deploy/citytaxis/`](deploy/citytaxis/) |
 | **Taxi Drive** | `taxi-drive.ch` | [`deploy/taxidrive/`](deploy/taxidrive/) |
 
-> **Taxi Drive remplace l'ancien site Webador** hébergé sur `taxi-drive.ch`. La
-> structure d'URL reproduit celle de l'ancien site (`/taxi-nyon/taxi-<ville>`) pour
-> **préserver le référencement existant**, et le `.htaccess` redirige (301) les
-> anciennes URLs qui changent (`/reservation`, `/obtenir-un-devis`, `/contact`, la
-> page produit) vers les bonnes cibles.
+**Taxi Drive** replaces the legacy Webador site. The URL structure preserves the old site's paths (`/taxi-nyon/taxi-<city>`) for SEO continuity. A `.htaccess` file handles 301 redirects for changed URLs.
 
-Offre : transferts aéroport (Genève, Zurich, Bâle), courses locales, longue
-distance, stations de ski, groupes, VIP/événements — disponible 24h/24.
+**Services:** Airport transfers (Geneva, Zurich, Basel), local rides, long-distance, ski resorts, group bookings, VIP/events — available 24/7.
 
-## Structure du dépôt
+---
+
+## Repository Structure
 
 ```
 deploy/
-  citytaxis/          ← bundle prêt à uploader sur citytaxis.ch
-    index.html        · le site (autonome, tout le CSS/JS est inline)
-    robots.txt        · directives robots (crawlers IA inclus) + lien vers le sitemap
-    sitemap.xml       · plan du site pour Google
-    .htaccess         · HTTPS, redirections, compression, cache, sécurité (OVH/Apache)
-    favicon.svg       · icône d'onglet / favicon Google
-    og-image.jpg      · image 1200×630 pour l'aperçu des liens partagés
-    llms.txt          · fiche de contexte pour les IA (ChatGPT, Perplexity, Claude…)
-    tarifs.md         · tarifs structurés, lisibles par les agents IA
-    taxi-nyon/        · hub local + 48 pages villes
-      index.html      ·   /taxi-nyon/  (hub « Taxi Nyon & région »)
-      taxi-<ville>.html ·  /taxi-nyon/taxi-rolle, /taxi-nyon/taxi-coppet, …
-    forfaits-transfert-aeroport.html · page mots-clés (forfaits GVA)
-    prix-taxi-suisse.html · chauffeur-prive-suisse.html · taxi-suisse.html
-  taxidrive/          ← même contenu pour taxi-drive.ch
-README.md
-dev-env/              ← archives : anciennes itérations, brouillons, assets (non déployé)
+  citytaxis/                    ← Ready to deploy to citytaxis.ch
+    index.html                  ← Self-contained website (all CSS/JS inline)
+    robots.txt                  ← Crawler directives + sitemap link
+    sitemap.xml                 ← Site map for Google
+    .htaccess                   ← HTTPS, redirects, compression, security (Apache/OVH)
+    favicon.svg                 ← Browser tab icon
+    og-image.jpg                ← 1200×630 social media preview image
+    llms.txt                    ← AI context file (ChatGPT, Perplexity, Claude)
+    tarifs.md                   ← Structured pricing for AI agents
+    taxi-nyon/                  ← Local hub + 48 city pages
+      index.html                ←   /taxi-nyon/
+      taxi-<city>.html          ←   /taxi-nyon/taxi-rolle, /taxi-nyon/taxi-coppet, …
+    forfaits-transfert-aeroport.html  ← Keyword page (airport packages)
+    prix-taxi-suisse.html             ← Keyword pages
+    chauffeur-prive-suisse.html
+    taxi-suisse.html
+
+  taxidrive/                    ← Identical structure for taxi-drive.ch
+
+README.md                       ← This file
+dev-env/                        ← Archive: previous iterations, drafts, assets (not deployed)
+deploy/systemd/                 ← Systemd service files for Linux deployment
+  citytaxis.service
+  taxidrive.service
 ```
 
-Chaque `deploy/<marque>/` est **autonome** : uploader le contenu du dossier à la
-racine du domaine suffit. Les seules ressources externes sont des services en
-ligne (Google Maps, Photon/Komoot pour l'autocomplétion d'adresses, WhatsApp).
+Each `deploy/<brand>/` folder is **self-contained** — upload its contents to the domain root. External resources are limited to online services: Google Maps, Photon/Komoot (address autocomplete), WhatsApp.
 
-Le dossier [`dev-env/`](dev-env/) regroupe les versions de travail précédentes
-(itérations `index*.html`, `concept-*.html`, ancien projet `taxi-local/`,
-dossiers `assets*`, etc.). Il n'est **pas** déployé — c'est un historique de
-conception.
+The [`dev-env/`](dev-env/) folder contains design history and previous iterations — it is **not** deployed.
 
-## Aperçu en local
+---
 
-Aucune installation n'est nécessaire : double-cliquez sur
-`deploy/citytaxis/index.html`. Pour un rendu proche d'un vrai serveur :
+## Quick Start — Local Preview
+
+No installation required: open `deploy/citytaxis/index.html` directly in a browser.
+
+For a server-like experience:
 
 ```bash
 npx serve deploy/citytaxis
-# puis http://localhost:3000/
+# Then visit http://localhost:3000/
 ```
 
-## Ce qui a été fait pour le SEO
+---
 
-Sur **chaque** site (dans le `<head>`, sans rien changer au design) :
+## SEO & Technical Optimization
 
-- **Balise `canonical`** (URL de référence unique) + `<meta robots>` optimisé.
-- **Open Graph + Twitter Card** : titre, description et image `og-image.jpg`
-  (1200×630) → jolis aperçus quand un lien est partagé (WhatsApp, Facebook, X…).
-- **Favicon** (`favicon.svg`) — repris aussi par Google dans les résultats mobiles.
-- **Données structurées Schema.org (JSON-LD)** :
-  - `TaxiService` / `LocalBusiness` : nom, téléphone, e-mail, zone desservie
-    (Suisse + Genève/Zurich/Bâle/Nyon/Lausanne), horaires 24h/24, moyens de
-    paiement, catalogue de services.
-  - `FAQPage` : les 8 questions/réponses de la page → éligible aux résultats
-    enrichis « FAQ » sur Google.
-  - `AggregateRating` + avis : **uniquement sur Taxi Drive** (qui affiche « 4,9/5 »
-    et 3 avis clients) ; **pas** sur City Taxis, dont la section avis est vide —
-    on n'invente aucune note (Google pénalise les fausses données).
-- **Performance** : `preconnect`/`dns-prefetch` vers les services externes.
-- **`robots.txt`** + **`sitemap.xml`** par domaine.
-- **`.htaccess`** (OVH/Apache) : redirection HTTPS + `www` → domaine principal,
-  compression gzip, cache navigateur et en-têtes de sécurité.
+Every site includes comprehensive SEO setup in the `<head>`:
 
-> Les images `og-image.jpg` ont été générées automatiquement à partir des visuels
-> du site. Vous pouvez les remplacer par un visuel dédié 1200×630 (logo + accroche)
-> pour un rendu de partage encore plus soigné.
+### Core SEO Elements
 
-## Pages SEO locales (par ville) et mots-clés
+- **Canonical Tag** — unique reference URL
+- **Meta Robots** — optimized crawler directives
+- **Open Graph + Twitter Card** — rich previews (title, description, `og-image.jpg` 1200×630)
+- **Favicon** (`favicon.svg`) — browser tabs and Google results
 
-Pour viser un bon positionnement **ville par ville**, chaque marque dispose d'un
-**hub local `/taxi-nyon/`** et de **48 pages villes** en URLs imbriquées
-(`/taxi-nyon/taxi-rolle`, `/taxi-nyon/taxi-coppet`…), plus **4 pages thématiques**
-(`/forfaits-transfert-aeroport`, `/prix-taxi-suisse`, `/chauffeur-prive-suisse`,
-`/taxi-suisse`).
+### Structured Data (JSON-LD)
 
-Chaque page est **unique et utile** (pas une page vide dupliquée, que Google
-pénalise) : titre/description/H1 propres, **prix forfait aéroport réel de la
-commune**, tarif au compteur, cartes services, mini-FAQ locale, données
-structurées `TaxiService` + `BreadcrumbList` + `FAQPage`, et **maillage interne**
-vers les villes voisines. Design enrichi (icônes SVG, barre d'appel fixe mobile),
-mobile-first et accessible. Toutes les pages sont listées dans le `sitemap.xml`.
+- **`TaxiService` / `LocalBusiness`** — name, phone, email, service areas (Switzerland, Geneva/Zurich/Basel/Nyon/Lausanne), 24/7 hours, payment methods, service catalog
+- **`FAQPage`** — 8 Q&A pairs → eligible for Google FAQ rich results
+- **`AggregateRating` + Reviews** — Taxi Drive only (4.9/5 from 3 customers); City Taxis empty (no fabricated ratings — Google penalizes false data)
+- **`BreadcrumbList`** — navigation hierarchy
 
-> ⚠️ Aucune balise ne « garantit » la 1ʳᵉ position. Ces pages mettent le site
-> dans les meilleures conditions ; le classement final dépend aussi de la fiche
-> Google Business, des avis et des liens entrants (voir la checklist ci-dessous).
+### Performance
 
-## Visibilité dans les moteurs IA (ChatGPT, Perplexity, AI Overviews)
+- `preconnect` / `dns-prefetch` to external services
+- Optimized image sizes
+- Minimal CSS/JS (single file)
 
-En plus du SEO Google classique, chaque site est préparé pour être **cité par les
-assistants IA** :
+### Sitemap & Robots
 
-- **`robots.txt`** autorise explicitement les crawlers IA (GPTBot, ChatGPT-User,
-  OAI-SearchBot, PerplexityBot, ClaudeBot, anthropic-ai, Google-Extended, Bingbot).
-  Sans cette autorisation, ces plateformes ne peuvent pas citer le site.
-- **`llms.txt`** (convention [llmstxt.org](https://llmstxt.org)) : une fiche de
-  contexte concise (activité, services, tarifs, zone, contact, liens) que les IA
-  peuvent lire sans parcourir toute la page.
-- **`tarifs.md`** : les tarifs en markdown structuré, directement exploitables par
-  un agent IA qui compare des prestataires pour un utilisateur.
-- **Données structurées** déjà en place (`LocalBusiness`/`TaxiService`, `FAQPage`)
-  et **contenu extractible** (FAQ en questions/réponses, tarifs chiffrés) — ce que
-  les moteurs IA privilégient pour citer une source.
+- `robots.txt` — explicitly allows AI crawlers (GPTBot, ChatGPT-User, PerplexityBot, ClaudeBot, anthropic-ai, Google-Extended, Bingbot)
+- `sitemap.xml` — all pages listed
 
-> Pour aller plus loin (présence sur les sources tierces que les IA citent le plus —
-> fiche Google Business, avis, annuaires local.ch/search.ch, mentions), voir la
-> checklist SEO ci-dessous ; la skill `ai-seo` du dépôt détaille la méthode complète.
+### Apache / OVH Security
 
-## Mise en ligne (déploiement sur OVH)
+`.htaccess` provides:
+- HTTPS enforcement + `www` redirect
+- gzip compression
+- Browser caching headers
+- Security headers (X-Frame-Options, X-Content-Type-Options, etc.)
 
-Pour **chaque** marque :
+---
 
-1. **Uploader** tout le contenu de `deploy/citytaxis/` (y compris les fichiers
-   cachés `.htaccess`) à la **racine** du domaine `citytaxis.ch` via FTP/SFTP ou
-   le gestionnaire de fichiers OVH. Idem `deploy/taxidrive/` → `taxi-drive.ch`.
-   > Le fichier s'appelle déjà `index.html` : rien à renommer.
-2. **Activer le HTTPS** (Let's Encrypt, automatique sur OVH). Une fois le HTTPS
-   confirmé, vous pouvez décommenter la ligne `Strict-Transport-Security` (HSTS)
-   dans `.htaccess`.
-3. Vérifier que `https://citytaxis.ch/` s'ouvre bien et redirige depuis
-   `http://` et `www.`
+## Local SEO Pages
 
-## Après la mise en ligne — pour bien se positionner sur Google
+Each brand has:
 
-Le SEO technique (ci-dessus) rend les sites parfaitement **indexables** et
-éligibles aux résultats enrichis. Pour réellement **remonter dans Google**, ces
-étapes sont déterminantes — surtout pour un taxi (référencement **local**) :
+- **Hub page** — `/taxi-nyon/`
+- **48 city pages** — `/taxi-nyon/taxi-rolle`, `/taxi-nyon/taxi-coppet`, etc.
+- **4 thematic pages** — Airport packages, pricing, private driver services, taxi overview
 
-1. **Google Search Console** (https://search.google.com/search-console) : ajouter
-   chaque domaine, valider la propriété, puis **soumettre le `sitemap.xml`** et
-   demander l'indexation de la page d'accueil.
-2. **Fiche Google Business Profile** (https://business.google.com) — **le levier
-   n°1** pour un taxi : c'est ce qui fait apparaître l'entreprise dans le
-   « pack local » et sur Google Maps. Renseignez nom, téléphone, zone desservie,
-   horaires 24h/24, photos.
-3. **Avis Google** : demandez systématiquement un avis aux clients satisfaits.
-   Le volume et la fraîcheur des avis pèsent énormément en local.
-4. **Cohérence NAP** (Name / Address / Phone) : mêmes nom, téléphone et adresse
-   partout (site, fiche Google, annuaires suisses local.ch / search.ch).
-5. **Bing Webmaster Tools** (https://www.bing.com/webmasters) : même principe que
-   Search Console, pour Bing.
-6. **Contenu** : à terme, des pages dédiées par ville/service (« Taxi Nyon »,
-   « Transfert aéroport Genève »…) et des liens depuis des sites locaux
-   renforcent le positionnement.
+Every page is **unique and valuable**:
+- Unique title/H1/description
+- Real airport transfer pricing for each town
+- Local taxi meter rates
+- Service maps
+- Mini-FAQ
+- Structured data + internal linking
 
-> À noter en toute transparence : aucune balise ne « garantit » la première place.
-> Les balises et données structurées mettent les sites dans les meilleures
-> conditions ; le classement dépend ensuite du contenu, des avis, de la fiche
-> Google Business et des liens entrants, qui se construisent dans la durée.
+All pages appear in `sitemap.xml`.
 
-## Réservation / contact
+> ⚠️ **Note:** No tag "guarantees" #1 ranking. These optimizations position the site well; final ranking depends on Google Business Profile, reviews, and backlinks.
 
-Les formulaires de réservation et de devis ne passent **pas** par un serveur :
-ils ouvrent le client mail via un lien `mailto:` pré-rempli, avec aussi un bouton
-WhatsApp.
+---
 
-- **E-mail de destination** : `info@local-taxi.ch`
-- **Téléphone / WhatsApp** : `+41 78 719 44 44` (`wa.me/41787194444`)
+## AI Engine Visibility (ChatGPT, Perplexity, AI Overviews)
 
-Pour changer ces coordonnées, recherchez `info@local-taxi.ch`, `+41 78 719 44 44`
-et `41787194444` dans le `index.html` concerné (**et** dans le JSON-LD du `<head>`)
-et remplacez-les.
+Beyond traditional Google SEO, both sites are optimized for AI assistants:
 
-> Astuce : pour recevoir les réservations sans dépendre du client mail du
-> visiteur, branchez un service comme [Formspree](https://formspree.io) en
-> remplaçant le `onsubmit="return false"` du `<form>` par
-> `action="https://formspree.io/f/VOTRE_ID"` + `method="POST"`.
+### AI-Friendly Features
 
-## Cartes & autocomplétion d'adresses
+- **`robots.txt`** explicitly permits AI crawlers
+- **`llms.txt`** ([llmstxt.org](https://llmstxt.org) convention) — concise context card for AI: services, pricing, area, contact, links
+- **`tarifs.md`** — structured pricing in Markdown, ready for AI comparison agents
+- **Extractable content** — FAQ Q&A, detailed pricing, service descriptions
 
-Les sites utilisent Google Maps et l'API Photon (Komoot) pour l'autocomplétion.
-Créez une clé Google Maps et **restreignez-la à votre domaine** dans la console
-Google Cloud (l'emplacement `VOTRE_CLE_GOOGLE_MAPS` est indiqué dans le HTML).
+> For full AI visibility (Google Business Profile, reviews, local.ch/search.ch listings), see the Ranking Checklist below.
 
-## Images des véhicules
+---
 
-Certaines photos de la section « Flotte » proviennent de sources externes et
-appartiennent à des tiers. Remplacez-les par de vraies photos de la flotte (ou des
-visuels correctement licenciés) avant la mise en ligne définitive.
+## Deployment to OVH
+
+### For each brand:
+
+1. **Upload** all files from `deploy/citytaxis/` (including `.htaccess`) to the domain root via FTP/SFTP or OVH file manager.
+   - Same for `deploy/taxidrive/` → `taxi-drive.ch`
+   - Files are already named `index.html` — no renaming needed
+
+2. **Enable HTTPS** (Let's Encrypt, automatic on OVH). Once active, uncomment the `Strict-Transport-Security` (HSTS) line in `.htaccess`.
+
+3. **Verify:**
+   ```
+   https://citytaxis.ch/  ← should load correctly
+   http://citytaxis.ch/   ← should redirect to https://
+   www.citytaxis.ch/      ← should redirect to https://citytaxis.ch/
+   ```
+
+### Optional: Linux Systemd Service
+
+Use the provided `.service` files in `deploy/systemd/` to run sites as systemd services:
+
+```bash
+sudo cp deploy/systemd/citytaxis.service /etc/systemd/system/
+sudo systemctl enable citytaxis
+sudo systemctl start citytaxis
+# Logs: journalctl -u citytaxis -f
+```
+
+---
+
+## Post-Launch: Ranking Checklist
+
+SEO setup makes sites fully **indexable** and eligible for rich results. To actually **rank** on Google — especially for local searches — these steps are **critical**:
+
+### 1. Google Search Console
+- Go to https://search.google.com/search-console
+- Add each domain
+- Verify ownership
+- **Submit `sitemap.xml`**
+- Request indexing of homepage
+
+### 2. Google Business Profile (✨ #1 impact for local)
+- https://business.google.com
+- Add business name, phone, service areas, 24/7 hours
+- Upload fleet photos
+- This is what triggers the "local pack" on Google Maps
+
+### 3. Google Reviews
+- Systematically ask satisfied customers for reviews
+- Review volume and freshness heavily weight local ranking
+
+### 4. NAP Consistency
+- **N**ame / **A**ddress / **P**hone must match everywhere:
+  - Website
+  - Google Business Profile
+  - Swiss directories: local.ch, search.ch
+
+### 5. Bing Webmaster Tools
+- https://www.bing.com/webmasters
+- Same setup as Google Search Console
+
+### 6. Content & Backlinks
+- Develop city-specific pages over time
+- Build links from local Swiss websites
+- These reinforce positioning gradually
+
+> **Transparency:** No tag "guarantees" #1. These optimizations create ideal conditions; final ranking depends on content quality, reviews, Google Business Profile strength, and inbound links — built over time.
+
+---
+
+## Contact & Reservations
+
+Booking forms use **client-side links** only (no server dependency):
+- `mailto:` pre-filled email
+- WhatsApp button
+
+**Default Contact:**
+- Email: `info@local-taxi.ch`
+- Phone/WhatsApp: `+41 78 719 44 44`
+
+### To change contact info:
+
+Search and replace in `index.html`:
+- `info@local-taxi.ch` → your email
+- `+41 78 719 44 44` → your phone
+- `41787194444` → your phone (WhatsApp format)
+
+Also update the JSON-LD `<script>` in the `<head>`.
+
+### To enable form backend:
+
+Replace `onsubmit="return false"` with:
+```html
+action="https://formspree.io/f/YOUR_ID"
+method="POST"
+```
+
+(Sign up at [Formspree](https://formspree.io) to get a form ID.)
+
+---
+
+## Maps & Address Autocomplete
+
+Sites use **Google Maps** and **Photon/Komoot API** for address autocomplete.
+
+1. Create a **Google Maps API key** in [Google Cloud Console](https://console.cloud.google.com/)
+2. **Restrict it to your domain** for security
+3. Paste the key in the `index.html` placeholder (marked as `VOTRE_CLE_GOOGLE_MAPS`)
+
+---
+
+## Fleet Images
+
+Some photos in the "Fleet" section are third-party assets. **Before final launch**, replace them with:
+- Real fleet photos, or
+- Properly licensed images
+
+---
+
+## Customization Guide
+
+### Change Branding
+
+- **Company name:** Search the HTML for "City Taxis" or "Taxi Drive"
+- **Logo:** Replace inline SVG in the header
+- **Colors:** Look for CSS variables or hex codes in `<style>`
+
+### Update Pricing
+
+- Edit `tarifs.md` for AI-readable pricing
+- Update HTML `<table>` elements for displayed pricing
+- Keep `tarifs.md` and HTML in sync
+
+### Add / Remove Cities
+
+- Copy a `taxi-<city>.html` file
+- Update the city name, coordinates, and pricing
+- Add entry to `sitemap.xml`
+- Add breadcrumb link to hub page
+
+---
+
+## Support & Troubleshooting
+
+### Site not loading?
+- Check `.htaccess` syntax (OVH validation tools available)
+- Verify `index.html` is in the domain root
+- Check browser console for errors
+
+### Not indexing on Google?
+- Verify in Google Search Console
+- Check robots.txt allows crawlers
+- Ensure HTTPS is working
+- Wait 2–4 weeks for initial indexing
+
+### Maps not showing?
+- Verify Google Maps API key is correct and domain-restricted
+- Check browser console for API errors
+
+### Forms not working?
+- Test `mailto:` link manually
+- If using Formspree, verify endpoint is correct
+
+---
+
+## License & Credits
+
+All branding, design, and content belong to their respective owners. External resources used:
+- **Google Maps API**
+- **Photon/Komoot** (address autocomplete)
+- **WhatsApp**
+
+---
+
+## Version History
+
+- **Current:** Multi-brand static sites with full SEO + AI optimization
+- **Previous:** Webador hosting (Taxi Drive), replaced for independence and control
+- **Archive:** See `dev-env/` for design iterations
