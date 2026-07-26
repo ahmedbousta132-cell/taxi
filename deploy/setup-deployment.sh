@@ -1,99 +1,122 @@
 #!/bin/bash
-# Setup script for taxi website deployment with systemd and nginx
-# Run this script with sudo: sudo bash deploy/setup-deployment.sh
+# ============================================================
+# Déploiement des 2 sites taxi sur une VM OVH (Apache)
+#   - City Taxis  -> citytaxis.ch    -> /var/www/citytaxis
+#   - Taxi Drive  -> taxi-drive.ch   -> /var/www/taxidrive
+#
+# Sites 100 % statiques servis DIRECTEMENT par Apache.
+# Apache (et non nginx) car les 2 sites reposent sur un .htaccess
+# qui gère les URLs propres (/taxi-nyon/taxi-<ville>) et les
+# redirections 301 des anciennes URLs Webador. nginx ne lit pas
+# les .htaccess : ces règles seraient perdues (SEO cassé).
+#
+# Ce script installe TOUT EN HTTP. Le HTTPS s'ajoute ensuite avec
+# certbot (voir la fin du script) : c'est certbot qui écrit la
+# config SSL, une fois le DNS en place et le certificat obtenu.
+#
+# Usage :  sudo bash deploy/setup-deployment.sh
+# ============================================================
 
-set -e
+set -euo pipefail
 
-echo "========================================"
-echo "Taxi Website Deployment Setup"
-echo "========================================"
+CITYTAXIS_DOMAIN="citytaxis.ch"
+TAXIDRIVE_DOMAIN="taxi-drive.ch"
 
-# Check if running as root
+# Racine du dépôt (le script vit dans deploy/)
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
 if [[ $EUID -ne 0 ]]; then
-   echo "This script must be run as root (use sudo)"
-   exit 1
+    echo "Ce script doit être lancé en root : sudo bash deploy/setup-deployment.sh"
+    exit 1
 fi
 
-# Update system packages
-echo "\n[1/8] Updating system packages..."
+echo "========================================"
+echo " Déploiement Apache — City Taxis + Taxi Drive"
+echo " Dépôt : $REPO_ROOT"
+echo "========================================"
+
+echo
+echo "[1/6] Installation d'Apache et de certbot..."
 apt-get update
-apt-get upgrade -y
+apt-get install -y apache2 certbot python3-certbot-apache
 
-# Install required packages
-echo "\n[2/8] Installing required packages..."
-apt-get install -y curl git nginx certbot python3-certbot-nginx nodejs npm
+echo
+echo "[2/6] Activation des modules Apache nécessaires..."
+# rewrite : URLs propres + 301 | headers/deflate/expires : .htaccess
+a2enmod rewrite headers deflate expires ssl >/dev/null
+systemctl enable --now apache2
 
-# Create web directories
-echo "\n[3/8] Creating web directories..."
-mkdir -p /var/www/citytaxis
-mkdir -p /var/www/taxidrive
-chown -R www-data:www-data /var/www/citytaxis
-chown -R www-data:www-data /var/www/taxidrive
-chmod -R 755 /var/www/citytaxis
-chmod -R 755 /var/www/taxidrive
+echo
+echo "[3/6] Copie des fichiers des sites..."
+mkdir -p /var/www/citytaxis /var/www/taxidrive
+# 'cp -a src/. dst/' copie AUSSI les fichiers cachés (.htaccess).
+# Un 'cp -r src/* dst/' les oublierait -> URLs propres cassées.
+cp -a "$REPO_ROOT/deploy/citytaxis/." /var/www/citytaxis/
+cp -a "$REPO_ROOT/deploy/taxidrive/." /var/www/taxidrive/
+chown -R www-data:www-data /var/www/citytaxis /var/www/taxidrive
+find /var/www/citytaxis /var/www/taxidrive -type d -exec chmod 755 {} \;
+find /var/www/citytaxis /var/www/taxidrive -type f -exec chmod 644 {} \;
 
-# Copy website files (adjust paths as needed)
-echo "\n[4/8] Copying website files..."
-if [ -d "deploy/citytaxis" ]; then
-    cp -r deploy/citytaxis/* /var/www/citytaxis/
-fi
-if [ -d "deploy/taxidrive" ]; then
-    cp -r deploy/taxidrive/* /var/www/taxidrive/
-fi
+# Garde-fou : sans .htaccess, les pages villes ne répondraient pas.
+for d in /var/www/citytaxis /var/www/taxidrive; do
+    if [[ ! -f "$d/.htaccess" ]]; then
+        echo "ERREUR : $d/.htaccess manquant — les URLs propres ne fonctionneront pas."
+        exit 1
+    fi
+done
+echo "  -> .htaccess présents dans les deux sites."
 
-# Create log directory
-echo "\n[5/8] Setting up logging..."
-mkdir -p /var/log/taxi-services
-chown -R www-data:www-data /var/log/taxi-services
+echo
+echo "[4/6] Installation des vhosts Apache..."
+cp "$REPO_ROOT/deploy/apache/citytaxis.ch.conf"  /etc/apache2/sites-available/
+cp "$REPO_ROOT/deploy/apache/taxi-drive.ch.conf" /etc/apache2/sites-available/
+a2ensite citytaxis.ch.conf taxi-drive.ch.conf >/dev/null
+a2dissite 000-default.conf >/dev/null 2>&1 || true
 
-# Install systemd services
-echo "\n[6/8] Installing systemd services..."
-cp deploy/systemd/citytaxis.service /etc/systemd/system/
-cp deploy/systemd/taxidrive.service /etc/systemd/system/
-chmod 644 /etc/systemd/system/citytaxis.service
-chmod 644 /etc/systemd/system/taxidrive.service
-systemctl daemon-reload
+echo
+echo "[5/6] Test de la configuration et rechargement..."
+apache2ctl configtest
+systemctl reload apache2
 
-# Install nginx configurations
-echo "\n[7/8] Installing nginx configurations..."
-cp deploy/nginx/taxiscity.ch.conf /etc/nginx/sites-available/
-cp deploy/nginx/taxidrive.ch.conf /etc/nginx/sites-available/
-ln -sf /etc/nginx/sites-available/taxiscity.ch.conf /etc/nginx/sites-enabled/
-ln -sf /etc/nginx/sites-available/taxidrive.ch.conf /etc/nginx/sites-enabled/
+echo
+echo "[6/6] Test local des deux sites (avant DNS)..."
+for host in "$CITYTAXIS_DOMAIN" "$TAXIDRIVE_DOMAIN"; do
+    code=$(curl -s -o /dev/null -w '%{http_code}' -H "Host: $host" http://localhost/ || echo "000")
+    echo "  $host -> HTTP $code"
+done
 
-# Test and reload nginx
-echo "\n[8/8] Testing and reloading nginx..."
-nginx -t
-systemctl restart nginx
+SERVER_IP=$(curl -4 -s ifconfig.me || echo "IP_INTROUVABLE")
 
-echo ""
-echo "========================================"
-echo "Setup Complete!"
-echo "========================================"
-echo ""
-echo "Next steps:"
-echo ""
-echo "1. Setup SSL certificates with Let's Encrypt:"
-echo "   sudo certbot certonly --webroot -w /var/www/letsencrypt -d taxiscity.ch -d www.taxiscity.ch"
-echo "   sudo certbot certonly --webroot -w /var/www/letsencrypt -d taxidrive.ch -d www.taxidrive.ch"
-echo ""
-echo "2. Start the services:"
-echo "   sudo systemctl start citytaxis.service"
-echo "   sudo systemctl start taxidrive.service"
-echo ""
-echo "3. Enable services to start on boot:"
-echo "   sudo systemctl enable citytaxis.service"
-echo "   sudo systemctl enable taxidrive.service"
-echo ""
-echo "4. Check service status:"
-echo "   sudo systemctl status citytaxis.service"
-echo "   sudo systemctl status taxidrive.service"
-echo ""
-echo "5. View logs:"
-echo "   sudo tail -f /var/log/citytaxis.log"
-echo "   sudo tail -f /var/log/taxidrive.log"
-echo ""
-echo "6. Test the websites:"
-echo "   https://taxiscity.ch"
-echo "   https://taxidrive.ch"
-echo ""
+cat <<EOF
+
+========================================
+ Installation terminée (en HTTP)
+========================================
+
+IP DE CETTE VM : $SERVER_IP
+
+--- ÉTAPE SUIVANTE 1 : le DNS (chez Webador) ---
+Les deux domaines sont gérés via Webador/Openprovider.
+Dans Webador > Domaine > Paramètres DNS, pour CHAQUE domaine :
+  - enregistrement A  "@"    -> $SERVER_IP
+  - enregistrement A  "www"  -> $SERVER_IP
+Ne touchez PAS aux serveurs de noms (DNSSEC actif sur les 2 domaines).
+
+Vérifiez la propagation (15 min à 48 h) :
+  dig +short $CITYTAXIS_DOMAIN
+  dig +short $TAXIDRIVE_DOMAIN
+Quand la commande renvoie $SERVER_IP, passez à l'étape 2.
+
+--- ÉTAPE SUIVANTE 2 : le HTTPS (une fois le DNS propagé) ---
+  sudo certbot --apache -d $CITYTAXIS_DOMAIN -d www.$CITYTAXIS_DOMAIN
+  sudo certbot --apache -d $TAXIDRIVE_DOMAIN -d www.$TAXIDRIVE_DOMAIN
+Répondez "2" (rediriger HTTP vers HTTPS) quand certbot le propose.
+Renouvellement automatique : sudo certbot renew --dry-run
+
+--- ÉTAPE SUIVANTE 3 : vérifier ---
+  https://$CITYTAXIS_DOMAIN
+  https://$TAXIDRIVE_DOMAIN
+  https://$TAXIDRIVE_DOMAIN/taxi-nyon/taxi-givrins   (URL propre)
+
+Ne résiliez Webador qu'une fois ces 3 étapes validées.
+EOF

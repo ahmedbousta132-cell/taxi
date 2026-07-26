@@ -1,564 +1,221 @@
-# Deployment Guide: City Taxis & Taxi Drive
+# Guide de déploiement — City Taxis & Taxi Drive (VM OVH, Apache)
 
-This guide covers the complete setup for running both websites with systemd services and nginx reverse proxy with HTTPS.
+Mettre les deux sites en ligne, en HTTPS, sans coupure. À suivre **dans l'ordre**.
 
-## Architecture Overview
+| Marque | Domaine | Dossier sur la VM |
+|---|---|---|
+| City Taxis | `citytaxis.ch` | `/var/www/citytaxis` |
+| Taxi Drive | `taxi-drive.ch` *(avec tiret)* | `/var/www/taxidrive` |
+
+---
+
+## Pourquoi Apache (et pas nginx)
+
+Les deux sites sont **100 % statiques** et reposent sur un fichier **`.htaccess`**
+(21 règles) qui assure :
+
+- les **URLs propres** imbriquées : `/taxi-nyon/taxi-givrins` ;
+- les **redirections 301** des anciennes URLs Webador (`/reservation`,
+  `/obtenir-un-devis`, `/contact`, anciennes fiches produit) — c'est ce qui
+  **préserve le référencement** de l'ancien site ;
+- la redirection HTTPS + `www` → apex, la compression gzip, le cache navigateur
+  et les en-têtes de sécurité.
+
+**nginx ne lit pas les `.htaccess`.** Le passer sous nginx sans réécrire ces 21
+règles casserait les pages villes et ferait perdre le SEO accumulé.
+
+Apache sert en plus les fichiers **directement depuis le disque** : pas besoin de
+Node, de `npx serve`, ni de reverse proxy.
+
+> ⚠️ **Ne jamais écrire la configuration SSL à la main avant d'avoir le certificat.**
+> Une config qui référence `/etc/letsencrypt/live/...` inexistant empêche le
+> serveur web de démarrer → **site totalement inaccessible**. C'est
+> `certbot --apache` qui écrit le vhost HTTPS, une fois le certificat obtenu.
+
+---
+
+## Ordre de déploiement (important)
 
 ```
-┌─────────────────────────────────────────────────────┐
-│                   Internet (HTTPS)                    │
-└────────────────┬────────────────┬────────────────────┘
-                 │                │
-         ┌───────▼────────┐  ┌────▼────────────────┐
-         │ taxiscity.ch   │  │  taxidrive.ch       │
-         │ (port 443)     │  │  (port 443)         │
-         └────────┬───────┘  └──────┬───────────────┘
-                  │                 │
-        ┌─────────▼────────────────────▼──────────┐
-        │   Nginx Reverse Proxy (ports 80/443)   │
-        │  - SSL/TLS termination                 │
-        │  - Gzip compression                     │
-        │  - Security headers                     │
-        │  - Static file caching                  │
-        └─────────┬────────────────────┬──────────┘
-                  │                    │
-        ┌─────────▼──────┐    ┌────────▼─────���───┐
-        │ Port 3001      │    │ Port 3002        │
-        │ (localhost)    │    │ (localhost)      │
-        └────────┬───────┘    └────────┬─────────┘
-                 │                     │
-        ┌────────▼───────────────────────▼────────┐
-        │   Systemd Services (www-data)          │
-        │                                         │
-        │ ┌──────────────────────────────────┐  │
-        │ │ citytaxis.service                │  │
-        │ │ ExecStart: npx serve ... 3001    │  │
-        │ └──────────────────────────────────┘  │
-        │                                        │
-        │ ┌──────────────────────────────────┐  │
-        │ │ taxidrive.service                │  │
-        │ │ ExecStart: npx serve ... 3002    │  │
-        │ └──────────────────────────────────┘  │
-        └───────────────────────────────────────┘
+1. Installer (HTTP)  →  2. Basculer le DNS  →  3. Activer le HTTPS  →  4. Vérifier
 ```
 
-## System Requirements
+Le HTTPS ne peut **pas** être activé avant le DNS : Let's Encrypt doit joindre le
+domaine sur la VM pour prouver qu'il vous appartient.
 
-- **OS**: Ubuntu 20.04 LTS or later (or Debian 10+)
-- **RAM**: Minimum 2GB (4GB recommended)
-- **CPU**: 2 cores minimum
-- **Disk**: 20GB free space
-- **Ports**: 80, 443 (publicly accessible)
-- **Domains**: 
-  - `taxiscity.ch` pointing to your server
-  - `taxidrive.ch` pointing to your server
+---
 
-## Pre-Installation Checklist
+## Étape 1 — Installation sur la VM (en HTTP)
 
-- [ ] Root/sudo access on the server
-- [ ] Domain DNS records configured (A records pointing to server IP)
-- [ ] Firewall configured to allow ports 80 and 443
-- [ ] Server has internet access
-
-## Installation Steps
-
-### Step 1: Clone the Repository
+Connexion SSH (identifiants fournis par OVH) :
 
 ```bash
-git clone https://github.com/ahmedbousta132-cell/taxi.git /opt/taxi
-cd /opt/taxi
+ssh ubuntu@VOTRE_IP_OVH      # sinon : debian@... ou root@...
 ```
 
-### Step 2: Run the Setup Script
+Récupérer le dépôt puis lancer le script :
 
 ```bash
+git clone https://github.com/ahmedbousta132-cell/taxi.git
+cd taxi
 sudo bash deploy/setup-deployment.sh
 ```
 
-This script will:
-- Update system packages
-- Install Node.js, npm, nginx, and certbot
-- Create web directories
-- Copy website files
-- Install systemd services
-- Configure nginx
+Le script installe Apache + certbot, active les modules nécessaires, copie les
+deux sites (**y compris les `.htaccess`**), installe les vhosts, teste la config
+et affiche **l'IP de la VM**.
 
-### Step 3: Setup SSL Certificates
+À la fin, il doit afficher `HTTP 200` pour les deux domaines. Notez l'IP.
 
-Create the letsencrypt webroot directory:
+<details>
+<summary>Faire la même chose à la main (si vous préférez)</summary>
 
 ```bash
-sudo mkdir -p /var/www/letsencrypt
-sudo chown -R www-data:www-data /var/www/letsencrypt
+sudo apt update
+sudo apt install -y apache2 certbot python3-certbot-apache
+sudo a2enmod rewrite headers deflate expires ssl
+sudo mkdir -p /var/www/citytaxis /var/www/taxidrive
+# le "/." final copie AUSSI les fichiers cachés (.htaccess)
+sudo cp -a ~/taxi/deploy/citytaxis/. /var/www/citytaxis/
+sudo cp -a ~/taxi/deploy/taxidrive/. /var/www/taxidrive/
+sudo chown -R www-data:www-data /var/www/citytaxis /var/www/taxidrive
+sudo cp ~/taxi/deploy/apache/*.conf /etc/apache2/sites-available/
+sudo a2ensite citytaxis.ch.conf taxi-drive.ch.conf
+sudo a2dissite 000-default.conf
+sudo apache2ctl configtest && sudo systemctl reload apache2
+```
+</details>
+
+Ouvrir le pare-feu si `ufw` est actif :
+
+```bash
+sudo ufw allow 80,443/tcp
 ```
 
-Generate certificates for both domains:
+---
+
+## Étape 2 — Basculer le DNS (chez Webador)
+
+Les deux domaines sont enregistrés via **Openprovider** et pilotés depuis
+**Webador**. Tout se fait donc dans le tableau de bord Webador.
+
+Pour **chaque** domaine : *Domaine → Paramètres DNS*
+
+| Type | Nom | Valeur |
+|---|---|---|
+| A | `@` | **IP de la VM OVH** |
+| A | `www` | **IP de la VM OVH** |
+
+> 🔒 **Ne pas modifier les serveurs de noms** (`ns1.openprovider.nl`, …).
+> **DNSSEC est activé** sur les deux domaines : changer les serveurs de noms sans
+> désactiver DNSSEC au préalable rendrait les sites totalement injoignables.
+> Modifier uniquement les enregistrements **A** est sans risque.
+
+Suivre la propagation (de 15 min à 48 h) :
 
 ```bash
-sudo certbot certonly --webroot -w /var/www/letsencrypt \
-  -d taxiscity.ch -d www.taxiscity.ch
-
-sudo certbot certonly --webroot -w /var/www/letsencrypt \
-  -d taxidrive.ch -d www.taxidrive.ch
+dig +short citytaxis.ch
+dig +short taxi-drive.ch
 ```
 
-### Step 4: Start Services
+Passer à l'étape 3 **seulement** quand ces commandes renvoient l'IP de la VM.
+
+> ⚠️ **Ne pas résilier Webador maintenant.** Tant que le DNS n'est pas propagé
+> partout, une partie des visiteurs voit encore l'ancien site.
+
+---
+
+## Étape 3 — Activer le HTTPS
+
+Une fois le DNS propagé :
 
 ```bash
-# Start both services
-sudo systemctl start citytaxis.service
-sudo systemctl start taxidrive.service
-
-# Enable them to start on boot
-sudo systemctl enable citytaxis.service
-sudo systemctl enable taxidrive.service
-
-# Verify they're running
-sudo systemctl status citytaxis.service
-sudo systemctl status taxidrive.service
+sudo certbot --apache -d citytaxis.ch -d www.citytaxis.ch
+sudo certbot --apache -d taxi-drive.ch -d www.taxi-drive.ch
 ```
 
-### Step 5: Verify Installation
+- Saisir une adresse e-mail valide (alertes d'expiration).
+- Quand certbot propose la redirection HTTP → HTTPS : **répondre 2 (Redirect)**.
 
-Check service logs:
-
-```bash
-# City Taxis logs
-sudo tail -f /var/log/citytaxis.log
-
-# Taxi Drive logs
-sudo tail -f /var/log/taxidrive.log
-
-# Nginx logs
-sudo tail -f /var/log/nginx/taxiscity_access.log
-sudo tail -f /var/log/nginx/taxidrive_access.log
-```
-
-Test the websites:
+Vérifier le renouvellement automatique :
 
 ```bash
-# In your browser or via curl
-curl https://taxiscity.ch
-curl https://taxidrive.ch
-```
-
-## Service Management
-
-### View Service Status
-
-```bash
-sudo systemctl status citytaxis.service
-sudo systemctl status taxidrive.service
-```
-
-### Start/Stop Services
-
-```bash
-# Start
-sudo systemctl start citytaxis.service
-sudo systemctl start taxidrive.service
-
-# Stop
-sudo systemctl stop citytaxis.service
-sudo systemctl stop taxidrive.service
-
-# Restart
-sudo systemctl restart citytaxis.service
-sudo systemctl restart taxidrive.service
-
-# Reload (graceful restart)
-sudo systemctl reload citytaxis.service
-sudo systemctl reload taxidrive.service
-```
-
-### View Real-Time Logs
-
-```bash
-# City Taxis service logs
-sudo journalctl -u citytaxis.service -f
-
-# Taxi Drive service logs
-sudo journalctl -u taxidrive.service -f
-
-# Both services
-sudo journalctl -u citytaxis.service -u taxidrive.service -f
-```
-
-### View Application Output
-
-```bash
-# City Taxis
-sudo tail -f /var/log/citytaxis.log
-sudo tail -f /var/log/citytaxis-error.log
-
-# Taxi Drive
-sudo tail -f /var/log/taxidrive.log
-sudo tail -f /var/log/taxidrive-error.log
-```
-
-## Nginx Management
-
-### Test Configuration
-
-```bash
-sudo nginx -t
-```
-
-### Reload Nginx
-
-```bash
-# Graceful reload (no downtime)
-sudo systemctl reload nginx
-
-# Full restart
-sudo systemctl restart nginx
-```
-
-### View Nginx Logs
-
-```bash
-# City Taxis access logs
-sudo tail -f /var/log/nginx/taxiscity_access.log
-
-# City Taxis errors
-sudo tail -f /var/log/nginx/taxiscity_error.log
-
-# Taxi Drive access logs
-sudo tail -f /var/log/nginx/taxidrive_access.log
-
-# Taxi Drive errors
-sudo tail -f /var/log/nginx/taxidrive_error.log
-```
-
-## SSL Certificate Renewal
-
-### Automatic Renewal
-
-Certbot automatically sets up a systemd timer for renewal:
-
-```bash
-# Check renewal status
-sudo systemctl list-timers *certbot*
-
-# View renewal log
-sudo tail -f /var/log/letsencrypt/renewal.log
-```
-
-### Manual Renewal
-
-```bash
-# Dry run (test)
 sudo certbot renew --dry-run
-
-# Actual renewal
-sudo certbot renew
 ```
 
-## Monitoring & Maintenance
+✅ C'est à cette étape que le message de certificat disparaît et que le
+**cadenas 🔒** apparaît dans le navigateur.
 
-### System Health Check
+Optionnel, une fois le HTTPS confirmé sur tout le site : décommenter la ligne
+`Strict-Transport-Security` (HSTS) dans les deux `.htaccess`.
+
+---
+
+## Étape 4 — Vérifier
+
+| À tester | Résultat attendu |
+|---|---|
+| `https://citytaxis.ch` | page d'accueil + cadenas 🔒 |
+| `https://taxi-drive.ch` | page d'accueil + cadenas 🔒 |
+| `https://citytaxis.ch/taxi-nyon/` | hub des villes |
+| `https://taxi-drive.ch/taxi-nyon/taxi-givrins` | page ville (URL propre) |
+| `http://www.citytaxis.ch` | redirige vers `https://citytaxis.ch` |
+| `https://taxi-drive.ch/reservation` | redirige vers l'accueil `#book` |
+| `https://citytaxis.ch/sitemap.xml` | XML valide |
+
+En ligne de commande :
 
 ```bash
-#!/bin/bash
-echo "System Health Check"
-echo "=================="
-echo ""
-echo "Disk Space:"
-df -h | grep -E '^/dev|Filesystem'
-echo ""
-echo "Memory Usage:"
-free -h
-echo ""
-echo "Service Status:"
-sudo systemctl status citytaxis.service taxidrive.service nginx --no-pager
-echo ""
-echo "Port Listening:"
-sudo ss -tlnp | grep -E '3001|3002|:80|:443'
-echo ""
-echo "Process Count:"
-ps aux | grep 'npx serve' | grep -v grep
+curl -I https://taxi-drive.ch/taxi-nyon/taxi-givrins   # attendu : 200
+curl -I http://www.citytaxis.ch                        # attendu : 301
 ```
 
-### Check SSL Certificate Expiration
+**Formulaires** : envoyer un formulaire de test sur chaque site, puis cliquer sur
+**« Activate Form »** dans l'e-mail reçu de FormSubmit (une seule fois, à vie).
+Réception : City Taxis → `newaymen1196@gmail.com` · Taxi Drive → `taxiskyaymen@gmail.com`.
+
+---
+
+## Étape 5 — Google, puis fermeture de Webador
+
+1. **Search Console** — ajouter les deux domaines (validation **par DNS** : un
+   enregistrement TXT à créer dans Webador, au même endroit qu'à l'étape 2), puis
+   soumettre `https://citytaxis.ch/sitemap.xml` et `https://taxi-drive.ch/sitemap.xml`.
+2. **Fiches Google Business** (déjà existantes) — y remplacer l'URL Webador par
+   la nouvelle adresse du site. Vérifier téléphone, zone, horaires 24 h/24, photos.
+3. **Résilier Webador** — uniquement après 2 à 3 jours de fonctionnement validé.
+
+Le détail du référencement se trouve dans `CONFIGURATION-MANUELLE.md` (section B).
+
+---
+
+## Mettre à jour les sites plus tard
 
 ```bash
-# Check all certificates
-sudo certbot certificates
-
-# More detailed info
-sudo openssl x509 -noout -dates -in /etc/letsencrypt/live/taxiscity.ch/cert.pem
-sudo openssl x509 -noout -dates -in /etc/letsencrypt/live/taxidrive.ch/cert.pem
+cd ~/taxi && git pull
+sudo cp -a deploy/citytaxis/. /var/www/citytaxis/
+sudo cp -a deploy/taxidrive/. /var/www/taxidrive/
+sudo chown -R www-data:www-data /var/www/citytaxis /var/www/taxidrive
 ```
 
-## Updating Website Content
+Aucun redémarrage nécessaire : Apache sert les fichiers directement.
 
-### Update City Taxis
+---
+
+## Dépannage
+
+| Symptôme | Cause probable | Solution |
+|---|---|---|
+| Pages villes en 404 | `.htaccess` absent ou ignoré | vérifier `ls -a /var/www/<site>/` et `AllowOverride All` dans le vhost |
+| URLs propres inactives | `mod_rewrite` désactivé | `sudo a2enmod rewrite && sudo systemctl restart apache2` |
+| certbot échoue | DNS pas encore propagé | attendre, vérifier avec `dig +short <domaine>` |
+| Apache ne démarre pas | erreur de config | `sudo apache2ctl configtest` puis `sudo journalctl -xeu apache2` |
+| Site inaccessible depuis l'extérieur | pare-feu | `sudo ufw allow 80,443/tcp` |
+| Ancien site encore visible | cache DNS local | vider le cache DNS / tester en 4G |
+
+Logs :
 
 ```bash
-# Copy new files
-cp -r /path/to/new/citytaxis/* /var/www/citytaxis/
-chown -R www-data:www-data /var/www/citytaxis
-
-# Service will automatically serve new content
-# No restart needed for static files
-```
-
-### Update Taxi Drive
-
-```bash
-# Copy new files
-cp -r /path/to/new/taxidrive/* /var/www/taxidrive/
-chown -R www-data:www-data /var/www/taxidrive
-
-# Service will automatically serve new content
-# No restart needed for static files
-```
-
-## Troubleshooting
-
-### Services Won't Start
-
-```bash
-# Check service status and errors
-sudo systemctl status citytaxis.service -l
-
-# View detailed logs
-sudo journalctl -u citytaxis.service -n 50
-
-# Check if port is already in use
-sudo ss -tlnp | grep 3001
-
-# Check permissions
-ls -la /var/www/citytaxis/
-ls -la /var/log/citytaxis.log
-```
-
-### Nginx Errors
-
-```bash
-# Test configuration
-sudo nginx -t
-
-# View error logs
-sudo tail -f /var/log/nginx/error.log
-
-# Check if ports are available
-sudo ss -tlnp | grep -E ':80|:443'
-```
-
-### SSL Certificate Issues
-
-```bash
-# Check certificate status
-sudo certbot certificates
-
-# Test Let's Encrypt connectivity
-sudo certbot renew --dry-run
-
-# View certbot logs
-sudo tail -f /var/log/letsencrypt/letsencrypt.log
-```
-
-### Website Not Accessible
-
-```bash
-# Check if services are running
-sudo systemctl status citytaxis.service taxidrive.service
-
-# Test localhost connectivity
-curl http://localhost:3001
-curl http://localhost:3002
-
-# Check firewall
-sudo ufw status
-sudo ufw allow 80/tcp
-sudo ufw allow 443/tcp
-
-# Test nginx upstream
-curl -v http://127.0.0.1/
-```
-
-## Performance Tuning
-
-### Increase Node.js Memory
-
-Edit `/etc/systemd/system/citytaxis.service`:
-
-```ini
-Environment="NODE_OPTIONS=--max-old-space-size=2048"
-```
-
-Then reload:
-
-```bash
-sudo systemctl daemon-reload
-sudo systemctl restart citytaxis.service
-```
-
-### Optimize Nginx
-
-Edit `/etc/nginx/nginx.conf`:
-
-```nginx
-worker_processes auto;      # Use all CPU cores
-worker_connections 2048;    # Increase connection limit
-keepalive_timeout 65;       # Connection keepalive
-```
-
-Reload nginx:
-
-```bash
-sudo nginx -t
-sudo systemctl reload nginx
-```
-
-## Security Hardening
-
-### Firewall Setup (UFW)
-
-```bash
-# Enable firewall
-sudo ufw enable
-
-# Allow SSH
-sudo ufw allow 22/tcp
-
-# Allow HTTP/HTTPS
-sudo ufw allow 80/tcp
-sudo ufw allow 443/tcp
-
-# Deny everything else
-sudo ufw default deny incoming
-sudo ufw default allow outgoing
-
-# Check status
-sudo ufw status
-```
-
-### Fail2Ban Setup
-
-```bash
-# Install
-sudo apt-get install -y fail2ban
-
-# Create local config
-sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
-
-# Edit and enable nginx-http-auth
-sudo systemctl start fail2ban
-sudo systemctl enable fail2ban
-```
-
-### File Permissions
-
-```bash
-# Ensure correct ownership
-sudo chown -R www-data:www-data /var/www/citytaxis
-sudo chown -R www-data:www-data /var/www/taxidrive
-
-# Set secure permissions
-sudo chmod 755 /var/www/citytaxis
-sudo chmod 755 /var/www/taxidrive
-sudo chmod 644 /var/www/citytaxis/*
-sudo chmod 644 /var/www/taxidrive/*
-```
-
-## Backup & Recovery
-
-### Backup Website Files
-
-```bash
-# Create backup
-sudo tar -czf /backup/citytaxis-$(date +%Y%m%d).tar.gz /var/www/citytaxis/
-sudo tar -czf /backup/taxidrive-$(date +%Y%m%d).tar.gz /var/www/taxidrive/
-
-# Or use rsync
-sudo rsync -av /var/www/citytaxis/ /backup/citytaxis/
-sudo rsync -av /var/www/taxidrive/ /backup/taxidrive/
-```
-
-### Backup Configuration
-
-```bash
-# Backup nginx configs
-sudo tar -czf /backup/nginx-$(date +%Y%m%d).tar.gz /etc/nginx/sites-available/
-
-# Backup systemd services
-sudo tar -czf /backup/systemd-$(date +%Y%m%d).tar.gz /etc/systemd/system/citytaxis.service /etc/systemd/system/taxidrive.service
-
-# Backup SSL certificates
-sudo tar -czf /backup/ssl-$(date +%Y%m%d).tar.gz /etc/letsencrypt/
-```
-
-### Restore from Backup
-
-```bash
-# Restore website files
-sudo tar -xzf /backup/citytaxis-20240101.tar.gz -C /
-sudo tar -xzf /backup/taxidrive-20240101.tar.gz -C /
-
-# Restore and reload services
-sudo systemctl restart citytaxis.service taxidrive.service
-```
-
-## Uninstallation
-
-```bash
-# Stop services
-sudo systemctl stop citytaxis.service taxidrive.service
-sudo systemctl disable citytaxis.service taxidrive.service
-
-# Remove systemd services
-sudo rm /etc/systemd/system/citytaxis.service
-sudo rm /etc/systemd/system/taxidrive.service
-sudo systemctl daemon-reload
-
-# Remove nginx configs
-sudo rm /etc/nginx/sites-enabled/taxiscity.ch.conf
-sudo rm /etc/nginx/sites-enabled/taxidrive.ch.conf
-sudo rm /etc/nginx/sites-available/taxiscity.ch.conf
-sudo rm /etc/nginx/sites-available/taxidrive.ch.conf
-sudo systemctl reload nginx
-
-# Remove website files (optional)
-sudo rm -rf /var/www/citytaxis
-sudo rm -rf /var/www/taxidrive
-
-# Revoke SSL certificates (optional)
-sudo certbot revoke --cert-path /etc/letsencrypt/live/taxiscity.ch/cert.pem
-sudo certbot revoke --cert-path /etc/letsencrypt/live/taxidrive.ch/cert.pem
-```
-
-## Support & Resources
-
-- **Repository**: https://github.com/ahmedbousta132-cell/taxi
-- **Nginx Documentation**: https://nginx.org/en/docs/
-- **Let's Encrypt**: https://letsencrypt.org/
-- **Systemd Documentation**: https://www.freedesktop.org/software/systemd/man/systemd.service.html
-- **Node.js Serve Package**: https://www.npmjs.com/package/serve
-
-## Quick Reference
-
-```bash
-# Start both services
-sudo systemctl start citytaxis.service taxidrive.service
-
-# Stop both services
-sudo systemctl stop citytaxis.service taxidrive.service
-
-# View all service logs
-sudo journalctl -u citytaxis.service -u taxidrive.service -f
-
-# Test websites
-curl -I https://taxiscity.ch
-curl -I https://taxidrive.ch
-
-# Check certificate expiration
-sudo certbot certificates
-
-# Nginx reload
-sudo systemctl reload nginx
-
-# System health
-df -h && free -h && sudo ss -tlnp
+sudo tail -f /var/log/apache2/citytaxis_error.log
+sudo tail -f /var/log/apache2/taxidrive_error.log
 ```
