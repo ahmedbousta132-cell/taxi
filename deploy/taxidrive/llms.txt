@@ -29,4 +29,4 @@ Contact : téléphone et WhatsApp +41 78 719 44 44 · e-mail info@taxidrive.ch. 
 
 ## Pages par ville (taxi local)
 - [Taxi Nyon](https://taxidrive.ch/taxi-nyon/) · [Gland](https://taxidrive.ch/taxi-nyon/taxi-gland) · [Coppet](https://taxidrive.ch/taxi-nyon/taxi-coppet) · [Rolle](https://taxidrive.ch/taxi-nyon/taxi-rolle) · [Begnins](https://taxidrive.ch/taxi-nyon/taxi-begnins) · [Saint-Cergue](https://taxidrive.ch/taxi-nyon/taxi-saint-cergue) · [Aubonne](https://taxidrive.ch/taxi-nyon/taxi-aubonne)
-- Autres communes desservies (pages dédiées sous /taxi-nyon/taxi-<commune>) : Prangins, Founex, Mies, Commugny, Tannay, Chavannes-de-Bogis, Dully, Duillier, Genolier, Givrins, Gingins, Trélex, Chéserex, La Rippe, Eysins, Signy, Borex, Crassier, Bassins, Arzier-Le Muids, Gimel — voir sitemap.xml
+- Autres communes desservies : Prangins, Founex, Mies, Commugny, Tannay, Chavannes-de-Bogis, Dully, Duillier, Genolier, Gingins, Trélex, Chéserex, La Rippe, Eysins, Signy, Borex, Crassier, Bassins, Arzier-Le Muids, Gimel
