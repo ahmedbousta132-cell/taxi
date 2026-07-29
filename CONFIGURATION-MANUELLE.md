@@ -99,24 +99,73 @@ via **FormSubmit.co** (gratuit, illimité), en plus du bouton WhatsApp :
 
 ## B. Référencement Google — à faire dès la mise en ligne
 
-### 🟠 B1. Google Search Console (le plus important après la mise en ligne)
-https://search.google.com/search-console
-1. Ajouter **les deux domaines** (propriété « Domaine », validation par DNS).
-2. Soumettre le sitemap de chacun : `https://taxiscity.ch/sitemap.xml` et
-   `https://taxidrive.ch/sitemap.xml`.
-3. Demander l'indexation de l'accueil et du hub `/taxi-nyon/` (outil d'inspection d'URL).
-4. Pour Taxi Drive : surveiller que les anciennes URLs Webador passent bien en 301
-   (rapport « Pages ») — normal qu'elles migrent sur quelques semaines.
+### 🟠 B1. Google Search Console — faire indexer les sites
+Outil : https://search.google.com/search-console (gratuit). Connectez-vous avec
+**le compte Google qui gère déjà vos fiches Google Business**.
+
+**1) Ajouter chaque domaine (vérification par DNS chez Namecheap)**
+- Bouton **« Ajouter une propriété » → type « Domaine »** → saisir `taxiscity.ch`
+  (puis recommencer pour `taxidrive.ch`).
+- Google affiche un enregistrement **TXT** du type `google-site-verification=xxxx`.
+- Dans **Namecheap → Domain List → Manage → Advanced DNS** (le **même écran** que
+  les enregistrements A déjà posés), ajoutez pour ce domaine :
+
+  | Type | Host | Value | TTL |
+  |------|------|-------|-----|
+  | TXT Record | `@` | *la chaîne `google-site-verification=…` fournie* | Automatic |
+
+- Enregistrez, attendez la propagation (souvent 15–30 min), puis cliquez
+  **« Vérifier »** dans Search Console. Le TXT peut rester en place ensuite.
+
+**2) Soumettre le sitemap** (une fois la propriété vérifiée)
+- Menu **« Sitemaps »** → dans le champ, taper simplement `sitemap.xml` → Envoyer.
+- À faire pour les deux : `taxiscity.ch/sitemap.xml` et `taxidrive.ch/sitemap.xml`.
+- C'est ce qui fait découvrir toutes les pages (54 pour City Taxis, dont les 48
+  villes ; 7 pour Taxi Drive).
+
+**3) Accélérer les pages clés**
+- **Inspection d'URL** (barre du haut) → tester `https://taxiscity.ch/` puis
+  `https://taxiscity.ch/taxi-nyon/` → **« Demander l'indexation »**. Idem pour
+  Taxi Drive. Inutile de le faire pour les 48 villes : le sitemap s'en charge.
+
+**4) Suivi**
+- Rapport **« Pages »** = ce qui est indexé / en attente. Délais réalistes :
+  premières pages en **quelques jours**, l'ensemble du maillage en **2 à 4 semaines**.
+
+**5) Migration de l'ancien domaine (`taxi-drive.ch`)**
+- Ajoutez **aussi** `taxi-drive.ch` (l'ancien domaine Webador) comme propriété,
+  puis *Paramètres → **Changement d'adresse*** vers `taxidrive.ch`. C'est le
+  signal officiel qui **transfère le référencement** de l'ancien site vers le
+  nouveau. À coupler avec la redirection 301 (voir `deploy/DEPLOYMENT-GUIDE.md`,
+  étape 5).
 
 ### 🟠 B2. Fiche Google Business Profile — **levier n°1 pour un taxi**
-https://business.google.com
-- **Taxi Drive** a probablement déjà une fiche (site existant) → **revendiquez-la**
-  et mettez à jour (site web, téléphone, zone, horaires 24h/24, photos).
-- **City Taxis** → créez une fiche si c'est une entité distincte.
-- Renseignez : nom exact, téléphone, zone desservie (Nyon / La Côte / Suisse),
-  horaires 24h/24, catégories (« Service de taxi », « Service de voiture avec chauffeur »).
-> C'est ce qui vous fait apparaître dans **Google Maps** et le **pack local** (les 3
-> résultats en haut avec la carte) — indispensable pour « taxi nyon », « taxi gland », etc.
+Outil : https://business.google.com
+
+> ⚠️ **À comprendre d'abord** : Google Business ne « s'installe » **pas** sur le
+> site. C'est une **fiche externe** (Google Maps + le « pack local », les 3
+> résultats avec la carte en haut de Google) qui **pointe vers** votre site. Il
+> n'y a donc rien à coder ; tout se fait dans l'interface ci-dessus.
+
+Vous avez **déjà des fiches** créées pour les anciennes marques → **ne les
+recréez pas, revendiquez-les et mettez-les à jour** :
+
+1. Connectez-vous sur business.google.com avec le compte Google concerné, ouvrez
+   la fiche.
+2. **Remplacez l'adresse du site web** par le nouveau domaine :
+   `https://taxiscity.ch` pour City Taxis · `https://taxidrive.ch` pour Taxi Drive.
+3. Vérifiez / complétez : **nom exact** de la marque, **téléphone**
+   +41 78 719 44 44, **zone desservie** (Nyon / La Côte / Suisse), **horaires
+   24h/24 7j/7**, **catégories** « Service de taxi » + « Service de voiture avec
+   chauffeur », **photos** (véhicules, chauffeur).
+4. Si l'ancienne fiche porte un **autre nom** que la marque actuelle : renommez-la
+   (ou créez une nouvelle fiche si c'est une entité vraiment distincte). Un
+   changement de **nom ou d'adresse** peut déclencher une **re-validation Google**
+   (code par courrier postal, téléphone ou e-mail) — c'est normal.
+
+> C'est ce qui vous fait apparaître dans **Google Maps** et le **pack local** —
+> indispensable pour « taxi nyon », « taxi gland », etc. Souvent **plus
+> déterminant que le site lui-même** pour un taxi local.
 
 ### 🟠 B3. Avis Google
 Demandez systématiquement un avis à chaque client satisfait (lien d'avis Google).
