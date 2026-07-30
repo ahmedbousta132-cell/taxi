@@ -112,7 +112,7 @@
   @media(max-width:900px){.globe-wrap{height:400px}}
   #globe{position:fixed;inset:0;z-index:-1;pointer-events:none}
   /* cartes "verre dépoli" (goutte d'eau) : le texte reste lisible, le globe visible derrière */
-  .glass{position:relative;z-index:1;background:rgba(255,255,255,.65);backdrop-filter:blur(20px) saturate(1.2);-webkit-backdrop-filter:blur(20px) saturate(1.2);border:1px solid rgba(255,255,255,.5);border-radius:24px;box-shadow:0 10px 30px rgba(0,0,0,.05);padding:clamp(22px,3vw,34px)}
+  .glass{position:relative;z-index:1;background:rgba(255,255,255,.65);backdrop-filter:blur(0px) saturate(1.2);-webkit-backdrop-filter:blur(0px) saturate(1.2);border:1px solid rgba(255,255,255,.5);border-radius:24px;box-shadow:0 10px 30px rgba(0,0,0,.05);padding:clamp(22px,3vw,34px)}
   .hero-glass{max-width:660px}
   @supports not ((backdrop-filter:blur(2px)) or (-webkit-backdrop-filter:blur(2px))){.glass{background:rgba(255,255,255,.92)}}
   .globe-tag{position:absolute;left:20px;bottom:18px;font-size:12px;color:var(--muted);background:rgba(255,255,255,.7);backdrop-filter:blur(6px);border:1px solid var(--line);border-radius:999px;padding:6px 13px;z-index:3}
