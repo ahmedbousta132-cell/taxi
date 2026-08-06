@@ -516,7 +516,8 @@
     <div class="fld c2"><label>Heure</label><input type="text" id="b_time" inputmode="numeric" maxlength="5" autocomplete="off" placeholder="HH:MM"></div>
     <div class="fld c2"><label>Passagers</label><select id="b_pax"><option>1</option><option>2</option><option>3</option><option>4+</option></select></div>
     <div class="fld c3"><label>Véhicule</label><select id="b_veh"><option>Standard</option><option>Premium Mercedes</option><option>Van</option></select></div>
-    <div class="fld c3"><label>N° de vol (si aéroport)</label><input id="b_flight" placeholder="LX 1234"></div>
+    <div class="fld c3"><label>Type de trajet</label><select id="b_trip"><option value="Aller simple">Aller simple</option><option value="Aller-retour">Aller-retour</option></select></div>
+    <div class="fld c3" id="b_flight_wrap" style="display:none"><label>N° de vol (si aéroport)</label><input id="b_flight" placeholder="LX 1234"></div>
     <div class="fld c6"><label>Notes</label><input id="b_notes" placeholder="ex. siège enfant, arrêt supplémentaire"></div>
     <div class="fld c2"><label>Nom et prénom *</label><input id="b_name" autocomplete="name" placeholder="Jean Dupont" required></div>
     <div class="fld c2"><label>Adresse e-mail *</label><input id="b_email" type="email" inputmode="email" autocomplete="email" placeholder="vous@exemple.ch" required></div>
@@ -576,7 +577,7 @@
         <div><span class="fl">Heure</span><input id="d_time" type="text" inputmode="numeric" maxlength="5" autocomplete="off" placeholder="HH:MM"></div>
         <div><span class="fl">Passagers</span><input id="d_pax" type="number" min="1" value="2"></div>
         <div><span class="fl">Véhicule souhaité</span><select id="d_veh"><option>Laissez-nous proposer</option><option>Standard</option><option>Premium Mercedes</option><option>Van</option><option>Minibus 8-16 places</option><option>Bus jusqu'à 49 places</option></select></div>
-        <div><span class="fl">N° de vol (si aéroport)</span><input id="d_flight" placeholder="LX 1234"></div>
+        <div id="d_flight_wrap" style="display:none"><span class="fl">N° de vol (si aéroport)</span><input id="d_flight" placeholder="LX 1234"></div>
         <div class="full"><span class="fl">Type de trajet</span>
           <div class="seg" style="grid-template-columns:repeat(4,1fr)">
             <label><input type="radio" name="d_trip" value="Aller simple" checked>Aller simple</label>
@@ -872,32 +873,21 @@ if(!reduce){document.querySelectorAll('[data-tilt]').forEach(c=>{
   const form=document.getElementById('devisForm'),ok=document.getElementById('devisOk');
   const val=id=>document.getElementById(id).value,
         rad=n=>{const el=document.querySelector('input[name='+n+']:checked');return el?el.value:'';};
-  function build(){return 'Bonjour Taxi Drive, demande de devis :\n\n'+
+  function swissDate(){var d=new Date();return d.toLocaleDateString('fr-CH',{timeZone:'Europe/Zurich',day:'2-digit',month:'2-digit',year:'numeric'})+' '+d.toLocaleTimeString('fr-CH',{timeZone:'Europe/Zurich',hour:'2-digit',minute:'2-digit'});}
+  document.querySelectorAll('input[name=d_trip]').forEach(function(r){r.addEventListener('change',function(){var w=document.getElementById('d_flight_wrap');if(w)w.style.display=this.value==='Aller-retour'?'':'none';if(this.value!=='Aller-retour'){var f=document.getElementById('d_flight');if(f)f.value='';}});});
+  function build(){var m='Bonjour Taxi Drive, demande de devis :\n\n'+
     '**Type** : '+rad('d_type')+'\n'+'**Trajet** : '+rad('d_trip')+'\n'+
     '**Départ** : '+(val('d_from')||'—')+'\n'+'**Destination** : '+(val('d_to')||'—')+'\n'+
     '**Date** : '+(val('d_date')||'—')+'\n'+
     '**Heure** : '+(val('d_time')||'—')+'\n'+
-    '**Passagers** : '+(val('d_pax')||'—')+'\n'+'**Véhicule** : '+val('d_veh')+'\n'+
-    '**N° de vol** : '+(val('d_flight')||'—')+'\n'+
-    '**Nom et prénom** : '+(val('d_name')||'—')+'\n'+'**Téléphone** : '+((val('d_cc')||'')+' '+(val('d_phone')||'')).trim()+'\n'+
-    '**Email** : '+(val('d_email')||'—')+'\n'+'**Détails** : '+(val('d_msg')||'—');}
-  function buildHtml(){return '<p>Bonjour Taxi Drive, demande de devis :</p>'+
-    '<p><b>Type</b> : '+rad('d_type')+'<br>'+
-    '<b>Trajet</b> : '+rad('d_trip')+'<br>'+
-    '<b>Départ</b> : '+(val('d_from')||'—')+'<br>'+
-    '<b>Destination</b> : '+(val('d_to')||'—')+'<br>'+
-    '<b>Date</b> : '+(val('d_date')||'—')+'<br>'+
-    '<b>Heure</b> : '+(val('d_time')||'—')+'<br>'+
-    '<b>Passagers</b> : '+(val('d_pax')||'—')+'<br>'+
-    '<b>Véhicule</b> : '+val('d_veh')+'<br>'+
-    '<b>N° de vol</b> : '+(val('d_flight')||'—')+'<br>'+
-    '<b>Nom</b> : '+(val('d_name')||'—')+'<br>'+
-    '<b>Téléphone</b> : '+((val('d_cc')||'')+' '+(val('d_phone')||'')).trim()+'<br>'+
-    '<b>Email</b> : '+(val('d_email')||'—')+'<br>'+
-    '<b>Détails</b> : '+(val('d_msg')||'—')+'</p>';}
+    '**Passagers** : '+(val('d_pax')||'—')+'\n'+'**Véhicule** : '+val('d_veh')+'\n';
+    if(val('d_flight'))m+='**N° de vol** : '+val('d_flight')+'\n';
+    m+='**Nom et prénom** : '+(val('d_name')||'—')+'\n'+'**Téléphone** : '+((val('d_cc')||'')+' '+(val('d_phone')||'')).trim()+'\n'+
+    '**Email** : '+(val('d_email')||'—')+'\n'+'**Détails** : '+(val('d_msg')||'—');return m;}
+  function devisFields(){var f={"Type de demande":"Devis","Type":rad('d_type'),"Type de trajet":rad('d_trip'),"Adresse de départ":val('d_from'),"Destination":val('d_to'),"Date":val('d_date'),"Heure":val('d_time'),"Passagers":val('d_pax'),"Véhicule souhaité":val('d_veh')};if(val('d_flight'))f["N° de vol"]=val('d_flight');f["Nom"]=val('d_name');f["Téléphone"]=((val('d_cc')||'')+' '+(val('d_phone')||'')).trim();f["Email"]=val('d_email');f["Message | Détails"]=val('d_msg')||'';f._replyto=val('d_email');f._subject='Demande de devis par '+val('d_name')+', '+swissDate()+' — Taxi Drive';f._template='box';f._captcha='false';return f;}
   const showOk=()=>{form.style.display='none';ok.classList.add('show');};
   document.getElementById('d_wa').addEventListener('click',function(){this.href='https://wa.me/41787194444?text='+encodeURIComponent(build());setTimeout(showOk,120);});
-  document.getElementById('d_mail').addEventListener('click',function(e){e.preventDefault();var b=this,t=b.textContent;b.textContent='Envoi…';fetch('https://formsubmit.co/ajax/taxiskyaymen@gmail.com',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({Demande:buildHtml(),_replyto:val('d_email'),_subject:'Demande de devis par '+val('d_name')+', '+swissDate()+' — Taxi Drive',_template:'box',_captcha:'false'})}).then(function(r){return r.json();}).then(function(){showOk();}).catch(function(){window.location.href='mailto:taxiskyaymen@gmail.com?subject='+encodeURIComponent('Demande de devis par '+val('d_name')+', '+swissDate()+' — Taxi Drive')+'&body='+encodeURIComponent(build());}).finally(function(){b.textContent=t;});});
+  document.getElementById('d_mail').addEventListener('click',function(e){e.preventDefault();var b=this,t=b.textContent;b.textContent='Envoi…';fetch('https://formsubmit.co/ajax/taxiskyaymen@gmail.com',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(devisFields())}).then(function(r){return r.json();}).then(function(){showOk();}).catch(function(){window.location.href='mailto:taxiskyaymen@gmail.com?subject='+encodeURIComponent('Demande de devis par '+val('d_name')+', '+swissDate()+' — Taxi Drive')+'&body='+encodeURIComponent(build());}).finally(function(){b.textContent=t;});});
   document.getElementById('devisReset').addEventListener('click',()=>{ok.classList.remove('show');form.style.display='';});
 })();
 
@@ -1028,7 +1018,9 @@ if(!reduce){document.querySelectorAll('[data-tilt]').forEach(c=>{
   function val(id){var e=document.getElementById(id);return e?e.value.trim():'';}
   function cc(){var s=document.getElementById('b_cc');return s?s.value:'';}
   function swissDate(){var d=new Date();return d.toLocaleDateString('fr-CH',{timeZone:'Europe/Zurich',day:'2-digit',month:'2-digit',year:'numeric'})+' '+d.toLocaleTimeString('fr-CH',{timeZone:'Europe/Zurich',hour:'2-digit',minute:'2-digit'});}
-  function build(){return 'Bonjour Taxi Drive, je souhaite réserver une course :\n\n'+
+  var bTrip=document.getElementById('b_trip');
+  if(bTrip)bTrip.addEventListener('change',function(){document.getElementById('b_flight_wrap').style.display=this.value==='Aller-retour'?'':'none';if(this.value!=='Aller-retour')document.getElementById('b_flight').value='';});
+  function build(){var m='Bonjour Taxi Drive, je souhaite réserver une course :\n\n'+
     '**Nom** : '+(val('b_name')||'—')+'\n'+
     '**Téléphone** : '+(cc()+' '+val('b_phone')).trim()+'\n'+
     '**E-mail** : '+(val('b_email')||'—')+'\n'+
@@ -1037,20 +1029,10 @@ if(!reduce){document.querySelectorAll('[data-tilt]').forEach(c=>{
     '**Date** : '+(val('b_date')||'—')+'\n'+
     '**Heure** : '+(val('b_time')||'—')+'\n'+
     '**Passagers** : '+(val('b_pax')||'—')+'\n'+'**Véhicule** : '+(val('b_veh')||'—')+'\n'+
-    '**N° de vol** : '+(val('b_flight')||'—')+'\n'+'**Notes** : '+(val('b_notes')||'—');}
-  function buildHtml(){return '<p>Bonjour Taxi Drive, je souhaite réserver une course :</p>'+
-    '<p><b>Nom et prénom</b> : '+(val('b_name')||'—')+'<br>'+
-    '<b>Téléphone</b> : '+(cc()+' '+val('b_phone')).trim()+'<br>'+
-    '<b>E-mail</b> : '+(val('b_email')||'—')+'<br>'+
-    '<b>Départ</b> : '+(val('b_from')||'—')+'<br>'+
-    '<b>Destination</b> : '+(val('b_to')||'—')+'<br>'+
-    '<b>Ville / CP</b> : '+(val('b_city')||'—')+'<br>'+
-    '<b>Date</b> : '+(val('b_date')||'—')+'<br>'+
-    '<b>Heure</b> : '+(val('b_time')||'—')+'<br>'+
-    '<b>Passagers</b> : '+(val('b_pax')||'—')+'<br>'+
-    '<b>Véhicule</b> : '+(val('b_veh')||'—')+'<br>'+
-    '<b>N° de vol</b> : '+(val('b_flight')||'—')+'<br>'+
-    '<b>Notes</b> : '+(val('b_notes')||'—')+'</p>';}
+    '**Type de trajet** : '+(val('b_trip')||'Aller simple')+'\n';
+    if(val('b_flight'))m+='**N° de vol** : '+val('b_flight')+'\n';
+    m+='**Notes** : '+(val('b_notes')||'—');return m;}
+  function formFields(){var f={"Type de demande":"Réservation","Nom":val('b_name'),"Adresse e-mail":val('b_email'),"Téléphone":(cc()+' '+val('b_phone')).trim(),"Adresse de départ":val('b_from'),"Destination":val('b_to'),"Ville / CP":val('b_city'),"Date":val('b_date'),"Heure de départ":val('b_time'),"Passagers":val('b_pax'),"Choix de véhicules":val('b_veh'),"Type de trajet":val('b_trip')||'Aller simple'};if(val('b_flight'))f["N° de vol"]=val('b_flight');f["Notes"]=val('b_notes')||'';f._replyto=val('b_email');f._subject='Réservation par '+val('b_name')+', '+swissDate()+' — Taxi Drive';f._template='box';f._captcha='false';return f;}
   function valid(){
     if(!val('b_from')||!val('b_city')){alert('Merci d’indiquer au moins le départ et la ville.');return false;}
     if(!val('b_name')){alert('Merci d’indiquer votre nom et prénom.');return false;}
@@ -1060,7 +1042,7 @@ if(!reduce){document.querySelectorAll('[data-tilt]').forEach(c=>{
   }
   function ok(){var o=document.getElementById('b_ok');if(o)o.style.display='block';}
   if(wa)wa.addEventListener('click',function(e){if(!valid()){e.preventDefault();return;}this.href='https://wa.me/41787194444?text='+encodeURIComponent(build());setTimeout(ok,120);});
-  if(mail)mail.addEventListener('click',function(e){e.preventDefault();if(!valid()){return;}var b=this,t=b.textContent;b.textContent='Envoi…';fetch('https://formsubmit.co/ajax/taxiskyaymen@gmail.com',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({Reservation:buildHtml(),_replyto:val('b_email'),_subject:'Réservation par '+val('b_name')+', '+swissDate()+' — Taxi Drive',_template:'box',_captcha:'false'})}).then(function(r){return r.json();}).then(function(){ok();}).catch(function(){window.location.href='mailto:taxiskyaymen@gmail.com?subject='+encodeURIComponent('Réservation par '+val('b_name')+', '+swissDate()+' — Taxi Drive')+'&body='+encodeURIComponent(build());}).finally(function(){b.textContent=t;});});
+  if(mail)mail.addEventListener('click',function(e){e.preventDefault();if(!valid()){return;}var b=this,t=b.textContent;b.textContent='Envoi…';fetch('https://formsubmit.co/ajax/taxiskyaymen@gmail.com',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(formFields())}).then(function(r){return r.json();}).then(function(){ok();}).catch(function(){window.location.href='mailto:taxiskyaymen@gmail.com?subject='+encodeURIComponent('Réservation par '+val('b_name')+', '+swissDate()+' — Taxi Drive')+'&body='+encodeURIComponent(build());}).finally(function(){b.textContent=t;});});
 })();
 // ===== date/time auto-format + clamp =====
 (function(){
