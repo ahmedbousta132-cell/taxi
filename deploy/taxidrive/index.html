@@ -573,6 +573,7 @@
         </div>
         <div><span class="fl">Départ</span><input id="d_from" placeholder="Saisir la ville de départ"></div>
         <div><span class="fl">Destination</span><input id="d_to" placeholder="Saisir la ville de destination"></div>
+        <div><span class="fl" data-form-i18n="d_city_label">Ville</span><input id="d_city" data-form-i18n-placeholder="d_city_placeholder" placeholder="Saisir la ville / code postal"></div>
         <div><span class="fl">Date</span><input id="d_date" type="text" inputmode="numeric" maxlength="10" autocomplete="off" placeholder="JJ/MM/AAAA"></div>
         <div><span class="fl">Heure</span><input id="d_time" type="text" inputmode="numeric" maxlength="5" autocomplete="off" placeholder="HH:MM"></div>
         <div><span class="fl">Passagers</span><input id="d_pax" type="number" min="1" value="2"></div>
@@ -598,9 +599,9 @@
     </div>
     <div class="dv-ok" id="devisOk">
       <div class="chk">✓</div>
-      <h3>Demande prête à l'envoi</h3>
-      <p>Votre WhatsApp ou votre messagerie s'est ouverte avec le récapitulatif. Réponse sous 2h.</p>
-      <button class="btn btn-o" id="devisReset" style="margin-top:20px">Nouvelle demande</button>
+      <h3 data-success-i18n="title">Demande prête à l'envoi</h3>
+      <p data-success-i18n="body">Votre WhatsApp ou votre messagerie s'est ouverte avec le récapitulatif. Réponse sous 2h.</p>
+      <button class="btn btn-o" id="devisReset" style="margin-top:20px" data-success-i18n="reset">Nouvelle demande</button>
     </div>
   </div>
 </div>
@@ -878,13 +879,14 @@ if(!reduce){document.querySelectorAll('[data-tilt]').forEach(c=>{
   function build(){var m='Bonjour Taxi Drive, demande de devis :\n\n'+
     '**Type** : '+rad('d_type')+'\n'+'**Trajet** : '+rad('d_trip')+'\n'+
     '**Départ** : '+(val('d_from')||'—')+'\n'+'**Destination** : '+(val('d_to')||'—')+'\n'+
+    '**Ville / CP** : '+(val('d_city')||'—')+'\n'+
     '**Date** : '+(val('d_date')||'—')+'\n'+
     '**Heure** : '+(val('d_time')||'—')+'\n'+
     '**Passagers** : '+(val('d_pax')||'—')+'\n'+'**Véhicule** : '+val('d_veh')+'\n';
     if(val('d_flight'))m+='**N° de vol** : '+val('d_flight')+'\n';
     m+='**Nom et prénom** : '+(val('d_name')||'—')+'\n'+'**Téléphone** : '+((val('d_cc')||'')+' '+(val('d_phone')||'')).trim()+'\n'+
     '**Email** : '+(val('d_email')||'—')+'\n'+'**Détails** : '+(val('d_msg')||'—');return m;}
-  function devisFields(){var f={"Type de demande":"Devis","Type":rad('d_type'),"Type de trajet":rad('d_trip'),"Adresse de départ":val('d_from'),"Destination":val('d_to'),"Date":val('d_date'),"Heure":val('d_time'),"Passagers":val('d_pax'),"Véhicule souhaité":val('d_veh')};if(val('d_flight'))f["N° de vol"]=val('d_flight');f["Nom"]=val('d_name');f["Téléphone"]=((val('d_cc')||'')+' '+(val('d_phone')||'')).trim();f["Email"]=val('d_email');f["Message | Détails"]=val('d_msg')||'';f._replyto=val('d_email');f._subject='Demande de devis par '+val('d_name')+', '+swissDate()+' — Taxi Drive';f._template='box';f._captcha='false';return f;}
+  function devisFields(){var f={"Type de demande":"Devis","Type":rad('d_type'),"Type de trajet":rad('d_trip'),"Adresse de départ":val('d_from'),"Destination":val('d_to'),"Ville / CP":val('d_city'),"Date":val('d_date'),"Heure":val('d_time'),"Passagers":val('d_pax'),"Véhicule souhaité":val('d_veh')};if(val('d_flight'))f["N° de vol"]=val('d_flight');f["Nom"]=val('d_name');f["Téléphone"]=((val('d_cc')||'')+' '+(val('d_phone')||'')).trim();f["Email"]=val('d_email');f["Message | Détails"]=val('d_msg')||'';f._replyto=val('d_email');f._subject='Demande de devis par '+val('d_name')+', '+swissDate()+' — Taxi Drive';f._template='box';f._captcha='false';return f;}
   const showOk=()=>{form.style.display='none';ok.classList.add('show');};
   document.getElementById('d_wa').addEventListener('click',function(){this.href='https://wa.me/41787194444?text='+encodeURIComponent(build());setTimeout(showOk,120);});
   document.getElementById('d_mail').addEventListener('click',function(e){e.preventDefault();var b=this,t=b.textContent;b.textContent='Envoi…';fetch('https://formsubmit.co/ajax/taxiskyaymen@gmail.com',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(devisFields())}).then(function(r){return r.json();}).then(function(){showOk();}).catch(function(){window.location.href='mailto:taxiskyaymen@gmail.com?subject='+encodeURIComponent('Demande de devis par '+val('d_name')+', '+swissDate()+' — Taxi Drive')+'&body='+encodeURIComponent(build());}).finally(function(){b.textContent=t;});});
@@ -1056,6 +1058,7 @@ if(!reduce){document.querySelectorAll('[data-tilt]').forEach(c=>{
   ['b_time','d_time'].forEach(function(id){var el=document.getElementById(id); if(el)el.addEventListener('input',function(){el.value=fmtTime(el.value);});});
 })();
 </script>
+<script src="../form-enhancements.js"></script>
 <!-- Google Maps API : remplacez VOTRE_CLE_GOOGLE_MAPS (activez Maps JavaScript API + Directions API, clé restreinte au domaine) -->
 <script>window.GMAPS_KEY="VOTRE_CLE_GOOGLE_MAPS";</script>
 <script>(function(){var k=window.GMAPS_KEY||"";if(!k||k.indexOf("VOTRE_CLE")===0){return;}var el=document.createElement("script");el.src="https://maps.googleapis.com/maps/api/js?key="+encodeURIComponent(k)+"&loading=async&callback=initTaxiMaps";el.async=true;document.head.appendChild(el);})();</script>
