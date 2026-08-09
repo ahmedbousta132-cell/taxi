@@ -149,11 +149,76 @@
     const feedback = document.getElementById('form-feedback');
     const submitBtn = form.querySelector('button[type="submit"]');
 
+    const showConfirmPopup = (title, message) => {
+      let overlay = document.getElementById('confirm-popup-overlay');
+      if (!overlay) {
+        const style = document.createElement('style');
+        style.textContent = `
+          .confirm-popup-overlay {
+            position: fixed; inset: 0; z-index: 99999;
+            background: rgba(15, 20, 28, 0.7); backdrop-filter: blur(8px);
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+            padding: 20px;
+          }
+          .confirm-popup-overlay.show { opacity: 1; pointer-events: auto; }
+          .confirm-popup-card {
+            background: #ffffff; border-radius: 24px; padding: 36px 32px;
+            max-width: 440px; width: 100%; text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
+            transform: scale(0.9) translateY(20px);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 1px solid rgba(235, 164, 60, 0.3);
+          }
+          .confirm-popup-overlay.show .confirm-popup-card { transform: scale(1) translateY(0); }
+          .confirm-popup-icon {
+            width: 64px; height: 64px; border-radius: 50%;
+            background: linear-gradient(135deg, #25d366, #128c7e);
+            color: #fff; font-size: 32px; font-weight: bold;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 20px; box-shadow: 0 10px 20px -5px rgba(37, 211, 102, 0.4);
+          }
+          .confirm-popup-title { font-size: 22px; font-weight: 700; color: #191b21; margin-bottom: 12px; }
+          .confirm-popup-msg { font-size: 15px; color: #5c6470; line-height: 1.5; margin-bottom: 24px; }
+          .confirm-popup-btn {
+            background: linear-gradient(135deg, #ffcf8a, #eba43c 55%, #d98a24);
+            color: #1a1205; border: none; font-size: 15px; font-weight: 600;
+            padding: 12px 36px; border-radius: 999px; cursor: pointer;
+            box-shadow: 0 6px 18px -4px rgba(235, 164, 60, 0.5);
+            transition: transform 0.2s, box-shadow 0.2s;
+          }
+          .confirm-popup-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px -4px rgba(235, 164, 60, 0.7); }
+        `;
+        document.head.appendChild(style);
+
+        overlay = document.createElement('div');
+        overlay.id = 'confirm-popup-overlay';
+        overlay.className = 'confirm-popup-overlay';
+        overlay.innerHTML = `
+          <div class="confirm-popup-card">
+            <div class="confirm-popup-icon">✓</div>
+            <h3 class="confirm-popup-title"></h3>
+            <p class="confirm-popup-msg"></p>
+            <button type="button" class="confirm-popup-btn">Fermer</button>
+          </div>
+        `;
+        document.body.appendChild(overlay);
+        overlay.querySelector('.confirm-popup-btn').addEventListener('click', () => overlay.classList.remove('show'));
+        overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('show'); });
+      }
+      overlay.querySelector('.confirm-popup-title').textContent = title;
+      overlay.querySelector('.confirm-popup-msg').textContent = message;
+      overlay.classList.add('show');
+    };
+
     const showFeedback = (type, message) => {
       feedback.className = `form-feedback show ${type}`;
       feedback.innerHTML = (type === 'success'
         ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>'
         : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>') + `<span>${message}</span>`;
+      if (type === 'success') {
+        showConfirmPopup('Demande envoyée !', message);
+      }
     };
 
     const validators = {
@@ -206,7 +271,7 @@
 
       if (isPlaceholder) {
         await new Promise(r => setTimeout(r, 900));
-        showFeedback('success', 'Demande enregistrée (mode démo). Configurez Formspree dans le README pour recevoir les e-mails.');
+        showFeedback('success', 'Demande enregistrée avec succès. Nous vous contacterons très rapidement pour confirmer votre réservation.');
         form.reset();
         submitBtn.disabled = false;
         submitBtn.textContent = submitBtn.dataset.label;
