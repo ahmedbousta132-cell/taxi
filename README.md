@@ -99,6 +99,12 @@ Every site includes comprehensive SEO setup in the `<head>`:
 - `robots.txt` — explicitly allows AI crawlers (GPTBot, ChatGPT-User, PerplexityBot, ClaudeBot, anthropic-ai, Google-Extended, Bingbot)
 - `sitemap.xml` — all pages listed
 
+### Analytics & Tracking (Google Tag Manager)
+
+- **City Taxis** (`taxiscity.ch`): Container **`GTM-WHZTMWV6`** on all 54 pages + dev source
+- **Taxi Drive** (`taxidrive.ch`): Container **`GTM-KKN48NZL`** on all 7 pages + dev source
+- Built-in `dataLayer` event tracking (`generate_lead`, `form_submission_success`) for conversion tracking in GA4 / Google Ads.
+
 ### Apache Security & Performance (`.htaccess`)
 
 - HTTPS enforcement + `www` → apex redirect

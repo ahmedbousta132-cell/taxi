@@ -1,6 +1,13 @@
 <!doctype html>
 <html lang="fr">
   <head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KKN48NZL');</script>
+<!-- End Google Tag Manager -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
@@ -2337,17 +2344,10 @@
   </head>
 
   <body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript
-      ><iframe
-        src="https://www.googletagmanager.com/ns.html?id=GTM-KKN48NZL"
-        height="0"
-        width="0"
-        style="display: none; visibility: hidden"
-      ></iframe
-    ></noscript>
-    <!-- End Google Tag Manager (noscript) -->
-
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KKN48NZL"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
     <div id="globe"></div>
     <a
       href="https://wa.me/41787194444?text=Bonjour%20Taxi%20Drive%2C%20je%20souhaite%20r%C3%A9server%20une%20course."
@@ -2362,21 +2362,6 @@
     ></a>
 
     <header id="head">
-      <!-- Google Tag Manager -->
-      <script>
-        (function (w, d, s, l, i) {
-          w[l] = w[l] || [];
-          w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
-          var f = d.getElementsByTagName(s)[0],
-            j = d.createElement(s),
-            dl = l != "dataLayer" ? "&l=" + l : "";
-          j.async = true;
-          j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
-          f.parentNode.insertBefore(j, f);
-        })(window, document, "script", "dataLayer", "GTM-KKN48NZL");
-      </script>
-      <!-- End Google Tag Manager -->
-
       <div class="wrap">
         <nav>
           <a href="#" class="logo"
@@ -4641,6 +4626,8 @@
 
         // ===== global confirm popup =====
         window.showConfirmPopup = function (title, message) {
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({ event: 'form_submission_success', form_title: title || '', event_category: 'lead' });
           let overlay = document.getElementById("confirm-popup-overlay");
           if (!overlay) {
             const style = document.createElement("style");
@@ -4871,6 +4858,8 @@
             var b = this,
               t = b.textContent;
             b.textContent = "Envoi…";
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({ event: "generate_lead", lead_type: "devis", method: "email" });
             fetch("https://formsubmit.co/ajax/taxiskyaymen@gmail.com", {
               method: "POST",
               headers: {
@@ -5494,6 +5483,8 @@
             var b = this,
               t = b.textContent;
             b.textContent = "Envoi…";
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({ event: "generate_lead", lead_type: "booking", method: "email" });
             fetch("https://formsubmit.co/ajax/taxiskyaymen@gmail.com", {
               method: "POST",
               headers: {

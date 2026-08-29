@@ -183,13 +183,15 @@ https://www.bing.com/webmasters — ajouter les domaines + sitemaps (alimente au
 
 ## C. Améliorations (quand vous voulez)
 
-- 🟢 **Backlinks locaux** : hôtels, restaurants, offices du tourisme de Nyon / La Côte
-  qui lient vers votre site (très efficace en local).
-- 🟢 **Google Analytics 4** / Tag Manager : suivi du trafic et des conversions (je peux l'ajouter au code).
+- 🟢 **Google Tag Manager (GTM) & Google Analytics 4 / Google Ads** : **Installé sur 100% des pages** !
+  - **City Taxis** (`taxiscity.ch`) : Conteneur **`GTM-WHZTMWV6`**
+  - **Taxi Drive** (`taxidrive.ch`) : Conteneur **`GTM-KKN48NZL`**
+  - **Événements de conversion dataLayer intégrés automatiquement** :
+    - `generate_lead` (réservation ou devis transmis, par email ou WhatsApp)
+    - `form_submission_success` (confirmation de formulaire affichée)
+  - ➡️ Dans l'interface Google Tag Manager (https://tagmanager.google.com), vous pouvez désormais ajouter vos balises Google Analytics 4 (GA4) ou balises de conversion Google Ads sans toucher au code du site.
 - 🟢 **og:image dédiées** : remplacer les images de partage auto-générées par un visuel
   logo + accroche 1200×630 (je peux les intégrer).
-- 🟢 **Formspree** : recevoir les réservations par e-mail sans dépendre du client mail
-  du visiteur (aujourd'hui c'est un lien `mailto:` + WhatsApp).
 - 🟢 **Pages `/reservation`, `/contact` réelles** : aujourd'hui redirigées vers les
   sections de l'accueil ; je peux en faire des pages dédiées si vous préférez.
 
