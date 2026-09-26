@@ -2598,6 +2598,44 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         color: var(--champ);
       }
 
+      .nav-actions {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .nav-icon-btn {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        border: 1px solid rgba(232, 200, 138, 0.35);
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--gold, #e8c88a);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.25s ease;
+        text-decoration: none;
+      }
+
+      .nav-icon-btn:hover {
+        background: rgba(232, 200, 138, 0.15);
+        border-color: var(--gold, #e8c88a);
+        color: #ffffff;
+        transform: translateY(-1px);
+      }
+
+      .nav-icon-btn.nav-wa-btn {
+        color: #25d366;
+        border-color: rgba(37, 211, 102, 0.4);
+      }
+
+      .nav-icon-btn.nav-wa-btn:hover {
+        background: rgba(37, 211, 102, 0.18);
+        border-color: #25d366;
+        color: #25d366;
+      }
+
       .lang-wrap {
         position: relative;
         display: inline-block;
@@ -2727,6 +2765,31 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <a href="#" data-lang="fr" class="active">FR</a
               ><a href="#" data-lang="en">EN</a>
             </div>
+          </div>
+          <div class="nav-actions">
+            <a
+              href="https://wa.me/41787194444"
+              target="_blank"
+              rel="noopener"
+              class="nav-icon-btn nav-wa-btn"
+              aria-label="WhatsApp"
+              title="WhatsApp +41 78 719 44 44"
+            >
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884M20.52 3.449C18.24 1.245 15.24 0 12.05 0 5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.423-8.452"/>
+              </svg>
+            </a>
+            <a
+              href="mailto:info@local-taxi.ch"
+              class="nav-icon-btn nav-mail-btn"
+              aria-label="Email"
+              title="Email info@local-taxi.ch"
+            >
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+            </a>
           </div>
           <a href="#book" class="btn btn-g">Réserver</a>
           <button
@@ -5339,6 +5402,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             val("d_phone")
           ).trim();
           f["Email"] = val("d_email");
+          f["email"] = val("d_email");
           f["Message | Détails"] = val("d_msg") || "";
           f._replyto = val("d_email");
           f._subject =
@@ -5347,8 +5411,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             ", " +
             swissDate() +
             " — City Taxis";
-          f._template = "box";
+          f._template = "table";
           f._captcha = "false";
+          f._autoresponse = "Bonjour " + (val("d_name") || "Cher Client") + ",\n\n" +
+            "Nous avons bien reçu votre demande de devis sur City Taxis.\n\n" +
+            "📋 RÉCAPITULATIF DE VOTRE DEMANDE :\n" +
+            "• Départ : " + (val("d_from") || "—") + "\n" +
+            "• Destination : " + (val("d_to") || "—") + "\n" +
+            "• Date & Heure : " + (val("d_date") || "—") + " à " + (val("d_time") || "—") + "\n" +
+            "• Passagers : " + (val("d_pax") || "1") + "\n\n" +
+            "Notre équipe traite votre demande et vous recontactera très rapidement pour vous transmettre notre meilleure offre tarifaire.\n\n" +
+            "Besoin d'une assistance immédiate ?\n" +
+            "📞 Téléphone / WhatsApp : +41 78 719 44 44\n" +
+            "📧 Email : info@local-taxi.ch\n" +
+            "🌐 Site web : https://taxiscity.ch\n\n" +
+            "Merci de votre confiance,\nL'équipe City Taxis";
           return f;
         }
         // ===== global field validation helper =====
@@ -5806,6 +5883,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             "Type de demande": "Réservation",
             Nom: val("b_name"),
             "Adresse e-mail": val("b_email"),
+            email: val("b_email"),
             Téléphone: (cc() + " " + val("b_phone")).trim(),
             "Adresse de départ": val("b_from"),
             Destination: val("b_to"),
@@ -5825,8 +5903,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             ", " +
             swissDate() +
             " — City Taxis";
-          f._template = "box";
+          f._template = "table";
           f._captcha = "false";
+          f._autoresponse = "Bonjour " + (val("b_name") || "Cher Client") + ",\n\n" +
+            "Votre demande de réservation a bien été enregistrée avec succès sur City Taxis !\n\n" +
+            "🚕 RÉCAPITULATIF DE VOTRE RÉSERVATION :\n" +
+            "• Prise en charge : " + (val("b_from") || "—") + "\n" +
+            "• Destination : " + (val("b_to") || "—") + "\n" +
+            "• Date & Heure : " + (val("b_date") || "—") + " à " + (val("b_time") || "—") + "\n" +
+            "• Véhicule : " + (veh ? vehName[veh.value] : "Standard") + "\n\n" +
+            "Notre équipe valide les disponibilités et vous recontactera sous peu par téléphone ou WhatsApp pour confirmer la réservation.\n\n" +
+            "📞 Service 24h/7j : +41 78 719 44 44\n" +
+            "📧 Email : info@local-taxi.ch\n" +
+            "🌐 Site web : https://taxiscity.ch\n\n" +
+            "Merci de votre confiance,\nL'équipe City Taxis";
           return f;
         }
         function valid() {
