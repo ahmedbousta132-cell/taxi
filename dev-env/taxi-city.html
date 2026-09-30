@@ -91,6 +91,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     }
 
     /* nav */
+      @media (max-width: 900px) {
+        .logo .logo-text {
+          display: none !important;
+        }
+        .logo {
+          gap: 0 !important;
+        }
+        nav > .btn:not(.nav-icon-btn) {
+          display: none !important;
+        }
+        nav {
+          gap: 8px !important;
+        }
+      }
+
     header {
       position: fixed;
       top: 0;
@@ -2284,7 +2299,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <circle cx="50" cy="50" r="39" fill="none" stroke="rgba(236,231,220,.5)" stroke-width="1.1" /><text x="50"
                 y="61" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-size="33"
                 font-weight="600" fill="var(--gold)">CT</text>
-            </svg></span>CITY <b>TAXIS</b></a>
+            </svg></span><span class="logo-text">CITY <b>TAXIS</b></span></a>
         <div style="display:flex;align-items:center;gap:12px">
           <div style="display:flex;align-items:center">
             <a href="#services" class="navlinks" style="margin-right:18px">&nbsp;</a>
@@ -3158,7 +3173,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <circle cx="50" cy="50" r="39" fill="none" stroke="rgba(236,231,220,.5)" stroke-width="1.1" /><text
                   x="50" y="61" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-size="33"
                   font-weight="600" fill="var(--gold)">CT</text>
-              </svg></span>CITY <b>TAXIS</b></a>
+              </svg></span><span class="logo-text">CITY <b>TAXIS</b></span></a>
           <p style="font-size:14px;color:rgba(236,231,220,.55);margin-top:16px;max-width:290px">Votre chauffeur privé
             partout en Suisse — basés à Nyon, au service de toute la Confédération. Ponctuel, discret, disponible
             24h/24.</p>

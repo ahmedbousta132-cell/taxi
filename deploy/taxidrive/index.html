@@ -376,6 +376,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       }
 
       /* nav */
+      @media (max-width: 900px) {
+        .logo .logo-text {
+          display: none !important;
+        }
+        .logo {
+          gap: 0 !important;
+        }
+        nav > .btn:not(.nav-icon-btn) {
+          display: none !important;
+        }
+        nav {
+          gap: 8px !important;
+        }
+      }
+
       header {
         position: sticky;
         top: 0;
@@ -4618,48 +4633,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         function devisFields() {
           var f = {
             "Type de demande": "Devis",
-            Type: rad("d_type"),
+            "Type de course": rad("d_type"),
             "Type de trajet": rad("d_trip"),
-            "Adresse de départ": val("d_from"),
-            Destination: val("d_to"),
-            Ville: val("d_city"),
-            Date: val("d_date"),
-            Heure: val("d_time"),
-            Passagers: val("d_pax"),
-            "Véhicule souhaité": val("d_veh"),
+            "Depart": val("d_from"),
+            "Destination": val("d_to"),
+            "Ville": val("d_city"),
+            "Date": val("d_date"),
+            "Heure": val("d_time"),
+            "Passagers": val("d_pax"),
+            "Vehicule": val("d_veh"),
+            "Nom": val("d_name"),
+            "Telephone": (((document.getElementById("d_cc") || {}).value || "") + " " + val("d_phone")).trim(),
+            "Email": val("d_email"),
+            "Message": val("d_msg") || ""
           };
-          if (val("d_flight")) f["N° de vol"] = val("d_flight");
-          f["Nom"] = val("d_name");
-          f["Téléphone"] = (
-            (val("d_cc") || "") +
-            " " +
-            (val("d_phone") || "")
-          ).trim();
-          f["Email"] = val("d_email");
-          f["email"] = val("d_email");
-          f["Message | Détails"] = val("d_msg") || "";
+          if (val("d_flight")) f["Vol"] = val("d_flight");
           f._replyto = val("d_email");
-          f._subject =
-            "Demande de devis par " +
-            val("d_name") +
-            ", " +
-            swissDate() +
-            " — Taxi Drive";
-          f._template = "table";
+          f._subject = "Demande de devis - " + (val("d_name") || "Client") + " (" + swissDate() + ") - Taxi Drive";
+          f._template = "box";
           f._captcha = "false";
-          f._autoresponse = "Bonjour " + (val("d_name") || "Cher Client") + ",\n\n" +
-            "Nous avons bien reçu votre demande de devis sur Taxi Drive.\n\n" +
-            "📋 RÉCAPITULATIF DE VOTRE DEMANDE :\n" +
-            "• Départ : " + (val("d_from") || "—") + "\n" +
-            "• Destination : " + (val("d_to") || "—") + "\n" +
-            "• Date & Heure : " + (val("d_date") || "—") + " à " + (val("d_time") || "—") + "\n" +
-            "• Passagers : " + (val("d_pax") || "1") + "\n\n" +
-            "Notre équipe traite votre demande et vous recontactera très rapidement avec notre meilleure offre tarifaire.\n\n" +
-            "Besoin d'une assistance immédiate ?\n" +
-            "📞 Téléphone / WhatsApp : +41 78 719 44 44\n" +
-            "📧 Email : info@local-taxi.ch\n" +
-            "🌐 Site web : https://taxidrive.ch\n\n" +
-            "Merci de votre confiance,\nL'équipe Taxi Drive";
           return f;
         }
         window.resetDevisForm = function () {
@@ -5421,44 +5413,27 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           return m;
         }
         function formFields() {
+          var veh = document.querySelector("input[name=vehicle]:checked");
           var f = {
-            "Type de demande": "Réservation",
-            Nom: val("b_name"),
-            "Adresse e-mail": val("b_email"),
-            email: val("b_email"),
-            Téléphone: (cc() + " " + val("b_phone")).trim(),
-            "Adresse de départ": val("b_from"),
-            Destination: val("b_to"),
-            Ville: val("b_city"),
-            Date: val("b_date"),
-            "Heure de départ": val("b_time"),
-            Passagers: val("b_pax"),
-            "Choix de véhicules": val("b_veh"),
-            "Type de trajet": val("b_trip") || "Aller simple",
+            "Type de demande": "Reservation",
+            "Nom": val("b_name"),
+            "Email": val("b_email"),
+            "Telephone": (cc() + " " + val("b_phone")).trim(),
+            "Depart": val("b_from"),
+            "Destination": val("b_to"),
+            "Ville": val("b_city"),
+            "Date": val("b_date"),
+            "Heure": val("b_time"),
+            "Passagers": val("b_pax"),
+            "Vehicule": veh ? (vehName[veh.value] || veh.value) : "Standard",
+            "Trajet": val("b_trip") || "Aller simple",
+            "Notes": val("b_notes") || ""
           };
-          if (val("b_flight")) f["N° de vol"] = val("b_flight");
-          f["Notes"] = val("b_notes") || "";
+          if (val("b_flight")) f["Vol"] = val("b_flight");
           f._replyto = val("b_email");
-          f._subject =
-            "Réservation par " +
-            val("b_name") +
-            ", " +
-            swissDate() +
-            " — Taxi Drive";
-          f._template = "table";
+          f._subject = "Nouvelle reservation - " + (val("b_name") || "Client") + " (" + swissDate() + ") - Taxi Drive";
+          f._template = "box";
           f._captcha = "false";
-          f._autoresponse = "Bonjour " + (val("b_name") || "Cher Client") + ",\n\n" +
-            "Votre demande de réservation a bien été enregistrée avec succès sur Taxi Drive !\n\n" +
-            "🚕 RÉCAPITULATIF DE VOTRE RÉSERVATION :\n" +
-            "• Prise en charge : " + (val("b_from") || "—") + "\n" +
-            "• Destination : " + (val("b_to") || "—") + "\n" +
-            "• Date & Heure : " + (val("b_date") || "—") + " à " + (val("b_time") || "—") + "\n" +
-            "• Véhicule : " + (val("b_veh") || "Standard") + "\n\n" +
-            "Notre équipe valide les disponibilités et vous recontactera sous peu par téléphone ou WhatsApp pour confirmer la réservation.\n\n" +
-            "📞 Service 24h/7j : +41 78 719 44 44\n" +
-            "📧 Email : info@local-taxi.ch\n" +
-            "🌐 Site web : https://taxidrive.ch\n\n" +
-            "Merci de votre confiance,\nL'équipe Taxi Drive";
           return f;
         }
         function valid() {
