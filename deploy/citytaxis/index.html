@@ -5447,8 +5447,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         function devisFields() {
           var f = {
             "Type de demande": "Devis",
-            "Type de course": rad("d_type"),
-            "Type de trajet": rad("d_trip"),
+            "Nom": val("d_name"),
+            "Telephone": (((document.getElementById("d_cc") || {}).value || "") + " " + val("d_phone")).trim(),
+            "Email": val("d_email"),
             "Depart": val("d_from"),
             "Destination": val("d_to"),
             "Ville": val("d_city"),
@@ -5456,15 +5457,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             "Heure": val("d_time"),
             "Passagers": val("d_pax"),
             "Vehicule": val("d_veh"),
-            "Nom": val("d_name"),
-            "Telephone": (((document.getElementById("d_cc") || {}).value || "") + " " + val("d_phone")).trim(),
-            "Email": val("d_email"),
+            "Type de course": rad("d_type"),
+            "Type de trajet": rad("d_trip"),
             "Message": val("d_msg") || ""
           };
           if (val("d_flight")) f["Vol"] = val("d_flight");
           f._replyto = val("d_email");
           f._subject = "Demande de devis - " + (val("d_name") || "Client") + " (" + swissDate() + ") - City Taxis";
-          f._template = "box";
+          f._template = "table";
           f._captcha = "false";
           return f;
         }
@@ -5744,26 +5744,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             b.textContent = "Envoi…";
             window.dataLayer = window.dataLayer || [];
             window.dataLayer.push({ event: "generate_lead", lead_type: "devis", method: "email" });
-            fetch("https://formsubmit.co/ajax/newaymen1196@gmail.com", {
+            var payload = devisFields();
+            fetch("/api/submit.php", {
               method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-              },
-              body: JSON.stringify(devisFields()),
+              headers: { "Content-Type": "application/json", Accept: "application/json" },
+              body: JSON.stringify(payload)
             })
-              .then(function (r) {
-                return r.json();
-              })
-              .then(function () {
-                showOk();
-              })
+              .then(function (r) { return r.json(); })
+              .then(function () { showOk(); })
               .catch(function () {
-                showOk();
+                fetch("https://formsubmit.co/ajax/newaymen1196@gmail.com", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json", Accept: "application/json" },
+                  body: JSON.stringify(payload)
+                }).then(function () { showOk(); }).catch(function () { showOk(); });
               })
-              .finally(function () {
-                b.textContent = t;
-              });
+              .finally(function () { b.textContent = t; });
           });
         document.getElementById("devisReset").addEventListener("click", () => {
           ok.classList.remove("show");
@@ -5922,8 +5918,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           var f = {
             "Type de demande": "Reservation",
             "Nom": val("b_name"),
-            "Email": val("b_email"),
             "Telephone": (cc() + " " + val("b_phone")).trim(),
+            "Email": val("b_email"),
             "Depart": val("b_from"),
             "Destination": val("b_to"),
             "Ville": val("b_city"),
@@ -5937,7 +5933,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           if (val("b_flight")) f["Vol"] = val("b_flight");
           f._replyto = val("b_email");
           f._subject = "Nouvelle reservation - " + (val("b_name") || "Client") + " (" + swissDate() + ") - City Taxis";
-          f._template = "box";
+          f._template = "table";
           f._captcha = "false";
           return f;
         }
@@ -6052,26 +6048,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             b.textContent = "Envoi…";
             window.dataLayer = window.dataLayer || [];
             window.dataLayer.push({ event: "generate_lead", lead_type: "booking", method: "email" });
-            fetch("https://formsubmit.co/ajax/newaymen1196@gmail.com", {
+            var payload = formFields();
+            fetch("/api/submit.php", {
               method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-              },
-              body: JSON.stringify(formFields()),
+              headers: { "Content-Type": "application/json", Accept: "application/json" },
+              body: JSON.stringify(payload)
             })
-              .then(function (r) {
-                return r.json();
-              })
-              .then(function () {
-                showOk();
-              })
+              .then(function (r) { return r.json(); })
+              .then(function () { showOk(); })
               .catch(function () {
-                showOk();
+                fetch("https://formsubmit.co/ajax/newaymen1196@gmail.com", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json", Accept: "application/json" },
+                  body: JSON.stringify(payload)
+                }).then(function () { showOk(); }).catch(function () { showOk(); });
               })
-              .finally(function () {
-                b.textContent = t;
-              });
+              .finally(function () { b.textContent = t; });
           });
       })();
 
