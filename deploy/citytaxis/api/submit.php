@@ -27,7 +27,7 @@ if (empty($data)) {
     exit;
 }
 
-// Log submission permanently
+// 1. Log submission permanently to server
 $logFile = __DIR__ . '/submissions.log';
 $logEntry = [
     'timestamp' => date('Y-m-d H:i:s'),
@@ -36,11 +36,29 @@ $logEntry = [
 ];
 @file_put_contents($logFile, json_encode($logEntry, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) . "\n---\n", FILE_APPEND);
 
+// 2. Identify Brand
 $host = $_SERVER['HTTP_HOST'] ?? '';
 $isTaxiDrive = (strpos($host, 'taxidrive') !== false || (isset($data['brand']) && strpos(strtolower($data['brand']), 'drive') !== false) || (isset($data['_subject']) && strpos(strtolower($data['_subject']), 'drive') !== false));
 
 $brandName = $isTaxiDrive ? 'Taxi Drive' : 'City Taxis';
-$toEmail = $isTaxiDrive ? 'taxiskyaymen@gmail.com' : 'newaymen1196@gmail.com';
+$badge = $isTaxiDrive ? 'TD' : 'CT';
+$themeColor = $isTaxiDrive ? '#d4af37' : '#e8c88a';
+$bgDark = '#08080a';
+
+// 3. Dedicated Gmail Accounts for each brand
+$smtpConfigs = [
+    'citytaxis' => [
+        'user' => 'newaymen1196@gmail.com',
+        'pass' => 'vtxfspghzokbsnje'
+    ],
+    'taxidrive' => [
+        'user' => 'taxiskyaymen@gmail.com',
+        'pass' => 'mqgncleklsaaiqbq'
+    ]
+];
+
+$activeConfig = $isTaxiDrive ? $smtpConfigs['taxidrive'] : $smtpConfigs['citytaxis'];
+$toEmail = $activeConfig['user'];
 $ccEmail = 'info@local-taxi.ch';
 
 $type = $data['Type de demande'] ?? 'Réservation';
@@ -52,10 +70,7 @@ $waPhone = preg_replace('/[^0-9]/', '', $phone);
 
 $subject = ($type === 'Devis' ? 'Demande de devis' : 'Nouvelle réservation') . ' - ' . $nom . ' (' . date('d/m H:i') . ') - ' . $brandName;
 
-$themeColor = $isTaxiDrive ? '#d4af37' : '#e8c88a';
-$bgDark = '#08080a';
-$badge = $isTaxiDrive ? 'TD' : 'CT';
-
+// Build Ultra-Compact HTML Table
 $rowsHtml = '';
 $order = [
     'Type de demande', 'Nom', 'Telephone', 'Téléphone', 'Email',
@@ -75,8 +90,8 @@ foreach ($order as $k) {
         $valCol = $isHl ? '#0f172a' : '#1e293b';
         $valBg = $isHl ? '#f8fafc' : '#ffffff';
         $rowsHtml .= '<tr style="background:' . $valBg . ';">';
-        $rowsHtml .= '<td style="padding:3px 6px;border-bottom:1px solid #eef2f6;color:#64748b;font-weight:bold;width:33%;font-size:11px;">' . htmlspecialchars($k) . '</td>';
-        $rowsHtml .= '<td style="padding:3px 6px;border-bottom:1px solid #eef2f6;color:' . $valCol . ';font-weight:' . ($isHl ? '700' : '500') . ';font-size:11px;">' . nl2br(htmlspecialchars($v)) . '</td>';
+        $rowsHtml .= '<td style="padding:4px 6px;border-bottom:1px solid #eef2f6;color:#64748b;font-weight:bold;width:33%;font-size:11px;">' . htmlspecialchars($k) . '</td>';
+        $rowsHtml .= '<td style="padding:4px 6px;border-bottom:1px solid #eef2f6;color:' . $valCol . ';font-weight:' . ($isHl ? '700' : '500') . ';font-size:11px;">' . nl2br(htmlspecialchars($v)) . '</td>';
         $rowsHtml .= '</tr>';
     }
 }
@@ -85,15 +100,15 @@ foreach ($data as $k => $v) {
     if (!in_array($k, $seen) && strpos($k, '_') !== 0 && $v !== '') {
         if (is_array($v)) $v = implode(', ', $v);
         $rowsHtml .= '<tr style="background:#ffffff;">';
-        $rowsHtml .= '<td style="padding:3px 6px;border-bottom:1px solid #eef2f6;color:#64748b;font-weight:bold;width:33%;font-size:11px;">' . htmlspecialchars($k) . '</td>';
-        $rowsHtml .= '<td style="padding:3px 6px;border-bottom:1px solid #eef2f6;color:#0f172a;font-weight:500;font-size:11px;">' . nl2br(htmlspecialchars($v)) . '</td>';
+        $rowsHtml .= '<td style="padding:4px 6px;border-bottom:1px solid #eef2f6;color:#64748b;font-weight:bold;width:33%;font-size:11px;">' . htmlspecialchars($k) . '</td>';
+        $rowsHtml .= '<td style="padding:4px 6px;border-bottom:1px solid #eef2f6;color:#0f172a;font-weight:500;font-size:11px;">' . nl2br(htmlspecialchars($v)) . '</td>';
         $rowsHtml .= '</tr>';
     }
 }
 
 $quickActions = '';
 if (!empty($cleanPhone)) {
-    $quickActions = '<tr><td style="background:#f8fafc;padding:4px 8px;border-bottom:1px solid #e2e8f0;">';
+    $quickActions = '<tr><td style="background:#f8fafc;padding:5px 8px;border-bottom:1px solid #e2e8f0;">';
     $quickActions .= '<table width="100%" cellpadding="0" cellspacing="0"><tr>';
     $quickActions .= '<td style="font-size:11px;color:#334155;font-weight:bold;">' . htmlspecialchars($nom) . '</td>';
     $quickActions .= '<td align="right">';
@@ -116,18 +131,74 @@ $html .= '<tr><td style="padding:2px 6px;"><table width="100%" cellpadding="0" c
 $html .= '<tr><td style="background:#f8fafc;padding:3px 8px;border-top:1px solid #e2e8f0;font-size:9px;color:#94a3b8;text-align:center;">' . htmlspecialchars($brandName) . ' • ' . date('d/m/Y H:i') . '</td></tr>';
 $html .= '</table></body></html>';
 
-$headers = "MIME-Version: 1.0\r\n";
-$headers .= "Content-Type: text/html; charset=UTF-8\r\n";
-$headers .= "From: " . $brandName . " <no-reply@" . ($isTaxiDrive ? 'taxidrive.ch' : 'taxiscity.ch') . ">\r\n";
-if (!empty($clientEmail)) {
-    $headers .= "Reply-To: " . $clientEmail . "\r\n";
-}
-$headers .= "Cc: " . $ccEmail . "\r\n";
+// 4. Send via Gmail SSL SMTP directly (port 465)
+function sendGmailSSL($smtpUser, $smtpPass, $toEmail, $subject, $htmlBody, $fromName, $replyTo, $ccEmail) {
+    $context = stream_context_create([
+        'ssl' => [
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+            'allow_self_signed' => true
+        ]
+    ]);
 
-$mailSent = @mail($toEmail, $subject, $html, $headers);
+    $socket = @stream_socket_client('ssl://smtp.gmail.com:465', $errno, $errstr, 12, STREAM_CLIENT_CONNECT, $context);
+    if (!$socket) {
+        return ['success' => false, 'error' => "Connection failed: $errstr ($errno)"];
+    }
+
+    $read = function() use ($socket) {
+        $data = '';
+        while ($str = fgets($socket, 515)) {
+            $data .= $str;
+            if (substr($str, 3, 1) === ' ') break;
+        }
+        return $data;
+    };
+    $write = function($cmd) use ($socket) {
+        fputs($socket, $cmd . "\r\n");
+    };
+
+    $read();
+    $write('EHLO ' . gethostname()); $read();
+    $write('AUTH LOGIN'); $read();
+    $write(base64_encode($smtpUser)); $read();
+    $write(base64_encode(str_replace(' ', '', $smtpPass)));
+    $authResp = $read();
+
+    if (strpos($authResp, '235') === false) {
+        fclose($socket);
+        return ['success' => false, 'error' => "Auth failed: " . trim($authResp)];
+    }
+
+    $write('MAIL FROM: <' . $smtpUser . '>'); $read();
+    $write('RCPT TO: <' . $toEmail . '>'); $read();
+    if (!empty($ccEmail)) { $write('RCPT TO: <' . $ccEmail . '>'); $read(); }
+
+    $write('DATA'); $read();
+
+    $headers = "MIME-Version: 1.0\r\n";
+    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+    $headers .= "From: =?UTF-8?B?" . base64_encode($fromName) . "?= <" . $smtpUser . ">\r\n";
+    $headers .= "To: <" . $toEmail . ">\r\n";
+    if (!empty($replyTo)) $headers .= "Reply-To: <" . $replyTo . ">\r\n";
+    if (!empty($ccEmail)) $headers .= "Cc: <" . $ccEmail . ">\r\n";
+    $headers .= "Subject: =?UTF-8?B?" . base64_encode($subject) . "?=\r\n";
+    $headers .= "Date: " . date('r') . "\r\n";
+
+    $write($headers . "\r\n" . $htmlBody . "\r\n.");
+    $dataResp = $read();
+
+    $write('QUIT'); $read();
+    fclose($socket);
+
+    return ['success' => (strpos($dataResp, '250') !== false), 'response' => trim($dataResp)];
+}
+
+$smtpResult = sendGmailSSL($activeConfig['user'], $activeConfig['pass'], $toEmail, $subject, $html, $brandName, $clientEmail, $ccEmail);
 
 echo json_encode([
     'success' => true,
-    'mailSent' => $mailSent,
-    'message' => 'Demande reçue et enregistrée avec succès.'
+    'smtp' => $smtpResult,
+    'mailSent' => $smtpResult['success'],
+    'message' => 'Demande reçue et traitée avec succès.'
 ]);
