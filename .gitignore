@@ -1,1 +1,8 @@
 
+
+# Temporary scratch files and test previews
+scratch/
+test_email_preview.html
+*.pyc
+__pycache__/
+.DS_Store
