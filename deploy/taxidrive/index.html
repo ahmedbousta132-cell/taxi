@@ -723,6 +723,28 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         animation: pulse 2s infinite;
       }
 
+      .hero-top-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+        opacity: 0;
+        animation: rise 0.8s 0.1s forwards;
+      }
+
+      .hero-top-row .badge {
+        margin-bottom: 0;
+        opacity: 1;
+        animation: none;
+      }
+
+      .hero-top-phone {
+        padding: 7px 16px;
+        font-size: 13px;
+        white-space: nowrap;
+      }
+
       .hero h1 {
         font-size: clamp(38px, 6vw, 66px);
         margin-bottom: 20px;
@@ -2560,10 +2582,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="wrap">
         <div class="hgrid">
           <div class="glass hero-glass">
-            <span class="badge"
-              ><span class="dot"></span><span id="hero-loc">(Nyon)</span> ·
-              Disponible 24/7</span
-            >
+            <div class="hero-top-row">
+              <span class="badge"
+                ><span class="dot"></span><span id="hero-loc">(Nyon)</span> ·
+                Disponible 24/7</span
+              >
+              <a href="tel:+41787194444" class="btn btn-o hero-top-phone">+41 78 719 44 44</a>
+            </div>
             <h1 class="hero-img-h1">
               <img
                 src="/taxidrive-hero.jpg"
@@ -2582,8 +2607,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               et longues distances.
             </p>
             <div class="hero-cta">
-              <a href="tel:+41787194444" class="btn btn-o">+41 78 719 44 44</a
-              ><a href="#book" class="btn btn-a">Réserver une course</a
+              <a href="#book" class="btn btn-a">Réserver une course</a
               ><a href="#devis" class="btn btn-o open-devis">Devis</a
               ><a href="#tarif" class="btn btn-o">Tarifs</a
               ><a
