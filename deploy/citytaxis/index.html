@@ -1119,6 +1119,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         }
       }
 
+      .fld {
+        min-width: 0;
+        max-width: 100%;
+        box-sizing: border-box;
+      }
+
       .fld label {
         font-size: 11px;
         letter-spacing: 0.12em;
@@ -1129,6 +1135,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       .fld input,
       .fld select {
         width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
         margin-top: 9px;
         background: transparent;
         border: none;
@@ -1139,6 +1148,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         font-family: inherit;
         outline: none;
         transition: 0.3s;
+      }
+
+      @media (max-width: 768px) {
+        .fld input,
+        .fld select {
+          font-size: 16px;
+        }
       }
 
       .fld input:focus,
@@ -1832,9 +1848,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         z-index: 210;
         display: none;
         overflow-y: auto;
+        overflow-x: hidden;
         background: rgba(4, 4, 6, 0.78);
         backdrop-filter: blur(6px);
         padding: 0 16px;
+        -webkit-overflow-scrolling: touch;
+        box-sizing: border-box;
       }
 
       .devis.open {
@@ -1850,6 +1869,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         padding: 46px clamp(22px, 5vw, 54px);
         position: relative;
         box-shadow: 0 40px 110px -30px #000;
+        box-sizing: border-box;
+        overflow: hidden;
+        width: 100%;
       }
 
       .devis .dv-close {
@@ -1897,12 +1919,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 24px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
       }
 
-      @media (max-width: 560px) {
-        .dform {
-          grid-template-columns: 1fr;
-        }
+      .dform > div {
+        min-width: 0;
+        max-width: 100%;
+        box-sizing: border-box;
       }
 
       .dform .full {
@@ -1922,6 +1947,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       .dform select,
       .dform textarea {
         width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
         background: transparent;
         border: none;
         border-bottom: 1px solid rgba(232, 200, 138, 0.25);
@@ -1933,14 +1961,28 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         transition: 0.3s;
       }
 
+      .dform .telrow {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+      }
+
       .dform .telrow > select {
         width: auto;
+        max-width: 110px;
         flex: 0 0 auto;
+        box-sizing: border-box;
       }
 
       .dform .telrow > input {
-        flex: 1 1 auto;
+        flex: 1 1 0%;
         min-width: 0;
+        width: 100%;
+        box-sizing: border-box;
       }
 
       .dform textarea {
@@ -1968,12 +2010,89 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         gap: 12px;
         flex-wrap: wrap;
         margin-top: 10px;
+        width: 100%;
+        box-sizing: border-box;
       }
 
       .dv-actions .btn {
         justify-content: center;
         flex: 1;
         min-width: 190px;
+        box-sizing: border-box;
+      }
+
+      @media (max-width: 680px) {
+        .devis {
+          padding: 0 10px;
+        }
+
+        .devis .sheet {
+          margin: 16px auto 32px;
+          padding: 30px 14px 20px;
+          border-radius: 14px;
+          max-width: 100%;
+        }
+
+        .dform {
+          grid-template-columns: 1fr !important;
+          gap: 16px;
+        }
+
+        .dform input,
+        .dform select,
+        .dform textarea {
+          font-size: 16px !important;
+        }
+
+        .dform .seg {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr) !important;
+          gap: 8px;
+          width: 100%;
+        }
+
+        .dform .seg label {
+          min-width: 0;
+          width: 100%;
+          padding: 10px 6px;
+          font-size: 13px;
+        }
+
+        .dv-actions {
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .dv-actions .btn {
+          min-width: 0;
+          width: 100%;
+        }
+      }
+
+      @media (max-width: 380px) {
+        .devis {
+          padding: 0 6px;
+        }
+
+        .devis .sheet {
+          padding: 24px 10px 16px;
+          border-radius: 12px;
+        }
+
+        .dform .seg {
+          grid-template-columns: 1fr 1fr !important;
+          gap: 6px;
+        }
+
+        .dform .seg label {
+          padding: 8px 4px;
+          font-size: 12px;
+        }
+
+        .dform .telrow > select {
+          max-width: 95px;
+          font-size: 14px;
+        }
       }
 
       .dv-actions .btn-wa {

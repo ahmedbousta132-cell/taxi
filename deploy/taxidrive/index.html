@@ -1355,6 +1355,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         }
       }
 
+      .fld {
+        min-width: 0;
+        max-width: 100%;
+        box-sizing: border-box;
+      }
+
       .fld label {
         font-size: 12px;
         font-weight: 600;
@@ -1364,6 +1370,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       .fld input,
       .fld select {
         width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
         margin-top: 7px;
         background: var(--bg);
         border: 1px solid var(--line);
@@ -1374,6 +1383,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         font-family: inherit;
         outline: none;
         transition: 0.25s;
+      }
+
+      @media (max-width: 768px) {
+        .fld input,
+        .fld select {
+          font-size: 16px;
+        }
       }
 
       .fld input:focus,
@@ -1881,7 +1897,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         align-items: flex-start;
         justify-content: center;
         overflow-y: auto;
+        overflow-x: hidden;
         padding: 40px 18px;
+        -webkit-overflow-scrolling: touch;
+        box-sizing: border-box;
       }
 
       .devis.open {
@@ -1895,6 +1914,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         border-radius: 24px;
         max-width: 720px;
         width: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
         padding: 40px clamp(22px, 4vw, 46px);
         box-shadow: 0 40px 90px -30px rgba(20, 24, 30, 0.6);
       }
@@ -1922,12 +1943,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 18px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
       }
 
-      @media (max-width: 560px) {
-        .dform {
-          grid-template-columns: 1fr;
-        }
+      .dform > div {
+        min-width: 0;
+        max-width: 100%;
+        box-sizing: border-box;
       }
 
       .dform .full {
@@ -1946,6 +1970,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       .dform select,
       .dform textarea {
         width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
         background: var(--card);
         border: 1px solid var(--line);
         border-radius: 12px;
@@ -1956,14 +1983,48 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         outline: none;
       }
 
+      .dform .telrow {
+        display: flex;
+        gap: 8px;
+        align-items: stretch;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+      }
+
       .dform .telrow > select {
         width: auto;
+        max-width: 110px;
         flex: 0 0 auto;
+        padding: 12px 8px;
+        box-sizing: border-box;
       }
 
       .dform .telrow > input {
-        flex: 1 1 auto;
+        flex: 1 1 0%;
         min-width: 0;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .dform .seg {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+      }
+
+      .dform .seg > label {
+        min-width: 0;
+        box-sizing: border-box;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+        word-break: break-word;
+        padding: 11px 8px;
       }
 
       .dform textarea {
@@ -1982,6 +2043,80 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         display: flex;
         gap: 12px;
         flex-wrap: wrap;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      @media (max-width: 680px) {
+        .devis {
+          padding: 16px 10px;
+        }
+
+        .devis .sheet {
+          padding: 30px 14px 20px;
+          border-radius: 18px;
+          max-width: 100%;
+        }
+
+        .dform {
+          grid-template-columns: 1fr !important;
+          gap: 14px;
+        }
+
+        .dform input,
+        .dform select,
+        .dform textarea {
+          font-size: 16px !important; /* Pas de zoom auto sur iPhone */
+        }
+
+        .dform .seg {
+          grid-template-columns: repeat(2, 1fr) !important;
+          gap: 8px;
+        }
+
+        .dform .seg > label {
+          padding: 10px 6px;
+          font-size: 13px;
+        }
+
+        .dv-actions {
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .dv-actions .btn {
+          width: 100%;
+          justify-content: center;
+          text-align: center;
+          box-sizing: border-box;
+        }
+      }
+
+      @media (max-width: 380px) {
+        .devis {
+          padding: 12px 6px;
+        }
+
+        .devis .sheet {
+          padding: 24px 10px 16px;
+          border-radius: 14px;
+        }
+
+        .dform .seg {
+          grid-template-columns: 1fr 1fr !important;
+          gap: 6px;
+        }
+
+        .dform .seg > label {
+          padding: 8px 4px;
+          font-size: 12px;
+        }
+
+        .dform .telrow > select {
+          max-width: 95px;
+          padding: 12px 4px;
+          font-size: 14px;
+        }
       }
 
       .dv-ok {
@@ -3378,7 +3513,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <form class="dform" onsubmit="return false;">
             <div class="full">
               <span class="fl">Type de demande</span>
-              <div class="seg" style="grid-template-columns: repeat(4, 1fr)">
+              <div class="seg">
                 <label
                   ><input
                     type="radio"
@@ -3469,7 +3604,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
             <div class="full">
               <span class="fl">Type de trajet</span>
-              <div class="seg" style="grid-template-columns: repeat(4, 1fr)">
+              <div class="seg">
                 <label
                   ><input
                     type="radio"
