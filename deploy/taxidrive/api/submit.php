@@ -74,7 +74,10 @@ $subject = ($type === 'Devis' ? 'Demande de devis' : 'Nouvelle réservation') . 
 $rowsHtml = '';
 $order = [
     'Type de demande', 'Nom', 'Telephone', 'Téléphone', 'Email',
-    'Depart', 'Départ', 'Destination', 'Ville', 'Date', 'Heure',
+    'Adresse départ', 'Adresse depart', 'Depart', 'Départ',
+    'Ville',
+    'Destination ville', 'Destination',
+    'Date', 'Heure',
     'Passagers', 'Vehicule', 'Véhicule', 'Trajet', 'Type de course',
     'Type de trajet', 'Vol', 'Message', 'Notes'
 ];
@@ -86,7 +89,7 @@ foreach ($order as $k) {
         $v = $data[$k];
         if ($v === '' || strpos($k, '_') === 0) continue;
         if (is_array($v)) $v = implode(', ', $v);
-        $isHl = in_array($k, ['Depart', 'Départ', 'Destination', 'Date', 'Heure', 'Telephone', 'Téléphone']);
+        $isHl = in_array($k, ['Adresse départ', 'Adresse depart', 'Depart', 'Départ', 'Ville', 'Destination ville', 'Destination', 'Date', 'Heure', 'Telephone', 'Téléphone']);
         $valCol = $isHl ? '#0f172a' : '#1e293b';
         $valBg = $isHl ? '#f8fafc' : '#ffffff';
         $rowsHtml .= '<tr style="background:' . $valBg . ';">';

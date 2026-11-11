@@ -3000,7 +3000,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </p>
           <form onsubmit="return false;">
             <div class="fld c3">
-              <label>Départ</label
+              <label>Adresse départ</label
               ><input
                 id="b_from"
                 placeholder="Saisir votre adresse de départ"
@@ -3012,8 +3012,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               ><input id="b_city" placeholder="Saisir la ville" required />
             </div>
             <div class="fld c6">
-              <label>Destination</label
-              ><input id="b_to" placeholder="Saisir votre destination" />
+              <label>Destination ville</label
+              ><input id="b_to" placeholder="Saisir la ville de destination" required />
             </div>
             <div class="fld c2">
               <label>Date</label
@@ -3352,20 +3352,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               </div>
             </div>
             <div>
-              <span class="fl">Départ</span
-              ><input id="d_from" placeholder="Saisir la ville de départ" />
+              <span class="fl">Adresse départ</span
+              ><input id="d_from" placeholder="Saisir l'adresse de départ" required />
             </div>
             <div>
-              <span class="fl" data-form-i18n="d_city_label">Ville</span
+              <span class="fl">Ville</span
               ><input
                 id="d_city"
-                data-form-i18n-placeholder="d_city_placeholder"
                 placeholder="Saisir la ville"
+                required
               />
             </div>
-            <div>
-              <span class="fl">Destination</span
-              ><input id="d_to" placeholder="Saisir la ville de destination" />
+            <div class="full">
+              <span class="fl">Destination ville</span
+              ><input id="d_to" placeholder="Saisir la ville de destination" required />
             </div>
             <div>
               <span class="fl">Date</span
@@ -4588,20 +4588,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         function build() {
           var m =
             "Bonjour Taxi Drive, demande de devis :\n\n" +
-            "**Type** : " +
-            rad("d_type") +
+            "**Nom et prénom** : " +
+            (val("d_name") || "—") +
             "\n" +
-            "**Trajet** : " +
-            rad("d_trip") +
+            "**Téléphone** : " +
+            ((val("d_cc") || "") + " " + (val("d_phone") || "")).trim() +
             "\n" +
-            "**Départ** : " +
+            "**Email** : " +
+            (val("d_email") || "—") +
+            "\n" +
+            "**Adresse départ** : " +
             (val("d_from") || "—") +
-            "\n" +
-            "**Destination** : " +
-            (val("d_to") || "—") +
             "\n" +
             "**Ville** : " +
             (val("d_city") || "—") +
+            "\n" +
+            "**Destination ville** : " +
+            (val("d_to") || "—") +
             "\n" +
             "**Date** : " +
             (val("d_date") || "—") +
@@ -4614,20 +4617,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             "\n" +
             "**Véhicule** : " +
             val("d_veh") +
+            "\n" +
+            "**Type** : " +
+            rad("d_type") +
+            "\n" +
+            "**Trajet** : " +
+            rad("d_trip") +
             "\n";
           if (val("d_flight")) m += "**N° de vol** : " + val("d_flight") + "\n";
-          m +=
-            "**Nom et prénom** : " +
-            (val("d_name") || "—") +
-            "\n" +
-            "**Téléphone** : " +
-            ((val("d_cc") || "") + " " + (val("d_phone") || "")).trim() +
-            "\n" +
-            "**Email** : " +
-            (val("d_email") || "—") +
-            "\n" +
-            "**Détails** : " +
-            (val("d_msg") || "—");
+          m += "**Détails** : " + (val("d_msg") || "—");
           return m;
         }
         function devisFields() {
@@ -4636,9 +4634,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             "Nom": val("d_name"),
             "Telephone": (((document.getElementById("d_cc") || {}).value || "") + " " + val("d_phone")).trim(),
             "Email": val("d_email"),
-            "Depart": val("d_from"),
-            "Destination": val("d_to"),
+            "Adresse départ": val("d_from"),
             "Ville": val("d_city"),
+            "Destination ville": val("d_to"),
             "Date": val("d_date"),
             "Heure": val("d_time"),
             "Passagers": val("d_pax"),
@@ -4860,12 +4858,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             )
           )
             isOk = false;
+          var dCity = document.getElementById("d_city");
+          if (
+            dCity &&
+            !window.validateField(
+              dCity,
+              "required",
+              "Veuillez indiquer la ville.",
+            )
+          )
+            isOk = false;
           if (
             dTo &&
             !window.validateField(
               dTo,
               "min2",
-              "Veuillez indiquer la destination.",
+              "Veuillez indiquer la ville de destination.",
             )
           )
             isOk = false;
@@ -5380,14 +5388,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             "**E-mail** : " +
             (val("b_email") || "—") +
             "\n" +
-            "**Départ** : " +
+            "**Adresse départ** : " +
             (val("b_from") || "—") +
-            "\n" +
-            "**Destination** : " +
-            (val("b_to") || "—") +
             "\n" +
             "**Ville** : " +
             (val("b_city") || "—") +
+            "\n" +
+            "**Destination ville** : " +
+            (val("b_to") || "—") +
             "\n" +
             "**Date** : " +
             (val("b_date") || "—") +
@@ -5415,9 +5423,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             "Nom": val("b_name"),
             "Telephone": (cc() + " " + val("b_phone")).trim(),
             "Email": val("b_email"),
-            "Depart": val("b_from"),
-            "Destination": val("b_to"),
+            "Adresse départ": val("b_from"),
             "Ville": val("b_city"),
+            "Destination ville": val("b_to"),
             "Date": val("b_date"),
             "Heure": val("b_time"),
             "Passagers": val("b_pax"),
@@ -5457,7 +5465,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             !window.validateField(
               bTo,
               "min2",
-              "Veuillez indiquer la destination.",
+              "Veuillez indiquer la ville de destination.",
             )
           )
             isOk = false;

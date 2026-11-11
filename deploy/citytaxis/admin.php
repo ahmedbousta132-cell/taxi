@@ -442,8 +442,9 @@ $brandTitle = $isTaxiDrive ? 'TAXI DRIVE' : 'CITY TAXIS';
       const d = item.data;
       let txt = `🚕 ${d['Type de demande'] || 'Réservation'} • ${d['Nom'] || 'Client'}\n`;
       txt += `📞 Tél : ${d['Telephone'] || d['Téléphone'] || ''}\n`;
-      txt += `📍 Départ : ${d['Depart'] || d['Départ'] || ''}\n`;
-      txt += `🏁 Destination : ${d['Destination'] || ''}\n`;
+      txt += `📍 Adresse départ : ${d['Adresse départ'] || d['Adresse depart'] || d['Depart'] || d['Départ'] || ''}\n`;
+      txt += `🏙️ Ville : ${d['Ville'] || ''}\n`;
+      txt += `🏁 Destination ville : ${d['Destination ville'] || d['Destination'] || ''}\n`;
       txt += `📅 Date : ${d['Date'] || ''} à ${d['Heure'] || ''}\n`;
       txt += `👥 Pax : ${d['Passagers'] || '1'} | 🚗 Véhicule : ${d['Vehicule'] || d['Véhicule'] || 'Standard'}\n`;
       if (d['Notes'] || d['Message']) txt += `📝 Notes : ${d['Notes'] || d['Message']}\n`;
@@ -576,14 +577,14 @@ $brandTitle = $isTaxiDrive ? 'TAXI DRIVE' : 'CITY TAXIS';
       const id = sub.id;
 
       let gridItems = '';
-      const priorityKeys = ['Depart', 'Départ', 'Destination', 'Date', 'Heure', 'Ville', 'Passagers', 'Vehicule', 'Véhicule', 'Trajet', 'Vol', 'Message', 'Notes'];
+      const priorityKeys = ['Adresse départ', 'Adresse depart', 'Depart', 'Départ', 'Ville', 'Destination ville', 'Destination', 'Date', 'Heure', 'Passagers', 'Vehicule', 'Véhicule', 'Trajet', 'Type de course', 'Type de trajet', 'Vol', 'Message', 'Notes'];
       
       const seen = new Set(['Nom', 'Type de demande', 'Telephone', 'Téléphone', 'Email']);
       
       priorityKeys.forEach(k => {
         if (d[k] && !seen.has(k)) {
           seen.add(k);
-          const isHl = ['Depart', 'Départ', 'Destination', 'Date', 'Heure'].includes(k);
+          const isHl = ['Adresse départ', 'Adresse depart', 'Depart', 'Départ', 'Ville', 'Destination ville', 'Destination', 'Date', 'Heure'].includes(k);
           gridItems += `
             <div class="item ${isHl ? 'highlight' : ''}">
               <div class="item-label">${k}</div>
@@ -638,7 +639,7 @@ $brandTitle = $isTaxiDrive ? 'TAXI DRIVE' : 'CITY TAXIS';
     }
 
     function exportCSV() {
-      let csv = 'ID,Date Reçue,Statut,Type,Nom,Téléphone,Email,Départ,Destination,Date Course,Heure,Passagers,Véhicule,Notes\n';
+      let csv = 'ID,Date Reçue,Statut,Type,Nom,Téléphone,Email,Adresse Départ,Ville,Destination Ville,Date Course,Heure,Passagers,Véhicule,Notes\n';
       RAW_SUBMISSIONS.forEach(item => {
         const d = item.data || {};
         const row = [
@@ -649,8 +650,9 @@ $brandTitle = $isTaxiDrive ? 'TAXI DRIVE' : 'CITY TAXIS';
           `"${d['Nom'] || ''}"`,
           `"${d['Telephone'] || d['Téléphone'] || ''}"`,
           `"${d['Email'] || ''}"`,
-          `"${d['Depart'] || d['Départ'] || ''}"`,
-          `"${d['Destination'] || ''}"`,
+          `"${(d['Adresse départ'] || d['Adresse depart'] || d['Depart'] || d['Départ'] || '').replace(/"/g, '""')}"`,
+          `"${(d['Ville'] || '').replace(/"/g, '""')}"`,
+          `"${(d['Destination ville'] || d['Destination'] || '').replace(/"/g, '""')}"`,
           `"${d['Date'] || ''}"`,
           `"${d['Heure'] || ''}"`,
           `"${d['Passagers'] || ''}"`,
