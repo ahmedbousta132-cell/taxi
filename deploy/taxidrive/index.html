@@ -729,6 +729,35 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         letter-spacing: -0.03em;
       }
 
+      .hero-img-h1 {
+        margin: 0 0 20px 0;
+        line-height: 1;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: rise 0.9s 0.15s forwards;
+      }
+
+      .hero-img-banner {
+        width: 100%;
+        height: auto;
+        border-radius: 16px;
+        display: block;
+        box-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(235, 164, 60, 0.3);
+      }
+
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
       .hero h1 .l {
         display: block;
         opacity: 0;
@@ -2535,10 +2564,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               ><span class="dot"></span><span id="hero-loc">(Nyon)</span> ·
               Disponible 24/7</span
             >
-            <h1>
-              <span class="l">Taxi Drive,</span
-              ><span class="l amber">à votre service.</span
-              ><span class="l">Où que vous alliez.</span>
+            <h1 class="hero-img-h1">
+              <img
+                src="/taxidrive-hero.jpg"
+                alt="Taxi Drive — Chauffeur privé premium à votre service"
+                class="hero-img-banner"
+                width="1024"
+                height="576"
+                loading="eager"
+              />
+              <span class="sr-only">Taxi Drive, à votre service. Où que vous alliez.</span>
             </h1>
             <p class="sub">
               Votre chauffeur privé partout en Suisse — de La Côte à Genève,
