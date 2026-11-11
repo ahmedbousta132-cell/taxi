@@ -45,21 +45,11 @@ $badge = $isTaxiDrive ? 'TD' : 'CT';
 $themeColor = $isTaxiDrive ? '#d4af37' : '#e8c88a';
 $bgDark = '#08080a';
 
-// 3. Dedicated Gmail Accounts for each brand
-$smtpConfigs = [
-    'citytaxis' => [
-        'user' => 'newaymen1196@gmail.com',
-        'pass' => 'vtxfspghzokbsnje'
-    ],
-    'taxidrive' => [
-        'user' => 'taxiskyaymen@gmail.com',
-        'pass' => 'mqgncleklsaaiqbq'
-    ]
-];
-
-$activeConfig = $isTaxiDrive ? $smtpConfigs['taxidrive'] : $smtpConfigs['citytaxis'];
-$toEmail = $activeConfig['user'];
-$ccEmail = 'info@local-taxi.ch';
+// 3. Unified Gmail Account for all requests (City Taxis & Taxi Drive)
+$smtpUser = 'swisstaxibooking@gmail.com';
+$smtpPass = 'ciwydhccansupwox';
+$toEmail = 'swisstaxibooking@gmail.com';
+$ccEmail = '';
 
 $type = $data['Type de demande'] ?? 'Réservation';
 $nom = $data['Nom'] ?? 'Client';
@@ -197,7 +187,7 @@ function sendGmailSSL($smtpUser, $smtpPass, $toEmail, $subject, $htmlBody, $from
     return ['success' => (strpos($dataResp, '250') !== false), 'response' => trim($dataResp)];
 }
 
-$smtpResult = sendGmailSSL($activeConfig['user'], $activeConfig['pass'], $toEmail, $subject, $html, $brandName, $clientEmail, $ccEmail);
+$smtpResult = sendGmailSSL($smtpUser, $smtpPass, $toEmail, $subject, $html, $brandName, $clientEmail, $ccEmail);
 
 echo json_encode([
     'success' => true,
