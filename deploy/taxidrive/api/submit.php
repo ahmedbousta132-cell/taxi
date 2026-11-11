@@ -60,13 +60,32 @@ $waPhone = preg_replace('/[^0-9]/', '', $phone);
 
 $subject = ($type === 'Devis' ? 'Demande de devis' : 'Nouvelle réservation') . ' - ' . $nom . ' (' . date('d/m H:i') . ') - ' . $brandName;
 
+// Normaliser les champs clés pour un affichage uniforme : "Adresse départ", "Ville", "Destination ville"
+$dep = $data['Adresse départ'] ?? $data['Adresse depart'] ?? $data['Depart'] ?? $data['Départ'] ?? $data['from'] ?? null;
+if ($dep !== null) {
+    unset($data['Depart'], $data['Départ'], $data['Adresse depart'], $data['from']);
+    $data['Adresse départ'] = $dep;
+}
+
+$ville = $data['Ville'] ?? $data['ville'] ?? $data['city'] ?? null;
+if ($ville !== null) {
+    unset($data['ville'], $data['city']);
+    $data['Ville'] = $ville;
+}
+
+$dest = $data['Destination ville'] ?? $data['Destination'] ?? $data['destination'] ?? $data['to'] ?? null;
+if ($dest !== null) {
+    unset($data['Destination'], $data['destination'], $data['to']);
+    $data['Destination ville'] = $dest;
+}
+
 // Build Ultra-Compact HTML Table
 $rowsHtml = '';
 $order = [
     'Type de demande', 'Nom', 'Telephone', 'Téléphone', 'Email',
-    'Adresse départ', 'Adresse depart', 'Depart', 'Départ',
+    'Adresse départ',
     'Ville',
-    'Destination ville', 'Destination',
+    'Destination ville',
     'Date', 'Heure',
     'Passagers', 'Vehicule', 'Véhicule', 'Trajet', 'Type de course',
     'Type de trajet', 'Vol', 'Message', 'Notes'
@@ -79,7 +98,7 @@ foreach ($order as $k) {
         $v = $data[$k];
         if ($v === '' || strpos($k, '_') === 0) continue;
         if (is_array($v)) $v = implode(', ', $v);
-        $isHl = in_array($k, ['Adresse départ', 'Adresse depart', 'Depart', 'Départ', 'Ville', 'Destination ville', 'Destination', 'Date', 'Heure', 'Telephone', 'Téléphone']);
+        $isHl = in_array($k, ['Adresse départ', 'Ville', 'Destination ville', 'Date', 'Heure', 'Telephone', 'Téléphone']);
         $valCol = $isHl ? '#0f172a' : '#1e293b';
         $valBg = $isHl ? '#f8fafc' : '#ffffff';
         $rowsHtml .= '<tr style="background:' . $valBg . ';">';
